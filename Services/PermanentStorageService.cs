@@ -45,5 +45,15 @@ namespace Piller.Services
                 return await query.ToListAsync ();
             }
         }
+
+        public async Task UpdateAsync<T> (T entity)
+        {
+            await this.connection.UpdateAsync(entity);
+        }
+
+        public async Task DeleteAsync<T> (T entity)
+        {
+            await this.connection.DeleteAsync(entity);
+        }
     }
 }

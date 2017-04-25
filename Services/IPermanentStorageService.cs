@@ -9,6 +9,8 @@ namespace Piller.Services
     {
         Task<T> GetAsync<T> (int id) where T : new();
         Task SaveAsync<T> (T entity);
+        Task UpdateAsync<T> (T entity);
+        Task DeleteAsync<T> (T entity);
         Task<List<T>> List<T> (Expression<Func<T, bool>> predicate = null) where T : new();
     }
 }

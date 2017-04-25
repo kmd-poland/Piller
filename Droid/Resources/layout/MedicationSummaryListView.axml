@@ -4,12 +4,23 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+  <android.support.design.widget.AppBarLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+    
     <include
         layout="@layout/toolbar" />
-    <ListView
+  </android.support.design.widget.AppBarLayout>
+  <FrameLayout
+    android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    
+    <MvxListView
         android:id="@+id/medicationList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="fill_parent"
+       android:layout_height="fill_parent" />
+  
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newMedicationDosage"
         android:layout_width="wrap_content"
@@ -19,4 +30,5 @@
         android:src="@drawable/ic_plus"
         app:layout_anchor="@id/medicationList"
         app:layout_anchorGravity="bottom|right|end" />
+  </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
