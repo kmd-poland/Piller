@@ -6,6 +6,9 @@ using Piller.Data;
 using Piller.Services;
 using MvvmCross.Platform;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reactive.Linq;
+
 
 namespace Piller.ViewModels
 {
@@ -89,8 +92,8 @@ namespace Piller.ViewModels
             get { return this.isEdit; }
             set { this.RaiseAndSetIfChanged(ref isEdit, value); }
         }
-        private List<TimeSpan> times;
-        public List<TimeSpan> Times
+        private RxUI.ReactiveList<TimeSpan> times;
+        public RxUI.ReactiveList<TimeSpan> Times
         {
             get { return this.times; }
             set { SetProperty(ref times, value); }
@@ -101,13 +104,18 @@ namespace Piller.ViewModels
 
         public MedicationDosageViewModel ()
         {
+            this.Times = new RxUI.ReactiveList<TimeSpan>();
+
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool> (async _ => {
+
                 if (isEdit)
                     await this.storage.UpdateAsync<MedicationDosage>(new Data.MedicationDosage {Id=editedItem.Id, Name = this.medicationName, Dosage = this.MedicationDosage,Monday=this.Monday,Tuesday=this.Tuesday,Wednesday=this.Wednesday,Thursday=this.Thurdsday,Friday=this.Friday,Saturday=this.Saturday,Sunday=this.Sunday });
                 else
                     await this.storage.SaveAsync<Data.MedicationDosage>(new Data.MedicationDosage { Name = this.medicationName, Dosage = this.MedicationDosage, Monday = this.Monday, Tuesday = this.Tuesday, Wednesday = this.Wednesday, Thursday = this.Thurdsday, Friday = this.Friday, Saturday = this.Saturday, Sunday = this.Sunday });
+  
+                //tu powinnismy zwracac rezultat (czy sie udalo czy nie). Reakcje robimy w Subscribe
                 //  this.Close (this);
-                this.ShowViewModel<MedicationSummaryListViewModel>();
+               // this.ShowViewModel<MedicationSummaryListViewModel>();
                 return true;
             });
             this.Delete = RxUI.ReactiveCommand.CreateFromTask<Data.MedicationDosage>(async _ =>
@@ -119,9 +127,18 @@ namespace Piller.ViewModels
               });
 
             this.SelectAllDays = RxUI.ReactiveCommand.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true; });
-           
 
+
+            //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
+            this.Save
+                .Subscribe(result =>
+                {
+                    if (result)
+                        this.Close(this);
+                });
+                
             this.Save.ThrownExceptions.Subscribe (ex => {
+                  Debug.WriteLine($"ex {ex}");
                 // show nice message to the user
             });
         }

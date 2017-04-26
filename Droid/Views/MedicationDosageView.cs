@@ -10,6 +10,10 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
 using Android.Support.V7.Widget;
 using System;
+using ReactiveUI;
+using System.Windows.Input;
+using System.Reactive;
+
 namespace Piller.Droid.Views
 {
     [Activity]
@@ -36,6 +40,7 @@ namespace Piller.Droid.Views
         {
 
             base.OnCreate(bundle);
+
             SetContentView(Resource.Layout.MedicationDosageView);
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
@@ -61,14 +66,30 @@ namespace Piller.Droid.Views
 
             timePicker = FindViewById<Button>(Resource.Id.time_picker);
             time_label = FindViewById<TextView>(Resource.Id.timeDisplay);
-            timePicker.Click += (o, e) => ShowDialog(TIME_DIALOG_ID);
+
+            //dialog tworzymy i pokazujemy z kodu
+            //aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
+            //w samym UI można użyć MvxLinearLayout, który działa podobnie do listy,ale nie spowoduje scrolla w scrollu
+            //wtedy właściwość Times bindujemy to tego komponentu
+            timePicker.Click += (o, e) =>
+            {
+                TimePickerDialog timePickerFragment = new TimePickerDialog(
+                       this,
+                       (s, args) => this.ViewModel.Times.Add(new TimeSpan(args.HourOfDay, args.Minute, 0)),
+                       12,
+                       00,
+                       true
+                   );
+                timePickerFragment.Show();
+            };
+
+
             hour = DateTime.Now.Hour;
             minute = DateTime.Now.Minute;
             UpdateDisplay();
-           SetBinding();
-            
-
+            SetBinding();
         }
+
         private void UpdateDisplay()
         {
             string time = string.Format("{0}:{1}", hour, minute.ToString().PadLeft(2, '0'));
@@ -93,11 +114,7 @@ namespace Piller.Droid.Views
         {
             this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
             var saveItem = menu.FindItem(Resource.Id.action_save);
-            /**
-             * nie działa
-             bindignSet.Bind(saveItem)
-                        .To(vm=>vm.Sav);
-             * */
+             
             return base.OnCreateOptionsMenu(menu);
         }
         
@@ -107,9 +124,18 @@ namespace Piller.Droid.Views
              * ????????????????????????????????????
              *Jak tutaj wywołać akcję z modelu widoku?
              * */
+
+            //sprawdzamy, czy przycisk ma id zdefiniowane dla Save, i czy Save mozna wywolac (to na przyszlosc, gdy bedzie walidacja)
+            // jak tak - odpalamy komendę. To dziwne Subscribe na końcu do wymóg ReactiveUI7
+            if (item.ItemId == Resource.Id.action_save && ((ICommand)this.ViewModel.Save).CanExecute(null)) 
+                this.ViewModel.Save.Execute(Unit.Default).Subscribe();
+      
             Toast.MakeText(this, "Klik", ToastLength.Long).Show();
+
+
             return base.OnOptionsItemSelected(item);
         }
+
         private MvxFluentBindingDescriptionSet<MedicationDosageView, MedicationDosageViewModel> bindingSet;
         private void SetBinding()
         {
