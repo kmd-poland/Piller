@@ -29,7 +29,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\MedicationDosage.cs" />
-    <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\Converters.cs" />
     <Compile Include="ViewModels\ListItem.cs" />
     <Compile Include="ViewModels\MedicationDosageViewModel.cs" />
     <Compile Include="PillerApp.cs" />

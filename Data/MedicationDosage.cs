@@ -1,5 +1,7 @@
 ﻿using System;
 using SQLite;
+using System.Collections.Generic;
+
 namespace Piller.Data
 {
     [Table("MEDICATION_DOSAGE")]
@@ -19,6 +21,7 @@ namespace Piller.Data
         public bool Friday { get; set; }
         public bool Saturday { get; set; }
         public bool Sunday { get; set; }
+
 
     }
 }

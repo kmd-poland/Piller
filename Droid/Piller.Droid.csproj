@@ -188,6 +188,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
+    <Compile Include="Views\HursListAdapter.cs" />
     <Compile Include="Views\ListAdapter.cs" />
     <Compile Include="Views\MedicationSummaryListView.cs" />
     <Compile Include="Views\MedicationDosageView.cs" />
@@ -199,6 +200,9 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\list_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\time_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />

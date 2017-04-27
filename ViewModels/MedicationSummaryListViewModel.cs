@@ -24,10 +24,10 @@ namespace Piller.ViewModels
             get { return selectedItem; }
             set { this.SetProperty(ref selectedItem, value); }
         }
+        
         public ReactiveCommand<Unit, bool> AddNew { get; }
 
         public ReactiveCommand<Data.MedicationDosage,Unit> Update { get; }
-
 
         public MedicationSummaryListViewModel()
         {
@@ -37,7 +37,6 @@ namespace Piller.ViewModels
                this.ShowViewModel<MedicationDosageViewModel>(new MedicationDosageNavigation { MedicationDosageId = item.Id, Edit = true });
            });
 
-
         }
         public override void Start()
         {
@@ -45,8 +44,6 @@ namespace Piller.ViewModels
             
             Read();
         }
-
-
 
         private async void Read()
         {

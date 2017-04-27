@@ -102,16 +102,13 @@
    android:layout_width="wrap_content"
    android:layout_height="wrap_content"
    android:background="?attr/colorAccent"/>
-
-  <TextView android:id="@+id/timeDisplay"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text=""/>
-  <Button
-  android:id="@+id/saveBtn"
-  android:text="ZAPISZ LEK"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"/>
+  
+  <MvxLinearLayout
+  android:id="@+id/notificationHours"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+  android:orientation="vertical"/>
+  
   <Button
   android:id="@+id/deleteBtn"
   android:text="USUN LEK"

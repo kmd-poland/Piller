@@ -13,6 +13,8 @@ using System;
 using ReactiveUI;
 using System.Windows.Input;
 using System.Reactive;
+using MvvmCross.Binding.Droid.Views;
+using MvvmCross.Binding.Droid.BindingContext;
 
 namespace Piller.Droid.Views
 {
@@ -21,10 +23,11 @@ namespace Piller.Droid.Views
     {
         EditText nameText;
         EditText dosageText;
-        Button saveBtn;
+
         Button deleteBtn;
         Button daysBtn;
-        TextView time_label;
+        Button timePicker;
+
         CheckBox monday;
         CheckBox tuesday;
         CheckBox wednesday;
@@ -32,10 +35,9 @@ namespace Piller.Droid.Views
         CheckBox friday;
         CheckBox saturday;
         CheckBox sunday;
-        const int TIME_DIALOG_ID = 0;
-        Button timePicker;
-        private int hour;
-        private int minute;
+
+        MvxLinearLayout notificationHoursList;
+
         protected override void OnCreate(Bundle bundle)
         {
 
@@ -60,12 +62,12 @@ namespace Piller.Droid.Views
             saturday = FindViewById<CheckBox>(Resource.Id.saturdayCheckBox);
             sunday = FindViewById<CheckBox>(Resource.Id.sundayCheckBox);
 
-            saveBtn = FindViewById<Button>(Resource.Id.saveBtn);
             deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
             daysBtn = FindViewById<Button>(Resource.Id.everyDayBtn);
-
+            notificationHoursList = FindViewById<MvxLinearLayout>(Resource.Id.notificationHours);
             timePicker = FindViewById<Button>(Resource.Id.time_picker);
-            time_label = FindViewById<TextView>(Resource.Id.timeDisplay);
+
+
 
             //dialog tworzymy i pokazujemy z kodu
             //aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
@@ -75,7 +77,7 @@ namespace Piller.Droid.Views
             {
                 TimePickerDialog timePickerFragment = new TimePickerDialog(
                        this,
-                       (s, args) => this.ViewModel.Times.Add(new TimeSpan(args.HourOfDay, args.Minute, 0)),
+                       (s, args) => this.ViewModel.NotificationHours.Add(new TimeSpan(args.HourOfDay, args.Minute, 0)),
                        12,
                        00,
                        true
@@ -83,32 +85,10 @@ namespace Piller.Droid.Views
                 timePickerFragment.Show();
             };
 
-
-            hour = DateTime.Now.Hour;
-            minute = DateTime.Now.Minute;
-            UpdateDisplay();
             SetBinding();
         }
 
-        private void UpdateDisplay()
-        {
-            string time = string.Format("{0}:{1}", hour, minute.ToString().PadLeft(2, '0'));
-            time_label.Text = $"{hour}:{minute}";
-        }
-        private void TimePickerCallback(object sender, TimePickerDialog.TimeSetEventArgs e)
-        {
-            hour = e.HourOfDay;
-            minute = e.Minute;
-            UpdateDisplay();
-            //Co dalej???
-        }
-        protected override Dialog OnCreateDialog(int id)
-        {
-            if (id == TIME_DIALOG_ID)
-                return new TimePickerDialog(this, TimePickerCallback, hour, minute, false);
-
-            return null;
-        }
+  
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -120,19 +100,10 @@ namespace Piller.Droid.Views
         
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            /**
-             * ????????????????????????????????????
-             *Jak tutaj wywołać akcję z modelu widoku?
-             * */
-
             //sprawdzamy, czy przycisk ma id zdefiniowane dla Save, i czy Save mozna wywolac (to na przyszlosc, gdy bedzie walidacja)
             // jak tak - odpalamy komendę. To dziwne Subscribe na końcu do wymóg ReactiveUI7
             if (item.ItemId == Resource.Id.action_save && ((ICommand)this.ViewModel.Save).CanExecute(null)) 
                 this.ViewModel.Save.Execute(Unit.Default).Subscribe();
-      
-            Toast.MakeText(this, "Klik", ToastLength.Long).Show();
-
-
             return base.OnOptionsItemSelected(item);
         }
 
@@ -147,9 +118,7 @@ namespace Piller.Droid.Views
 
             bindingSet.Bind(nameText)
                       .To(x => x.MedicationName);
-            bindingSet.Bind(saveBtn)
-                .For(nameof(View.Click))
-                .To(vm => vm.Save);
+
             bindingSet.Bind(dosageText)
                 .To(vm => vm.MedicationDosage);
             bindingSet.Bind(deleteBtn)
@@ -186,6 +155,9 @@ namespace Piller.Droid.Views
 
             bindingSet.Bind(daysBtn)
                 .To(vm => vm.SelectAllDays);
+            bindingSet.Bind(notificationHoursList)
+                .For(x => x.ItemsSource)
+                .To(vm => vm.NotificationHours);
             bindingSet.Apply();
 
 
