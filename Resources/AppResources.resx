@@ -129,5 +129,10 @@
 	<data name="MedicationDosageViewModel_Title" xml:space="preserve">
        <value>Nowy</value>
     </data>
+
+	<data name="MedicationDosageView_SaveError" xml:space="preserve">
+       <value>Błąd zapisu</value>
+    </data>
+
     
 </root>

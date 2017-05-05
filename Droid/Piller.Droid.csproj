@@ -172,6 +172,9 @@
     <Reference Include="MvvmCross.Plugins.File.Droid">
       <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.File.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -193,6 +196,13 @@
     <Compile Include="Views\MedicationSummaryListView.cs" />
     <Compile Include="Views\MedicationDosageView.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
+    <Compile Include="Views\MedicationSummaryAdapter.cs" />
+    <Compile Include="Views\MedicationDosageTimeLayout.cs" />
+    <Compile Include="Views\MedicationDosageTimeListAdapter.cs" />
+    <Compile Include="BindingConverters\DaysOfWeekConverter.cs" />
+    <Compile Include="BindingConverters\DosageHoursConverter.cs" />
+    <Compile Include="BindingConverters\InlineValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -229,6 +239,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_plus.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_plus.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_plus.png" />
+<<<<<<< HEAD
     <AndroidResource Include="Resources\layout\MedicationDosageView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -237,6 +248,23 @@
     <AndroidResource Include="Resources\menu\dosagemenu.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+=======
+    <AndroidResource Include="Resources\layout\MedicationDosageView.axml" />
+    <AndroidResource Include="Resources\layout\time_item.axml" />
+    <AndroidResource Include="Resources\menu\dosagemenu.xml" />
+    <AndroidResource Include="Resources\layout\medication_summary_item.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="Resources\drawable-hdpi\" />
+    <Folder Include="Resources\drawable-ldpi\" />
+    <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Resources\drawable-xhdpi\" />
+    <Folder Include="Resources\drawable-xxhdpi\" />
+    <Folder Include="Resources\drawable-xxxhdpi\" />
+    <Folder Include="Resources\menu\" />
+    <Folder Include="BindingConverters\" />
+>>>>>>> origin/develop
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

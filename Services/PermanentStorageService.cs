@@ -31,10 +31,24 @@ namespace Piller.Services
 
         public async Task SaveAsync<T> (T entity)
         {
+<<<<<<< HEAD
             await this.connection.InsertOrReplaceAsync(entity);
             //tu nie trzeba robić oddzielnej metody Update - connection ma opcję InsertOrReplace, która wstawi rekord jak go nie ma lub zrobi update jak jest (po kluczu glownym)
+=======
+            await this.connection.InsertOrReplaceAsync (entity);
+>>>>>>> origin/develop
         }
 
+		public async Task DeleteAsync<T>(T entity)
+		{
+			await this.connection.DeleteAsync(entity);
+		}
+
+		public async Task DeleteByKeyAsync<T>(int primaryKey) where T : new()
+		{
+            var record = await this.connection.GetAsync<T>(primaryKey);
+            await this.connection.DeleteAsync(record);
+		}
         public async Task<List<T>> List<T> (Expression<Func<T, bool>> predicate = null) where T : new()
         {
             if (predicate == null) {

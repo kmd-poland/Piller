@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label_medication_name"
+        android:textColor="@android:color/primary_text_light"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:text="Medication name" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label_medication_time"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:text="Time of orditaion" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label_medication_days_of_week"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:text="Days of week of ordination" />
+</LinearLayout>
