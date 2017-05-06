@@ -15,7 +15,7 @@ namespace Piller.iOS.Views
 
         ElementTableSource tableSource;
         SingleLineEditElement drugNameElement;
-
+        UIBarButtonItem saveButton;
 
         public MedicationDosageViewController() : base(UITableViewStyle.Grouped)
         {
@@ -30,6 +30,9 @@ namespace Piller.iOS.Views
             this.TableView.RowHeight = UITableView.AutomaticDimension;
             this.TableView.EstimatedRowHeight = 44f;
             this.TableView.Source = tableSource;
+
+            this.saveButton = new UIBarButtonItem (UIKit.UIBarButtonSystemItem.Save);
+            this.NavigationItem.RightBarButtonItem = saveButton;
 
             setBindings();
 
@@ -54,6 +57,8 @@ namespace Piller.iOS.Views
                       .For(element => element.Value)
                       .To(viewModel => viewModel.MedicationName)
                       .TwoWay();
+
+            bindingSet.Bind (this.saveButton).To (vm => vm.Save);
             
             bindingSet.Apply();
         }

@@ -153,6 +153,12 @@
     <Reference Include="ReactiveUI.Events">
       <HintPath>..\packages\reactiveui-events.7.2.0\lib\Xamarin.iOS10\ReactiveUI.Events.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Plugins.File">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.File.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File.iOS">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.File.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -195,6 +201,9 @@
     <Compile Include="Common\Dialog\FormDefinition.cs" />
     <Compile Include="Common\Dialog\ElementTableSource.cs" />
     <Compile Include="Common\Dialog\SingleLineEditCell.cs" />
+    <Compile Include="Views\MedicationSummaryListView.cs" />
+    <Compile Include="Views\MedicationSummaryListViewSource.cs" />
+    <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
