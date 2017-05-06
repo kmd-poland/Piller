@@ -31,9 +31,19 @@ namespace Piller.Services
 
         public async Task SaveAsync<T> (T entity)
         {
-            await this.connection.InsertAsync (entity);
+            await this.connection.InsertOrReplaceAsync (entity);
         }
 
+		public async Task DeleteAsync<T>(T entity)
+		{
+			await this.connection.DeleteAsync(entity);
+		}
+
+		public async Task DeleteByKeyAsync<T>(int primaryKey) where T : new()
+		{
+            var record = await this.connection.GetAsync<T>(primaryKey);
+            await this.connection.DeleteAsync(record);
+		}
         public async Task<List<T>> List<T> (Expression<Func<T, bool>> predicate = null) where T : new()
         {
             if (predicate == null) {

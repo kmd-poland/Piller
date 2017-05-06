@@ -64,5 +64,11 @@ namespace Piller.Resources {
                 return ResourceManager.GetString("MedicationDosageViewModel_Title", resourceCulture);
             }
         }
+        
+        public static string MedicationDosageView_SaveError {
+            get {
+                return ResourceManager.GetString("MedicationDosageView_SaveError", resourceCulture);
+            }
+        }
     }
 }

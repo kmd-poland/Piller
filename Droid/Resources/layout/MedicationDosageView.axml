@@ -5,8 +5,116 @@
     android:layout_height="match_parent">
     <include
         layout="@layout/toolbar" />
-    <ListView
-        android:id="@+id/medicationList"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+            <EditText
+                android:id="@+id/NameEditText"
+                android:layout_width="match_parent"
+                android:hint="Nazwa Leku"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/DosageEditText"
+                android:layout_width="match_parent"
+                android:hint="Dawka Leku"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/mondayCheckBox"
+                android:text="Poniedziałek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/tuesdayCheckBox"
+                android:text="Wtorek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/wednesdayCheckBox"
+                android:text="Środa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/thursdayCheckBox"
+                android:text="Czwartek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/fridayCheckBox"
+                android:text="Piątek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/saturdayCheckBox"
+                android:text="Sobota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <CheckBox
+                android:id="@+id/sundayCheckBox"
+                android:text="Niedziela"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/everyDayBtn"
+                    android:text="Codziennie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="?attr/colorAccent" />
+            </RelativeLayout>
+            <Button
+                android:id="@+id/time_picker"
+                android:text="Dodaj +"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorAccent" />
+            <MedicationDosageTimeLayout
+                android:id="@+id/notificationHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+            <Button
+                android:id="@+id/deleteBtn"
+                android:text="USUN LEK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_red_A700"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
