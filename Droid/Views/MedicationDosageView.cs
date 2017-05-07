@@ -14,6 +14,7 @@ using System.Reactive;
 using MvvmCross.Binding.Droid.Views;
 using Android.Opengl;
 using Piller.Droid.BindingConverters;
+using ReactiveUI;
 
 namespace Piller.Droid.Views
 {
@@ -159,7 +160,7 @@ namespace Piller.Droid.Views
 			bindingSet.Bind(thursday)
 			   .For(x => x.Checked)
 			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Thurdsday);
+			   .To(vm => vm.Thursday);
 			bindingSet.Bind(friday)
 			   .For(x => x.Checked)
 			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
