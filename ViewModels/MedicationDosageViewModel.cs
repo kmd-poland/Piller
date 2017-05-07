@@ -9,6 +9,7 @@ using Acr.UserDialogs;
 using Piller.Resources;
 using ReactiveUI;
 using MvvmCross.Plugins.Messenger;
+using Android.App;
 
 namespace Piller.ViewModels
 {
@@ -113,7 +114,7 @@ namespace Piller.ViewModels
                                        vm => vm.Friday,
                                        vm => vm.Saturday,
                                        vm => vm.Sunday,
-                                       vm => vm.DosageHours,
+                                       vm => vm.DosageHours.Count,
                                        (name, dosage, monday, tuesday, wednesday, thursday, friday, saturday, sunday, hours) => 
                                        !String.IsNullOrWhiteSpace(name.Value) && 
                                        !String.IsNullOrWhiteSpace(dosage.Value) &&
@@ -125,7 +126,7 @@ namespace Piller.ViewModels
                                        saturday.Value ||
                                        sunday.Value
                                        ) &&
-                                       hours.Value.Count != 0
+                                       hours.Value != 0
                 );
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
