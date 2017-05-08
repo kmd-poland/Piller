@@ -31,12 +31,7 @@ namespace Piller.Services
 
         public async Task SaveAsync<T> (T entity)
         {
-<<<<<<< HEAD
-            await this.connection.InsertOrReplaceAsync(entity);
-            //tu nie trzeba robić oddzielnej metody Update - connection ma opcję InsertOrReplace, która wstawi rekord jak go nie ma lub zrobi update jak jest (po kluczu glownym)
-=======
             await this.connection.InsertOrReplaceAsync (entity);
->>>>>>> origin/develop
         }
 
 		public async Task DeleteAsync<T>(T entity)
@@ -59,12 +54,6 @@ namespace Piller.Services
                 var query = this.connection.Table<T> ().Where (predicate);
                 return await query.ToListAsync ();
             }
-        }
-
-
-        public async Task DeleteAsync<T> (T entity)
-        {
-            await this.connection.DeleteAsync(entity);
         }
     }
 }

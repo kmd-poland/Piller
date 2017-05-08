@@ -6,35 +6,6 @@
   
   <item android:id="@+id/action_save"
          app:showAsAction="always"
-<<<<<<< HEAD
-          android:title="Gotowe"/>
-  
-</menu>
-
-<!-- Code to implement into Activity:
-
-Android.Widget.SearchView searchView;
-public override bool OnCreateOptionsMenu(IMenu menu)
-{
-  this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
-
-  var searchItem = menu.FindItem(Resource.Id.action_search);
-
-  searchView = searchItem.ActionProvider.JavaCast<Android.Widget.SearchView>();
-
-  searchView.QueryTextSubmit += (sender, args) =>
-  {
-    Toast.MakeText(this, "You searched: " + args.Query, ToastLength.Short).Show();
-
-  };
-
-
-  return base.OnCreateOptionsMenu(menu);
-}
-
--->
-=======
          android:title="Gotowe"/>
   
 </menu>
->>>>>>> origin/develop
