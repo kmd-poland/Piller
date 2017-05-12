@@ -13,6 +13,7 @@ using Piller.Core.Services;
 using System.Threading.Tasks;
 using Piller.Core.Domain;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Piller.ViewModels
 {
@@ -100,6 +101,10 @@ namespace Piller.ViewModels
             set { this.SetProperty(ref sunday, value); }
         }
 
+        public void CancelNotification(TimeSpan time)
+        {
+            notificationService.CancelNotification(Id.Value + (int)time.TotalMinutes);
+        }
 
         public DaysOfWeek Days
         {
@@ -126,19 +131,21 @@ namespace Piller.ViewModels
         public RxUI.ReactiveCommand<Unit, bool> Save { get; private set; }
         public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }
         public RxUI.ReactiveCommand SelectAllDays { get; set; }
-        public ReactiveCommand<Unit, Unit> AddNotification
+        public ReactiveCommand<int, Unit> AddNotification
         {
             get;
             private set;
         }
 
+
         public MedicationDosageViewModel()
         {
             this.DosageHours = new RxUI.ReactiveList<TimeSpan>();
+            //cos tu jest nie tak w tym Iobservable
+           // var canSave = this.WhenAnyValue(x => x.MedicationName, x => x.MedicationDosage, x => x.Days, x => x.DosageHours, (name, dosage, days, hours) => !String.IsNullOrEmpty(name) && String.IsNullOrEmpty(dosage) && days != DaysOfWeek.None && hours.Count != 0);
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
             {
-
                 var dataRecord = new MedicationDosage
                 {
                     Id = this.Id,
@@ -149,14 +156,18 @@ namespace Piller.ViewModels
                 };
 
                 await this.storage.SaveAsync<MedicationDosage>(dataRecord);
-                AddNotification.Execute();
+                AddNotification.Execute(dataRecord.Id.Value);
                 return true;
-            });
+            }/*,canSave*/);
 
-            this.AddNotification = ReactiveCommand.CreateFromTask<Unit, Unit>(async (a) =>
+            this.AddNotification = ReactiveCommand.CreateFromTask<int, Unit>(async (id) =>
             {
-                var notification = await CreateNotificationAsync();
-                await this.notificationService.ScheduleNotification(notification);
+                foreach(var hour in DosageHours)
+                {
+                    var notification = await CreateNotificationAsync(hour,id);
+                    await this.notificationService.ScheduleNotification(notification);
+                }
+
                 return Unit.Default;
             });
 
@@ -178,7 +189,7 @@ namespace Piller.ViewModels
                
             });
 
-
+            
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save
                 .Subscribe(result =>
@@ -187,6 +198,10 @@ namespace Piller.ViewModels
                     {
                         Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
                         this.Close(this);
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.ShowError("Podaj nazwe leku");
                     }
                 });
 
@@ -210,11 +225,14 @@ namespace Piller.ViewModels
                 });
         }
 
-        private async Task<CoreNotification> CreateNotificationAsync()
+        private async Task<CoreNotification> CreateNotificationAsync(TimeSpan hour,int id)
         {
-            return await Task.FromResult(new CoreNotification(DateTime.Now.Ticks, this.medicationName, this.Message,new RepeatPattern() { DayOfWeek = Days, Hours = new List<TimeSpan>(DosageHours)}));
+            return await Task.FromResult(new CoreNotification(DateTime.Now.Ticks, this.medicationName, this.Message,new RepeatPattern() { DayOfWeek = Days, Hour = hour,AlarmId=id+(int)hour.TotalMinutes }));
         }
 
+
+         
+ 
 
         public async void Init(MedicationDosageNavigation nav)
         {

@@ -9,6 +9,10 @@ using Java.Util;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Piller.ViewModels;
+using Android.Media;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Droid.Views;
+using MvvmCross.Platform;
 
 namespace Piller.Droid.Services
 {
@@ -31,18 +35,18 @@ namespace Piller.Droid.Services
                 Intent notificationIntent = new Intent (this.ctx, typeof (NotificationPublisher));
                 notificationIntent.PutExtra (NotificationPublisher.NOTIFICATION_ID, coreNotification.Id);
                 notificationIntent.PutExtra (NotificationPublisher.NOTIFICATION, notification);
-                PendingIntent pendingIntent = PendingIntent.GetBroadcast (this.ctx, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
 
                 var firingCal = Calendar.Instance;
                 var currentCal = Calendar.Instance;
-                List<TimeSpan> hours = coreNotification.Pattern.Hours;
-                foreach(var hour in hours)
-                {
+                var hour = coreNotification.Pattern.Hour;
+                var days = coreNotification.Pattern.DayOfWeek;
+                int id = coreNotification.Pattern.AlarmId;
+                PendingIntent pendingIntent= PendingIntent.GetBroadcast (this.ctx, id, notificationIntent, PendingIntentFlags.UpdateCurrent);
+                  
                     // todo set time according to occurrence
-                      //firingCal.Set(CalendarField.DayOfWeek, EnumSet.Of(coreNotification.Pattern.DayOfWeek));
+                    //firingCal.Set(CalendarField.DayOfWeek, );
                     firingCal.Set (CalendarField.HourOfDay, hour.Hours); // At the hour you wanna fire
-                    firingCal.Set (CalendarField.Minute, hour.Minutes); // Particular minute
-                    firingCal.Set (CalendarField.Second, 00); // particular second
+                    firingCal.Set (CalendarField.Minute, hour.Minutes); // Particular minute 
                     if (firingCal.CompareTo (currentCal) < 0) {
                         firingCal.Add (CalendarField.DayOfMonth, 1);
                     }
@@ -50,9 +54,11 @@ namespace Piller.Droid.Services
                     var triggerTime = firingCal.TimeInMillis; // DateTime.Now.FromLocalToUnixTime();
 
                     AlarmManager alarmManager = (AlarmManager)this.ctx.GetSystemService (Context.AlarmService);
-                    alarmManager.SetRepeating (AlarmType.RtcWakeup, triggerTime, 1000*10 /* or explicit value of millis, for example 10000*/, pendingIntent);
-                   // alarmManager.SetInexactRepeating(AlarmType.RtcWakeup, triggerTime, 1000*10, pendingIntent);
-                }
+                    alarmManager.SetRepeating (AlarmType.RtcWakeup, triggerTime, AlarmManager.IntervalDay*7 /* or explicit value of millis, for example 10000*/, pendingIntent);
+                    
+                    // alarmManager.SetInexactRepeating(AlarmType.RtcWakeup, triggerTime, 1000*10, pendingIntent);
+                   
+                
                 // or
                 //alarmManager.SetExact();
                 // or others
@@ -65,12 +71,22 @@ namespace Piller.Droid.Services
         {
             var alarmManager = (AlarmManager)this.ctx.GetSystemService (Context.AlarmService);
             Intent intent = new Intent (this.ctx, typeof (NotificationPublisher));
-            PendingIntent alarmIntent = PendingIntent.GetBroadcast (this.ctx, 0, intent, 0);
+            PendingIntent alarmIntent = PendingIntent.GetBroadcast (this.ctx, id, intent, 0);
 
             alarmManager.Cancel (alarmIntent);
         }
+        /*
+        Intent GetRouteViewIntent()
+        {
+            var request = new MvxViewModelRequest();
+            request.ParameterValues = new Dictionary<string, string>();
+            request.ParameterValues.Add("idRoute", 0.ToString());
+            request.ViewModelType = typeof(MedicationSummaryListView);
+            var requestedTranslator = Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>();
+            return requestedTranslator.GetIntentFor(request);
+        }
 
-
+    */
         /// <summary>
         /// Creates a single notification, an instance of <see cref="Android.App.Notification"/> class.
         /// </summary>
@@ -78,13 +94,16 @@ namespace Piller.Droid.Services
         /// <param name="notification"><b>CoreNotification</b></param>
         private Notification GetNotification (CoreNotification notification, DateTime occurrence)
         {
-           // Intent resutlIntent = new Intent(this.ctx, typeof(MedicationSummaryListView));
-           // PendingIntent pendingIntent= PendingIntent.GetActivity(this.ctx,0,resutlIntent, PendingIntentFlags.OneShot);
-        	var builder = new Notification.Builder (this.ctx);
+            // Intent resutlIntent = new Intent(this.ctx, typeof(MedicationSummaryListView));
+           // var intent = GetRouteViewIntent();
+           
+           // PendingIntent pendingIntent= PendingIntent.GetActivity(this.ctx,0,intent, PendingIntentFlags.UpdateCurrent);
+            var builder = new Notification.Builder (this.ctx);
         	builder.SetContentTitle (notification.Title);
         	builder.SetContentText (notification.Message);
         	builder.SetSmallIcon (Resource.Drawable.Icon);
-          //  builder.SetContentIntent(pendingIntent);
+            builder.SetDefaults(NotificationDefaults.Sound);
+           // builder.SetContentIntent(pendingIntent);
             builder.SetVisibility(NotificationVisibility.Public);
         	return builder.Build ();
         }

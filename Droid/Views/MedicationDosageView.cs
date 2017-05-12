@@ -73,7 +73,11 @@ namespace Piller.Droid.Views
 			//obsluga usuwania - jedna z kilku mozliwosci
 			//wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
             var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
-            hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
+            hourAdapter.DeleteRequested.Subscribe(time => {
+                this.ViewModel.DosageHours.Remove(time);
+                this.ViewModel.CancelNotification(time);
+                }
+            );
 
 
 			//aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
@@ -98,7 +102,7 @@ namespace Piller.Droid.Views
 
 			SetBinding();
 		}
-
+      
 
 
 		public override bool OnCreateOptionsMenu(IMenu menu)
