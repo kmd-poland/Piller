@@ -75,7 +75,6 @@ namespace Piller.Droid.Views
             var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
             hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
 
-
 			//aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
 			//w samym UI można użyć MvxLinearLayout, który działa podobnie do listy,ale nie spowoduje scrolla w scrollu
 			//wtedy właściwość Times bindujemy to tego komponentu
@@ -105,6 +104,8 @@ namespace Piller.Droid.Views
 		{
 			this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
 			var saveItem = menu.FindItem(Resource.Id.action_save);
+
+            this.ViewModel.Save.CanExecute.Subscribe(canExecute => saveItem.SetEnabled(canExecute));
 
 			return base.OnCreateOptionsMenu(menu);
 		}

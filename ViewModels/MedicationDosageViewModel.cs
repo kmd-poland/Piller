@@ -104,9 +104,26 @@ namespace Piller.ViewModels
         {
             this.DosageHours = new RxUI.ReactiveList<TimeSpan>();
 
-            this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
-            {
+			var canSave = this.WhenAny(
+					vm => vm.MedicationName,
+					vm => vm.MedicationDosage,
+					vm => vm.Monday,
+					vm => vm.Tuesday,
+					vm => vm.Wednesday,
+					vm => vm.Thurdsday,
+					vm => vm.Friday,
+					vm => vm.Saturday,
+					vm => vm.Sunday,
+					vm => vm.DosageHours.Count,
+					(n, d, m, t, w, th, f, sa, su, h) =>
 
+					!String.IsNullOrWhiteSpace(n.Value) &&
+					!String.IsNullOrWhiteSpace(d.Value) &&
+					(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
+					h.Value > 0);
+
+			this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
+            {
                 var dataRecord = new MedicationDosage
                 {
                     Id = this.Id,
@@ -126,7 +143,7 @@ namespace Piller.ViewModels
                 await this.storage.SaveAsync<MedicationDosage>(dataRecord);
 
                 return true;
-            });
+            }, canSave);
 
 
             var canDelete = this.WhenAny(x => x.Id, id => id.Value.HasValue);
@@ -141,7 +158,6 @@ namespace Piller.ViewModels
              }, canDelete);
 
             this.SelectAllDays = RxUI.ReactiveCommand.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true; });
-
 
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save
