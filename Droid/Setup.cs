@@ -5,6 +5,7 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Droid.Shared.Presenter;
 using MvvmCross.Droid.Views;
 using MvvmCross.Platform;
+using Services;
 
 namespace Piller.Droid
 {
@@ -28,6 +29,7 @@ namespace Piller.Droid
         {
             var mvxFragmentsPresenter = new MvxFragmentsPresenter(AndroidViewAssemblies);
             Mvx.RegisterSingleton<IMvxAndroidViewPresenter>(mvxFragmentsPresenter);
+			Mvx.RegisterSingleton<ImageLoaderService>(new AndroidImageLoader());
             return mvxFragmentsPresenter;
 
         }

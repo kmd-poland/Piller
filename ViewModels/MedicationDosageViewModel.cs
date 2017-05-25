@@ -9,12 +9,34 @@ using Acr.UserDialogs;
 using Piller.Resources;
 using ReactiveUI;
 using MvvmCross.Plugins.Messenger;
+using MvvmCross.Plugins.PictureChooser;
+using System.IO;
+using MvvmCross.Plugins.File;
+using Services;
 
 namespace Piller.ViewModels
 {
     public class MedicationDosageViewModel : MvxViewModel
     {
-        private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+		IMvxPictureChooserTask PictureChooser = Mvx.Resolve<IMvxPictureChooserTask>();
+		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+
+        public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
+
+		private byte[] _bytes;
+		public byte[] Bytes
+		{
+			get { return _bytes; }
+			set { _bytes = value; RaisePropertyChanged(() => Bytes); }
+		}
+
+		private void OnPicture(Stream pictureStream)
+		{
+			var memoryStream = new MemoryStream();
+			pictureStream.CopyTo(memoryStream);
+			Bytes = memoryStream.ToArray();
+		}
 
         //identyfikator rekordu, uzywany w trybie edycji
         private int? id;
@@ -104,14 +126,24 @@ namespace Piller.ViewModels
         {
             this.DosageHours = new RxUI.ReactiveList<TimeSpan>();
 
+			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
+			this.TakePhotoCommand.Subscribe(x =>
+			{
+				this.OnPicture(x);
+			});
+
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
             {
 
-                var dataRecord = new MedicationDosage
-                {
-                    Id = this.Id,
-                    Name = this.MedicationName,
-                    Dosage = this.MedicationDosage,
+				var dataRecord = new MedicationDosage
+				{
+					Id = this.Id,
+					Name = this.MedicationName,
+					Dosage = this.MedicationDosage,
+
+					ImageName = $"image_{medicationName}",
+					ThumbnailName =  $"thumbnail_{medicationName}",
+
                     Days =
                         (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
                         | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
@@ -123,7 +155,11 @@ namespace Piller.ViewModels
                     DosageHours = this.DosageHours
                 };
 
-                await this.storage.SaveAsync<MedicationDosage>(dataRecord);
+				imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
+				imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
+
+
+				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
 
                 return true;
             });
@@ -175,6 +211,7 @@ namespace Piller.ViewModels
         }
 
 
+
         public async void Init(MedicationDosageNavigation nav)
         {
             if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
@@ -191,6 +228,8 @@ namespace Piller.ViewModels
                 Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
                 DosageHours = new RxUI.ReactiveList<TimeSpan>(item.DosageHours);
+
+				Bytes = imageLoader.LoadImage(item.ImageName);
             }
       
         }

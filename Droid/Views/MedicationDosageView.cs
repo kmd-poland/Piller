@@ -5,7 +5,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using Piller.Resources;
 using MvvmCross.Binding.BindingContext;
 using Android.Views;
-
+using Android.Graphics;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
 using System;
@@ -14,14 +14,20 @@ using System.Reactive;
 using MvvmCross.Binding.Droid.Views;
 using Android.Opengl;
 using Piller.Droid.BindingConverters;
+using MvvmCross.Platform.Converters;
+using System.Globalization;
+using MvvmCross.Plugins.PictureChooser.Droid;
 
 namespace Piller.Droid.Views
 {
-    [Activity]
+	[Activity]
 	public class MedicationDosageView : MvxAppCompatActivity<MedicationDosageViewModel>
 	{
 		EditText nameText;
 		EditText dosageText;
+
+		Button takePicutre;
+		ImageView picture;
 
 		Button deleteBtn;
 		Button daysBtn;
@@ -35,7 +41,7 @@ namespace Piller.Droid.Views
 		CheckBox saturday;
 		CheckBox sunday;
 
-        MedicationDosageTimeLayout hoursList;
+		MedicationDosageTimeLayout hoursList;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -53,6 +59,10 @@ namespace Piller.Droid.Views
 			nameText = FindViewById<EditText>(Resource.Id.NameEditText);
 			dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
+            takePicutre = FindViewById<Button>(Resource.Id.take_photo);
+            picture = FindViewById<ImageView>(Resource.Id.photo);
+
+
 			monday = FindViewById<CheckBox>(Resource.Id.mondayCheckBox);
 			tuesday = FindViewById<CheckBox>(Resource.Id.tuesdayCheckBox);
 			wednesday = FindViewById<CheckBox>(Resource.Id.wednesdayCheckBox);
@@ -63,17 +73,17 @@ namespace Piller.Droid.Views
 
 			deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
 			daysBtn = FindViewById<Button>(Resource.Id.everyDayBtn);
-            hoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.notificationHours);
+			hoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.notificationHours);
 			timePicker = FindViewById<Button>(Resource.Id.time_picker);
 
-          
-            hoursList.ItemTemplateId = Resource.Layout.time_item;
+
+			hoursList.ItemTemplateId = Resource.Layout.time_item;
 
 
 			//obsluga usuwania - jedna z kilku mozliwosci
 			//wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
-            var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
-            hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
+			var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
+			hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
 
 
 			//aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
@@ -82,13 +92,13 @@ namespace Piller.Droid.Views
 			timePicker.Click += (o, e) =>
 			{
 				TimePickerDialog timePickerFragment = new TimePickerDialog(
-                       this,
-                    (s, args) =>
-                    {
-                        // handler jest wołany dwukrotnie: raz bo wybrana została godzina, drugi bo picker został zamknięty - ten musimy zignorować
-	                    if (((TimePicker)s).IsShown)
-	                        this.ViewModel.DosageHours.Add(new TimeSpan(args.HourOfDay, args.Minute, 0));
-                    },
+					   this,
+					(s, args) =>
+					{
+						// handler jest wołany dwukrotnie: raz bo wybrana została godzina, drugi bo picker został zamknięty - ten musimy zignorować
+						if (((TimePicker)s).IsShown)
+							this.ViewModel.DosageHours.Add(new TimeSpan(args.HourOfDay, args.Minute, 0));
+					},
 					   12,
 					   00,
 					   true
@@ -119,25 +129,38 @@ namespace Piller.Droid.Views
 		}
 
 		private MvxFluentBindingDescriptionSet<MedicationDosageView, MedicationDosageViewModel> bindingSet;
-        private void SetBinding()
-        {
-            bindingSet = this.CreateBindingSet<MedicationDosageView, MedicationDosageViewModel>();
+		private void SetBinding()
+		{
+			bindingSet = this.CreateBindingSet<MedicationDosageView, MedicationDosageViewModel>();
 
-            //sposob na bezposrednie sluchanie observable. W momencie, gdy CanExecute sie zmieni wykona sie kod z Subscribe
-            this.ViewModel.Delete.CanExecute.Subscribe(canExecute => deleteBtn.Visibility = canExecute ? ViewStates.Visible : ViewStates.Gone);
+			//sposob na bezposrednie sluchanie observable. W momencie, gdy CanExecute sie zmieni wykona sie kod z Subscribe
+			this.ViewModel.Delete.CanExecute.Subscribe(canExecute => deleteBtn.Visibility = canExecute ? ViewStates.Visible : ViewStates.Gone);
 
-            bindingSet.Bind(this.SupportActionBar)
-                      .To(x => x.MedicationName)
-                      .For(v => v.Title)
-                      .WithConversion(new InlineValueConverter<string, string>(medicationName =>
-                      {
-                          if (string.IsNullOrEmpty(medicationName))
-                              return this.ViewModel.Id.HasValue ? "" : AppResources.MedicationDosageViewModel_Title;
-                          return medicationName;
-                      }));
+			bindingSet.Bind(this.SupportActionBar)
+					  .To(x => x.MedicationName)
+					  .For(v => v.Title)
+					  .WithConversion(new InlineValueConverter<string, string>(medicationName =>
+					  {
+						  if (string.IsNullOrEmpty(medicationName))
+							  return this.ViewModel.Id.HasValue ? "" : AppResources.MedicationDosageViewModel_Title;
+						  return medicationName;
+					  }));
 
 			bindingSet.Bind(nameText)
 					  .To(x => x.MedicationName);
+
+            bindingSet.Bind(picture)
+                      .To(x => x.Bytes)
+                      .For("Bitmap")
+                      .WithConversion(new MvxInMemoryImageValueConverter());
+
+			bindingSet.Bind(picture)
+                      .To(x => x.Bytes)
+                      .For(v => v.Visibility)
+			          .WithConversion(new InlineValueConverter<byte[], ViewStates>((byte[] arg) => arg == null ? ViewStates.Gone : ViewStates.Visible)) ;
+
+            bindingSet.Bind(takePicutre)
+				.To(vm => vm.TakePhotoCommand);
 
 			bindingSet.Bind(dosageText)
 				.To(vm => vm.MedicationDosage);
@@ -175,14 +198,14 @@ namespace Piller.Droid.Views
 
 			bindingSet.Bind(daysBtn)
 				.To(vm => vm.SelectAllDays);
-			
-            bindingSet.Bind(hoursList)
+
+			bindingSet.Bind(hoursList)
 				.For(x => x.ItemsSource)
-                      .To(vm => vm.DosageHours);
+					  .To(vm => vm.DosageHours);
 			bindingSet.Apply();
 
 
-
+            //Bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
 		}
 
 	}
