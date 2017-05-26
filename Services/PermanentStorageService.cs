@@ -22,6 +22,7 @@ namespace Piller.Services
             this.connection = new SQLiteAsyncConnection (this.fileStore.NativePath ("Piller") + databaseFileName);
 
             this.connection.GetConnection ().CreateTable<MedicationDosage> ();
+            this.connection.GetConnection ().CreateTable<NotificationOccurrence>();
         }
 
         public async Task<T> GetAsync<T> (int id) where T : new()

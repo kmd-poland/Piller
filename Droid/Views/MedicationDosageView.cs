@@ -17,6 +17,7 @@ using Piller.Droid.BindingConverters;
 using MvvmCross.Platform.Converters;
 using System.Globalization;
 using MvvmCross.Plugins.PictureChooser.Droid;
+using System.Reactive.Linq;
 
 namespace Piller.Droid.Views
 {
@@ -122,15 +123,25 @@ namespace Piller.Droid.Views
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
-			//sprawdzamy, czy przycisk ma id zdefiniowane dla Save, i czy Save mozna wywolac (to na przyszlosc, gdy bedzie walidacja)
-			// jak tak - odpalamy komendę. To dziwne Subscribe na końcu do wymóg ReactiveUI7
-			if (item.ItemId == Resource.Id.action_save && ((ICommand)this.ViewModel.Save).CanExecute(null))
-				this.ViewModel.Save.Execute(Unit.Default).Subscribe();
-			return base.OnOptionsItemSelected(item);
+            //sprawdzamy, czy przycisk ma id zdefiniowane dla Save, i czy Save mozna wywolac (to na przyszlosc, gdy bedzie walidacja)
+            // jak tak - odpalamy komendę. To dziwne Subscribe na końcu do wymóg ReactiveUI7
+            if (item.ItemId == Resource.Id.action_save && ((ICommand)this.ViewModel.Save).CanExecute(null))
+            {
+                this.ViewModel.Save.Execute().Catch<bool, Exception>(ex =>
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return Observable.Empty<bool>();
+                }).Subscribe(_ => {
+                    System.Diagnostics.Debug.WriteLine($"Save invoked {_}");
+                });
+                return true;
+            }
+
+            return base.OnOptionsItemSelected(item);
 		}
 
 		private MvxFluentBindingDescriptionSet<MedicationDosageView, MedicationDosageViewModel> bindingSet;
-		private void SetBinding()
+		private void SetBinding()   
 		{
 			bindingSet = this.CreateBindingSet<MedicationDosageView, MedicationDosageViewModel>();
 

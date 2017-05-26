@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="pl.kmd.mobile.piller">
 	<uses-sdk android:minSdkVersion="19" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<application android:label="Piller" android:theme="@style/PillerTheme"></application>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<application android:label="Piller" android:theme="@style/PillerTheme" android:icon="@drawable/pill"></application>
 </manifest>

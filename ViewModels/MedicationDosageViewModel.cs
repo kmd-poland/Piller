@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -21,6 +21,7 @@ namespace Piller.ViewModels
 		IMvxPictureChooserTask PictureChooser = Mvx.Resolve<IMvxPictureChooserTask>();
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
 		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+        private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
 
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
@@ -119,7 +120,7 @@ namespace Piller.ViewModels
         }
 
         public RxUI.ReactiveCommand<Unit, bool> Save { get; private set; }
-        public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }
+        public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
         public RxUI.ReactiveCommand SelectAllDays { get; set; }
 
         public MedicationDosageViewModel()
@@ -159,9 +160,6 @@ namespace Piller.ViewModels
 					Name = this.MedicationName,
 					Dosage = this.MedicationDosage,
 
-					ImageName = $"image_{medicationName}",
-					ThumbnailName =  $"thumbnail_{medicationName}",
-
                     Days =
                         (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
                         | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
@@ -173,11 +171,17 @@ namespace Piller.ViewModels
                     DosageHours = this.DosageHours
                 };
 
-				imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
-				imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
-
+                if (this.Bytes != null)
+                {
+                    dataRecord.ImageName = $"image_{medicationName}";
+                    dataRecord.ThumbnailName = $"thumbnail_{medicationName}";
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
+                }
 
 				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
+                //var notification = new CoreNotification(dataRecord.Id.Value, dataRecord.Name, "Rano i wieczorem", new RepeatPattern() { DayOfWeek = dataRecord.Days, Interval = RepetitionInterval.None, RepetitionFrequency = 1 });
+                await this.notifications.ScheduleNotification(dataRecord);
 
                 return true;
             }, canSave);
@@ -246,7 +250,8 @@ namespace Piller.ViewModels
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
                 DosageHours = new RxUI.ReactiveList<TimeSpan>(item.DosageHours);
 
-				Bytes = imageLoader.LoadImage(item.ImageName);
+                if (!string.IsNullOrEmpty(item.ImageName))
+				    Bytes = imageLoader.LoadImage(item.ImageName);
             }
       
         }
