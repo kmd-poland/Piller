@@ -42,6 +42,7 @@
     <Compile Include="Data\NotificationOccurrence.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Data\RepeatPattern.cs" />
+    <Compile Include="MixIns\DaysOfWeekMixIn.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SQLite-net">
@@ -111,6 +112,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
+    <Folder Include="MixIns\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

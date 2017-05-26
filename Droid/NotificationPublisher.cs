@@ -72,10 +72,8 @@ namespace Piller.Droid
 			else
 			{
 				System.Diagnostics.Debug.WriteLine(intent.Action);
-				//var i = new Intent (context, typeof (NotifiedView));
-				//i.SetFlags (ActivityFlags.NewTask);
-				//context.StartActivity (i);
 
+				var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
 				//if (intent.Action == "Akcja 1") {
 				var request = new MvxViewModelRequest();
 				request.ParameterValues = new System.Collections.Generic.Dictionary<string, string>();
