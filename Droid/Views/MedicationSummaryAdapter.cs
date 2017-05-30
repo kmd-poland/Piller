@@ -14,6 +14,7 @@ using MvvmCross.Plugins.File;
 using MvvmCross.Platform;
 using Android.Graphics;
 using Services;
+using MvvmCross.Plugins.PictureChooser.Droid;
 
 namespace Piller.Droid.Views
 {
@@ -41,9 +42,11 @@ namespace Piller.Droid.Views
             var name = view.FindViewById<TextView>(Resource.Id.label_medication_name);
             var time = view.FindViewById<TextView>(Resource.Id.label_medication_time);
             var daysOfWeek = view.FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
+            var picture = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 
             var bset = view.CreateBindingSet<MvxListItemView, MedicationDosage>();
 
+            picture.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
             bset.Bind(name)
                 .To(x => x.Name);
 
@@ -69,10 +72,14 @@ namespace Piller.Droid.Views
 				.To(x => x.Days)
                 .For(v => v.Visibility)
                 .WithConversion(new InlineValueConverter<DaysOfWeek, ViewStates>(dosageHours => dosageHours == DaysOfWeek.None ? ViewStates.Gone : ViewStates.Visible));
-            
-			bset.Apply();
+            bset.Bind(picture)
+                .To(vm => vm.Bytes)
+                .For("Bitmap")
+                .WithConversion(new MvxInMemoryImageValueConverter());
 
+            bset.Apply();
 
+            /*
             var medication = dataContext as MedicationDosage;
             if (medication?.ThumbnailName != null)
             {
@@ -83,7 +90,7 @@ namespace Piller.Droid.Views
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
                 thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
 			}
-
+            */
 			return view;
 		}
 	}

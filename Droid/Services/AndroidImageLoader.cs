@@ -10,8 +10,10 @@ namespace Services
 	public class AndroidImageLoader : ImageLoaderService
 	{
 		private readonly IMvxFileStore fileStore = Mvx.Resolve<IMvxFileStore>();
+        private readonly string nativePath = "Piller_";
 
-		public static byte[] ReadFully(Stream input)
+
+        public static byte[] ReadFully(Stream input)
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
@@ -22,13 +24,13 @@ namespace Services
 
 		public byte[] LoadImage(string name)
 		{
-			var path = this.fileStore.NativePath("Piller") + name;
+			var path = this.fileStore.NativePath(nativePath) + name;
             return ReadFully(fileStore.OpenRead(path));
 		}
 
 		public void SaveImage(byte[] bytes, string name, int compressionRate = 100)
 		{
-			var path = this.fileStore.NativePath("Piller_") + name;
+			var path = this.fileStore.NativePath(nativePath) + name;
 
 			if (compressionRate != 100)
 			{
