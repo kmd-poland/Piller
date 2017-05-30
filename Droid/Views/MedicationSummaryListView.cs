@@ -43,7 +43,7 @@ namespace Piller.Droid.Views
         protected override void OnResume()
         {
             base.OnResume();
-           // medicationList.Adapter = new MedicationSummaryAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+            medicationList.Adapter = new MedicationSummaryAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
 
 
         }
