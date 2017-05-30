@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,13 +17,28 @@
             <EditText
                 android:id="@+id/NameEditText"
                 android:layout_width="match_parent"
-                android:hint="Nazwa Leku"
+                android:hint="Nazwa Leku *"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/DosageEditText"
                 android:layout_width="match_parent"
-                android:hint="Dawka Leku"
+                android:hint="Dawka Leku *"
                 android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/content_frame"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/take_photo"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="Take photo" />
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
             <CheckBox
                 android:id="@+id/mondayCheckBox"
                 android:text="Poniedziałek"
@@ -95,19 +111,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:background="?attr/colorAccent" />
+                    android:background="?attr/colorAccent"
+                    android:layout_marginTop="20px" />
             </RelativeLayout>
+            <TextView
+                android:text="Godziny *"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textStyle="normal"
+                android:layout_marginTop="20px"
+                android:textSize="36px" />
             <Button
                 android:id="@+id/time_picker"
                 android:text="Dodaj +"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorAccent" />
+                android:background="?attr/colorAccent"
+                android:layout_gravity="right" />
             <MedicationDosageTimeLayout
                 android:id="@+id/notificationHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:layout_marginTop="10px" />
             <Button
                 android:id="@+id/deleteBtn"
                 android:text="USUN LEK"

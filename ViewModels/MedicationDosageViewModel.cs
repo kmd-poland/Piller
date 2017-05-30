@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -9,18 +9,35 @@ using Acr.UserDialogs;
 using Piller.Resources;
 using ReactiveUI;
 using MvvmCross.Plugins.Messenger;
-using Piller.Core.Services;
-using System.Threading.Tasks;
-using Piller.Core.Domain;
-using System.Collections.Generic;
-using System.Diagnostics;
+using MvvmCross.Plugins.PictureChooser;
+using System.IO;
+using MvvmCross.Plugins.File;
+using Services;
 
 namespace Piller.ViewModels
 {
     public class MedicationDosageViewModel : MvxViewModel
     {
-        private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
-        private INotificationService notificationService = Mvx.Resolve<INotificationService>();
+		IMvxPictureChooserTask PictureChooser = Mvx.Resolve<IMvxPictureChooserTask>();
+		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+        private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
+
+        public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
+
+		private byte[] _bytes;
+		public byte[] Bytes
+		{
+			get { return _bytes; }
+			set { _bytes = value; RaisePropertyChanged(() => Bytes); }
+		}
+
+		private void OnPicture(Stream pictureStream)
+		{
+			var memoryStream = new MemoryStream();
+			pictureStream.CopyTo(memoryStream);
+			Bytes = memoryStream.ToArray();
+		}
 
         //identyfikator rekordu, uzywany w trybie edycji
         private int? id;
@@ -42,13 +59,6 @@ namespace Piller.ViewModels
         {
             get { return medicationDosage; }
             set { this.SetProperty(ref medicationDosage, value); }
-        }
-
-        string message="weź piguły";
-        public string Message
-        {
-            get { return message; }
-            set { this.SetProperty(ref message, value); }
         }
 
 
@@ -101,25 +111,6 @@ namespace Piller.ViewModels
             set { this.SetProperty(ref sunday, value); }
         }
 
-        public void CancelNotification(TimeSpan time)
-        {
-            notificationService.CancelNotification(Id.Value + (int)time.TotalMinutes);
-        }
-
-        public DaysOfWeek Days
-        {
-            get
-            {
-                return (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
-                        | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
-                        | (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
-                        | (this.Thurdsday ? DaysOfWeek.Thursday : DaysOfWeek.None)
-                        | (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
-                        | (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
-                        | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None);
-            }
-        }
-
 
         private RxUI.ReactiveList<TimeSpan> dosageHours;
         public RxUI.ReactiveList<TimeSpan> DosageHours
@@ -129,51 +120,75 @@ namespace Piller.ViewModels
         }
 
         public RxUI.ReactiveCommand<Unit, bool> Save { get; private set; }
-        public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }
+        public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
         public RxUI.ReactiveCommand SelectAllDays { get; set; }
-        public ReactiveCommand<int, Unit> AddNotification
-        {
-            get;
-            private set;
-        }
-
 
         public MedicationDosageViewModel()
         {
             this.DosageHours = new RxUI.ReactiveList<TimeSpan>();
-            //cos tu jest nie tak w tym Iobservable
-           // var canSave = this.WhenAnyValue(x => x.MedicationName, x => x.MedicationDosage, x => x.Days, x => x.DosageHours, (name, dosage, days, hours) => !String.IsNullOrEmpty(name) && String.IsNullOrEmpty(dosage) && days != DaysOfWeek.None && hours.Count != 0);
+
+			var canSave = this.WhenAny(
+				vm => vm.MedicationName,
+				vm => vm.MedicationDosage,
+				vm => vm.Monday,
+				vm => vm.Tuesday,
+				vm => vm.Wednesday,
+				vm => vm.Thurdsday,
+				vm => vm.Friday,
+				vm => vm.Saturday,
+				vm => vm.Sunday,
+				vm => vm.DosageHours.Count,
+				(n, d, m, t, w, th, f, sa, su, h) =>
+
+				!String.IsNullOrWhiteSpace(n.Value) &&
+				!String.IsNullOrWhiteSpace(d.Value) &&
+				(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
+				h.Value > 0);
+            
+			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
+			this.TakePhotoCommand.Subscribe(x =>
+			{
+                if(x!=null)
+				    this.OnPicture(x);
+			});
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
             {
-                var dataRecord = new MedicationDosage
-                {
-                    Id = this.Id,
-                    Name = this.MedicationName,
-                    Dosage = this.MedicationDosage,
-                    Days = Days,
+
+				var dataRecord = new MedicationDosage
+				{
+					Id = this.Id,
+					Name = this.MedicationName,
+					Dosage = this.MedicationDosage,
+
+                    Days =
+                        (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
+                        | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
+                        | (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
+                        | (this.Thurdsday ? DaysOfWeek.Thursday : DaysOfWeek.None)
+                        | (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
+                        | (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
+                        | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
                     DosageHours = this.DosageHours
                 };
 
-                await this.storage.SaveAsync<MedicationDosage>(dataRecord);
-                AddNotification.Execute(dataRecord.Id.Value);
-                return true;
-            }/*,canSave*/);
-
-            this.AddNotification = ReactiveCommand.CreateFromTask<int, Unit>(async (id) =>
-            {
-                foreach(var hour in DosageHours)
+                if (this.Bytes != null)
                 {
-                    var notification = await CreateNotificationAsync(hour,id);
-                    await this.notificationService.ScheduleNotification(notification);
+                    dataRecord.ImageName = $"image_{medicationName}";
+                    dataRecord.ThumbnailName = $"thumbnail_{medicationName}";
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
                 }
 
-                return Unit.Default;
-            });
+				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
+                //var notification = new CoreNotification(dataRecord.Id.Value, dataRecord.Name, "Rano i wieczorem", new RepeatPattern() { DayOfWeek = dataRecord.Days, Interval = RepetitionInterval.None, RepetitionFrequency = 1 });
+                await this.notifications.ScheduleNotification(dataRecord);
+
+                return true;
+            }, canSave);
 
 
-
-       var canDelete = this.WhenAny(x => x.Id, id => id.Value.HasValue);
+            var canDelete = this.WhenAny(x => x.Id, id => id.Value.HasValue);
             this.Delete = RxUI.ReactiveCommand.CreateFromTask<Data.MedicationDosage, bool>(async _ =>
                {
                    if (this.Id.HasValue)
@@ -184,12 +199,8 @@ namespace Piller.ViewModels
                    return false;
              }, canDelete);
 
-            this.SelectAllDays = RxUI.ReactiveCommand.Create(() => 
-            { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true;
-               
-            });
+            this.SelectAllDays = RxUI.ReactiveCommand.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true; });
 
-            
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save
                 .Subscribe(result =>
@@ -198,10 +209,6 @@ namespace Piller.ViewModels
                     {
                         Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
                         this.Close(this);
-                    }
-                    else
-                    {
-                        UserDialogs.Instance.ShowError("Podaj nazwe leku");
                     }
                 });
 
@@ -225,20 +232,13 @@ namespace Piller.ViewModels
                 });
         }
 
-        private async Task<CoreNotification> CreateNotificationAsync(TimeSpan hour,int id)
-        {
-            return await Task.FromResult(new CoreNotification(DateTime.Now.Ticks, this.medicationName, this.Message,new RepeatPattern() { DayOfWeek = Days, Hour = hour,AlarmId=id+(int)hour.TotalMinutes }));
-        }
 
-
-         
- 
 
         public async void Init(MedicationDosageNavigation nav)
         {
             if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
             {
-                MedicationDosage item = await storage.GetAsync<MedicationDosage>(nav.MedicationDosageId);
+                Data.MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
                 Id = item.Id;
                 MedicationName = item.Name;
                 MedicationDosage = item.Dosage;
@@ -249,7 +249,10 @@ namespace Piller.ViewModels
                 Friday = item.Days.HasFlag(DaysOfWeek.Friday);
                 Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
-                DosageHours = new ReactiveList<TimeSpan>(item.DosageHours);
+                DosageHours = new RxUI.ReactiveList<TimeSpan>(item.DosageHours);
+
+                if (!string.IsNullOrEmpty(item.ImageName))
+				    Bytes = imageLoader.LoadImage(item.ImageName);
             }
       
         }

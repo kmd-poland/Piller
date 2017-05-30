@@ -1,12 +1,12 @@
 ﻿using System;
-using Piller.Core.Domain;
 using System.Threading.Tasks;
+using Piller.Data;
 
-namespace Piller.Core.Services
+namespace Piller.Services
 {
     public interface INotificationService
     {
-        Task ScheduleNotification (CoreNotification notification);
-        void CancelNotification (int id);
+        Task ScheduleNotification(MedicationDosage medicationDosage);
+		Task CancelNotification(int id);
     }
 }

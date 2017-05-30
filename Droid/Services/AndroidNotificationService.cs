@@ -1,116 +1,152 @@
 ﻿using System;
-using Android.App;
-using Piller.Core.Domain;
-using Piller.Core.Services;
-using Android.Content;
-using Piller.Droid.Views;
-using MvvmCross.Platform.Droid.Platform;
-using Java.Util;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using Piller.ViewModels;
-using Android.Media;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.Droid.Views;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Java.Text;
+using Java.Util;
 using MvvmCross.Platform;
+using Piller.Data;
+using Piller.MixIns.DaysOfWeekMixIns;
+using Piller.Services;
 
 namespace Piller.Droid.Services
 {
     public class AndroidNotificationService : INotificationService
     {
-        private Context ctx;
+        private static readonly string everyday = "everyday";
 
-        public AndroidNotificationService (Context context)
+        private readonly IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+
+		private Context ctx;
+
+		public AndroidNotificationService(Context context)
+		{
+			this.ctx = context;
+		}
+
+        public async Task ScheduleNotification(MedicationDosage medicationDosage)
+		{
+			Intent notificationIntent = new Intent(this.ctx, typeof(NotificationPublisher));
+			var notificationDefaults = NotificationDefaults.Lights | NotificationDefaults.Sound | NotificationDefaults.Vibrate;
+
+            // cancel previously scheduled notifications
+            await this.CancelNotification(medicationDosage.Id.Value);
+
+			if (medicationDosage.Days.AllSelected()) {
+                // schedule for every occurrence of hour for every 24 hours
+                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+                {
+                    var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
+                    var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+                    not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+                    await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+                }
+            } else {
+                // schedule in a weekly manner for each day of week
+                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+                {
+                    foreach (var day in medicationDosage.Days.GetSelected())
+                    {
+                        var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
+                        var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+						not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+                        await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+					}
+				}
+			}
+		}
+
+		private DateTime NextOccurrenceFromHour(TimeSpan hour)
+		{
+			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
+			if (DateTime.Now.Hour > hour.Hours)
+				return occurrenceDate.AddDays(1);
+
+			return occurrenceDate;
+		}
+
+        private DateTime NextOccurrenceFromHourAndDayOfWeek(DaysOfWeek day, TimeSpan hour)
         {
-            this.ctx = context;
+			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
+
+            if (DateTime.Now.DayOfWeek.EqualsDaysOfWeek(day)) {
+                if (occurrenceDate < DateTime.Now)
+                    occurrenceDate = occurrenceDate.AddDays(7);
+            } else {
+                occurrenceDate = occurrenceDate.AddDays(this.GetDaysToNextDayOfWeek(day, occurrenceDate.DayOfWeek.ToDaysOfWeek()));
+            }
+
+			return occurrenceDate;
         }
 
-        public Task ScheduleNotification (CoreNotification coreNotification)
+        private int GetDaysToNextDayOfWeek(DaysOfWeek day, DaysOfWeek currentDayOfWeek)
         {
-            var task = new TaskFactory ().StartNew (() => {
-                // todo return an identifier(s) for a notification(s) to store in db to be able to cancel them later
-                // todo create notifications for all occrrences using AlarmManager.SetRepeating method
-                var notification = this.GetNotification (coreNotification, DateTime.Now.Date);
-                
-                Intent notificationIntent = new Intent (this.ctx, typeof (NotificationPublisher));
-                notificationIntent.PutExtra (NotificationPublisher.NOTIFICATION_ID, coreNotification.Id);
-                notificationIntent.PutExtra (NotificationPublisher.NOTIFICATION, notification);
-
-                var firingCal = Calendar.Instance;
-                var currentCal = Calendar.Instance;
-                var hour = coreNotification.Pattern.Hour;
-                var days = coreNotification.Pattern.DayOfWeek;
-                int id = coreNotification.Pattern.AlarmId;
-                PendingIntent pendingIntent= PendingIntent.GetBroadcast (this.ctx, id, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                  
-                    // todo set time according to occurrence
-                    //firingCal.Set(CalendarField.DayOfWeek, );
-                    firingCal.Set (CalendarField.HourOfDay, hour.Hours); // At the hour you wanna fire
-                    firingCal.Set (CalendarField.Minute, hour.Minutes); // Particular minute 
-                    if (firingCal.CompareTo (currentCal) < 0) {
-                        firingCal.Add (CalendarField.DayOfMonth, 1);
-                    }
-                   // firingCal.Add(CalendarField.Second, 5);
-                    var triggerTime = firingCal.TimeInMillis; // DateTime.Now.FromLocalToUnixTime();
-
-                    AlarmManager alarmManager = (AlarmManager)this.ctx.GetSystemService (Context.AlarmService);
-                    alarmManager.SetRepeating (AlarmType.RtcWakeup, triggerTime, AlarmManager.IntervalDay*7 /* or explicit value of millis, for example 10000*/, pendingIntent);
-                    
-                    // alarmManager.SetInexactRepeating(AlarmType.RtcWakeup, triggerTime, 1000*10, pendingIntent);
-                   
-                
-                // or
-                //alarmManager.SetExact();
-                // or others
-            });
-
-            return task;
+            var daysOfWeekOrdinal = day.GetOrdinal();
+            var currentDayOfWeekOrdinal = currentDayOfWeek.GetOrdinal();
+            if (daysOfWeekOrdinal < currentDayOfWeekOrdinal)
+                return 7 - currentDayOfWeekOrdinal - daysOfWeekOrdinal;
+            else if (daysOfWeekOrdinal > currentDayOfWeekOrdinal)
+                return daysOfWeekOrdinal - currentDayOfWeekOrdinal;
+            else
+                return 0;
         }
 
-        public void CancelNotification (int id)
-        {
-            var alarmManager = (AlarmManager)this.ctx.GetSystemService (Context.AlarmService);
-            Intent intent = new Intent (this.ctx, typeof (NotificationPublisher));
-            PendingIntent alarmIntent = PendingIntent.GetBroadcast (this.ctx, id, intent, 0);
+		public async Task CancelNotification(int medicationDosageId)
+		{
+            // remove scheduled alarms
+			var alarmManager = (AlarmManager)this.ctx.GetSystemService(Context.AlarmService);
+			Intent intent = new Intent(this.ctx, typeof(NotificationPublisher));
+            var occurrences = await this.storage.List<NotificationOccurrence>(n => n.MedicationDosageId == medicationDosageId);
+            foreach (var item in occurrences)
+            {
+                if (PendingIntent.GetBroadcast(this.ctx, item.Id.Value, intent, PendingIntentFlags.NoCreate) != null)
+                {
+                    PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, item.Id.Value, intent, PendingIntentFlags.CancelCurrent);
+                    alarmManager.Cancel(alarmIntent);
+                } else {
+                    System.Diagnostics.Debug.Write($"Alarm with id {item.Id.Value} does not exist.");
+                }
+            }
 
-            alarmManager.Cancel (alarmIntent);
-        }
-        /*
-        Intent GetRouteViewIntent()
-        {
-            var request = new MvxViewModelRequest();
-            request.ParameterValues = new Dictionary<string, string>();
-            request.ParameterValues.Add("idRoute", 0.ToString());
-            request.ViewModelType = typeof(MedicationSummaryListView);
-            var requestedTranslator = Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>();
-            return requestedTranslator.GetIntentFor(request);
-        }
+            // remove notifications from storage
+            foreach (var notificationId in occurrences.Select(o => o.Id.Value).ToList())
+                await this.storage.DeleteByKeyAsync<NotificationOccurrence>(notificationId);
+		}
 
-    */
-        /// <summary>
-        /// Creates a single notification, an instance of <see cref="Android.App.Notification"/> class.
-        /// </summary>
-        /// <returns>Android notification created from <b>notification</b> parameter.</returns>
-        /// <param name="notification"><b>CoreNotification</b></param>
-        private Notification GetNotification (CoreNotification notification, DateTime occurrence)
+        private async Task SetAlarm(Notification notification, int id, DateTime occurrenceDate, Intent notificationIntent)
         {
-            // Intent resutlIntent = new Intent(this.ctx, typeof(MedicationSummaryListView));
-           // var intent = GetRouteViewIntent();
-           
-           // PendingIntent pendingIntent= PendingIntent.GetActivity(this.ctx,0,intent, PendingIntentFlags.UpdateCurrent);
-            var builder = new Notification.Builder (this.ctx);
-        	builder.SetContentTitle (notification.Title);
-        	builder.SetContentText (notification.Message);
-        	builder.SetSmallIcon (Resource.Drawable.Icon);
-            builder.SetDefaults(NotificationDefaults.Sound);
-           // builder.SetContentIntent(pendingIntent);
-            builder.SetVisibility(NotificationVisibility.Public);
-        	return builder.Build ();
-        }
+			var firingCal = Java.Util.Calendar.Instance;
 
-        private string FormatOccurrence(DateTime occurrence)
-        {
-            return $"(Data przyjęcia: {occurrence.ToString("g")})";
-        }
+            firingCal.Set(CalendarField.Year, occurrenceDate.Year);
+            firingCal.Set(CalendarField.Month, occurrenceDate.Month - 1);
+            firingCal.Set(CalendarField.DayOfMonth, occurrenceDate.Day);
+			firingCal.Set(CalendarField.HourOfDay, occurrenceDate.Hour);
+			firingCal.Set(CalendarField.Minute, occurrenceDate.Minute);
+			firingCal.Set(CalendarField.Second, occurrenceDate.Second);
+
+			var triggerTime = firingCal.TimeInMillis;
+
+            // for test purposes only
+			var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
+			var cal = dateFormat.Format(triggerTime);
+
+            var notificationOccurrence = new NotificationOccurrence(id, occurrenceDate, triggerTime);
+            await this.storage.SaveAsync(notificationOccurrence);
+
+            notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationOccurrence.Id.Value);
+			notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, id);
+			notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION, notification);
+			notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_FIRE_TIME, triggerTime);
+
+			var requestId = DateTime.Now.Millisecond;
+			PendingIntent pendingIntent = PendingIntent.GetBroadcast(this.ctx, requestId, notificationIntent, PendingIntentFlags.CancelCurrent);
+
+			AlarmManager alarmManager = (AlarmManager)this.ctx.GetSystemService(Context.AlarmService);
+
+			alarmManager.SetExact(AlarmType.RtcWakeup, triggerTime, pendingIntent);
+		}
     }
 }
