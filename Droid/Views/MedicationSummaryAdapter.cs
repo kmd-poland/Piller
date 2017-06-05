@@ -15,6 +15,7 @@ using MvvmCross.Platform;
 using Android.Graphics;
 using Services;
 using MvvmCross.Plugins.PictureChooser.Droid;
+using Android.Support.V4.Graphics.Drawable;
 
 namespace Piller.Droid.Views
 {
@@ -86,13 +87,26 @@ namespace Piller.Droid.Views
             {
 				var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 				byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
-				thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
+                var res = thumbnail.Resources;
+                var src = BitmapFactory.DecodeByteArray(array, 0, array.Length);
+                RoundedBitmapDrawable dr =RoundedBitmapDrawableFactory.Create(res, src);
+                dr.CornerRadius= Math.Max(src.Width, src.Height) / 2.0f;
+                dr.Circular = true;
+                thumbnail.SetImageDrawable(dr);
+
+               // thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
             } else {
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-                thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
+                var src = BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill);
+                var res = thumbnail.Resources;
+                RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.Create(res, src);
+                dr.CornerRadius = Math.Max(src.Width, src.Height) / 2.0f;
+                thumbnail.SetImageDrawable(dr);
+               // thumbnail.SetImageBitmap();
+
 			}
-            
-			return view;
+
+            return view;
 		}
 	}
 }

@@ -212,6 +212,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
+    <Compile Include="Views\FirstBottomSheet.cs" />
     <Compile Include="Views\MedicationSummaryListView.cs" />
     <Compile Include="Views\MedicationDosageView.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
@@ -227,12 +228,18 @@
     <Compile Include="Services\AndroidImageLoader.cs" />
     <Compile Include="Services\AndroidNotificationService.cs" />
     <Compile Include="NotificationPublisher.cs" />
+    <Compile Include="Views\SecondBottomSheet.cs" />
+    <Compile Include="Views\RoundedImageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
+    <AndroidResource Include="Resources\layout\bottom_dialog.axml" />
+    <AndroidResource Include="Resources\layout\bottom_dialog_2.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -258,23 +265,61 @@
     <AndroidResource Include="Resources\layout\MedicationDosageView.axml" />
     <AndroidResource Include="Resources\layout\time_item.axml" />
     <AndroidResource Include="Resources\menu\dosagemenu.xml" />
-    <AndroidResource Include="Resources\layout\medication_summary_item.axml" />
+    <AndroidResource Include="Resources\layout\medication_summary_item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable\pill.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-ldpi\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\drawable-xxhdpi\" />
-    <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\menu\" />
-    <Folder Include="BindingConverters\" />
-    <Folder Include="Services\" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_close_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pillSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_close_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_cancel_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_cancel_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_cancel_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_cancel_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_cancel_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets')" />

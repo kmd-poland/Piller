@@ -37,7 +37,7 @@ namespace Piller.Droid.Views
             SetSupportActionBar(toolbar);
 
 			SupportActionBar.Title = AppResources.MedicationSummaryListViewModel_Title;
-
+           
 			SetBinding();
 		}
         protected override void OnResume()

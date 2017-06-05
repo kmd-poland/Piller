@@ -18,11 +18,12 @@ using MvvmCross.Platform.Converters;
 using System.Globalization;
 using MvvmCross.Plugins.PictureChooser.Droid;
 using System.Reactive.Linq;
+using Android.Support.Design.Widget;
 
 namespace Piller.Droid.Views
 {
 	[Activity]
-	public class MedicationDosageView : MvxAppCompatActivity<MedicationDosageViewModel>
+	public class MedicationDosageView : MvxCachingFragmentCompatActivity<MedicationDosageViewModel>
 	{
 		EditText nameText;
 		EditText dosageText;
@@ -44,69 +45,103 @@ namespace Piller.Droid.Views
 
 		MedicationDosageTimeLayout hoursList;
 
-		protected override void OnCreate(Bundle bundle)
-		{
+        protected override void OnCreate(Bundle bundle)
+        {
 
-			base.OnCreate(bundle);
+            base.OnCreate(bundle);
+            SetContentView(Resource.Layout.MedicationDosageView);
 
-			SetContentView(Resource.Layout.MedicationDosageView);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 
-			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            //Toolbar will now take on default actionbar characteristics
+            SetSupportActionBar(toolbar);
 
-			//Toolbar will now take on default actionbar characteristics
-			SetSupportActionBar(toolbar);
-
-			SupportActionBar.Title = AppResources.MedicationDosageViewModel_Title;
-			nameText = FindViewById<EditText>(Resource.Id.NameEditText);
-			dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
+            SupportActionBar.Title = AppResources.MedicationDosageViewModel_Title;
+            nameText = FindViewById<EditText>(Resource.Id.NameEditText);
+            dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
             takePicutre = FindViewById<Button>(Resource.Id.take_photo);
             picture = FindViewById<ImageView>(Resource.Id.photo);
 
 
-			monday = FindViewById<CheckBox>(Resource.Id.mondayCheckBox);
-			tuesday = FindViewById<CheckBox>(Resource.Id.tuesdayCheckBox);
-			wednesday = FindViewById<CheckBox>(Resource.Id.wednesdayCheckBox);
-			thursday = FindViewById<CheckBox>(Resource.Id.thursdayCheckBox);
-			friday = FindViewById<CheckBox>(Resource.Id.fridayCheckBox);
-			saturday = FindViewById<CheckBox>(Resource.Id.saturdayCheckBox);
-			sunday = FindViewById<CheckBox>(Resource.Id.sundayCheckBox);
+            monday = FindViewById<CheckBox>(Resource.Id.mondayCheckBox);
+            tuesday = FindViewById<CheckBox>(Resource.Id.tuesdayCheckBox);
+            wednesday = FindViewById<CheckBox>(Resource.Id.wednesdayCheckBox);
+            thursday = FindViewById<CheckBox>(Resource.Id.thursdayCheckBox);
+            friday = FindViewById<CheckBox>(Resource.Id.fridayCheckBox);
+            saturday = FindViewById<CheckBox>(Resource.Id.saturdayCheckBox);
+            sunday = FindViewById<CheckBox>(Resource.Id.sundayCheckBox);
 
-			deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
-			daysBtn = FindViewById<Button>(Resource.Id.everyDayBtn);
-			hoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.notificationHours);
-			timePicker = FindViewById<Button>(Resource.Id.time_picker);
-
-
-			hoursList.ItemTemplateId = Resource.Layout.time_item;
+            deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
+            daysBtn = FindViewById<Button>(Resource.Id.everyDayBtn);
+            hoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.notificationHours);
+            timePicker = FindViewById<Button>(Resource.Id.time_picker);
 
 
-			//obsluga usuwania - jedna z kilku mozliwosci
-			//wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
-			var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
-			hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
+            hoursList.ItemTemplateId = Resource.Layout.time_item;
 
-			//aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
-			//w samym UI można użyć MvxLinearLayout, który działa podobnie do listy,ale nie spowoduje scrolla w scrollu
-			//wtedy właściwość Times bindujemy to tego komponentu
-			timePicker.Click += (o, e) =>
-			{
-				TimePickerDialog timePickerFragment = new TimePickerDialog(
-					   this,
-					(s, args) =>
-					{
-						// handler jest wołany dwukrotnie: raz bo wybrana została godzina, drugi bo picker został zamknięty - ten musimy zignorować
-						if (((TimePicker)s).IsShown)
-							this.ViewModel.DosageHours.Add(new TimeSpan(args.HourOfDay, args.Minute, 0));
-					},
-					   12,
-					   00,
-					   true
-				   );
-				timePickerFragment.Show();
-			};
 
-			SetBinding();
+            //obsluga usuwania - jedna z kilku mozliwosci
+            //wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
+            var hourAdapter = (MedicationDosageTimeListAdapter)hoursList.Adapter;//dialog tworzymy i pokazujemy z kodu
+            hourAdapter.DeleteRequested.Subscribe(time => this.ViewModel.DosageHours.Remove(time));
+
+            //aby ui sie odswiezyl, lista godzin powinna być jakimś typem NotifyCollectionChanged (np. ReactiveList)
+            //w samym UI można użyć MvxLinearLayout, który działa podobnie do listy,ale nie spowoduje scrolla w scrollu
+            //wtedy właściwość Times bindujemy to tego komponentu
+            timePicker.Click += (o, e) =>
+            {
+                TimePickerDialog timePickerFragment = new TimePickerDialog(
+                       this,
+                    (s, args) =>
+                    {
+                        // handler jest wołany dwukrotnie: raz bo wybrana została godzina, drugi bo picker został zamknięty - ten musimy zignorować
+                        if (((TimePicker)s).IsShown)
+                            this.ViewModel.DosageHours.Add(new TimeSpan(args.HourOfDay, args.Minute, 0));
+                    },
+                       12,
+                       00,
+                       true
+                   );
+                timePickerFragment.Show();
+            };
+
+            FirstBottomSheet bottomDialog = new FirstBottomSheet(this);
+            SecondBottomSheet secondDialog = new SecondBottomSheet(this);
+
+            View sheetView = LayoutInflater.Inflate(Resource.Layout.bottom_dialog, null);
+            View secondVIew = LayoutInflater.Inflate(Resource.Layout.bottom_dialog_2, null);
+
+            bottomDialog.SetContentView(sheetView);
+            secondDialog.SetContentView(secondVIew);
+            secondDialog.Create();
+
+            bottomDialog.FirstOption.Subscribe(x =>
+            {
+                ViewModel.SelectAllDays.Execute().Subscribe();
+                bottomDialog.Hide();
+            });
+            bottomDialog.SetCustom.Subscribe(x =>
+            {
+                secondDialog.Show();
+            });
+
+            secondDialog.Accept.Subscribe(x  =>
+            {
+                this.ViewModel.Monday = x[0];
+                this.ViewModel.Tuesday = x[1];
+                this.ViewModel.Wednesday = x[2];
+                this.ViewModel.Thurdsday = x[3];
+                this.ViewModel.Friday = x[4];
+                this.ViewModel.Saturday = x[5];
+                this.ViewModel.Sunday = x[6];
+                bottomDialog.Hide();
+                secondDialog.Hide();
+            });
+
+            daysBtn.Click += (o, e) =>bottomDialog.Show();
+            
+            SetBinding();
 		}
 
 
@@ -134,6 +169,7 @@ namespace Piller.Droid.Views
                 }).Subscribe(_ => {
                     System.Diagnostics.Debug.WriteLine($"Save invoked {_}");
                 });
+
                 return true;
             }
 
@@ -208,8 +244,8 @@ namespace Piller.Droid.Views
 			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
 			   .To(vm => vm.Sunday);
 
-			bindingSet.Bind(daysBtn)
-				.To(vm => vm.SelectAllDays);
+			//bindingSet.Bind(daysBtn)
+				//.To(vm => vm.SelectAllDays);
 
 			bindingSet.Bind(hoursList)
 				.For(x => x.ItemsSource)

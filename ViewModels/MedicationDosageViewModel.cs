@@ -121,7 +121,7 @@ namespace Piller.ViewModels
 
         public RxUI.ReactiveCommand<Unit, bool> Save { get; private set; }
         public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
-        public RxUI.ReactiveCommand SelectAllDays { get; set; }
+        public RxUI.ReactiveCommand<Unit,Unit> SelectAllDays { get; set; }
 
         public MedicationDosageViewModel()
         {
@@ -199,7 +199,7 @@ namespace Piller.ViewModels
                    return false;
              }, canDelete);
 
-            this.SelectAllDays = RxUI.ReactiveCommand.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true; });
+            this.SelectAllDays = ReactiveCommand<Unit,Unit>.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true;  });
 
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save

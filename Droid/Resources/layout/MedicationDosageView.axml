@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -37,83 +38,18 @@
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="fill_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp" 
+                    android:elevation="16dp"/>
             </LinearLayout>
-            <CheckBox
-                android:id="@+id/mondayCheckBox"
-                android:text="Poniedziałek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/tuesdayCheckBox"
-                android:text="Wtorek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/wednesdayCheckBox"
-                android:text="Środa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/thursdayCheckBox"
-                android:text="Czwartek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/fridayCheckBox"
-                android:text="Piątek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/saturdayCheckBox"
-                android:text="Sobota"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <CheckBox
-                android:id="@+id/sundayCheckBox"
-                android:text="Niedziela"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/everyDayBtn"
-                    android:text="Codziennie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="?attr/colorAccent"
-                    android:layout_marginTop="20px" />
-            </RelativeLayout>
+            <Button
+                 android:id="@+id/everyDayBtn"
+                 android:text="Powiadomienia"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:background="?attr/colorAccent"
+                 android:layout_marginTop="20px" />
+
             <TextView
                 android:text="Godziny *"
                 android:layout_width="match_parent"

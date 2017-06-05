@@ -24,7 +24,7 @@ namespace Piller.Droid.Views
 			var bset = view.CreateBindingSet<MvxListItemView, TimeSpan>();
 
 			var hour = view.FindViewById<TextView>(Resource.Id.label_medication_hour);
-            var deleteButton = view.FindViewById<Button>(Resource.Id.button_delete_dosage_hour);
+            var deleteButton = view.FindViewById<ImageView>(Resource.Id.button_delete_dosage_hour);
             bset.Bind(hour)
                 .To(x => x);
 
