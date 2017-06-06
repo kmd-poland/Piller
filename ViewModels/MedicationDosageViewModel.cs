@@ -110,6 +110,7 @@ namespace Piller.ViewModels
             get { return sunday; }
             set { this.SetProperty(ref sunday, value); }
         }
+       
 
 
         private RxUI.ReactiveList<TimeSpan> dosageHours;
@@ -119,9 +120,10 @@ namespace Piller.ViewModels
             set { SetProperty(ref dosageHours, value); }
         }
 
-        public RxUI.ReactiveCommand<Unit, bool> Save { get; private set; }
-        public RxUI.ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
-        public RxUI.ReactiveCommand<Unit,Unit> SelectAllDays { get; set; }
+        public ReactiveCommand<Unit, bool> Save { get; private set; }
+        public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
+        public ReactiveCommand<Unit, Unit> SelectAllDays { get; set; }
+        public ReactiveCommand<Unit, bool> Repeat { get; private set; }
 
         public MedicationDosageViewModel()
         {
@@ -230,6 +232,8 @@ namespace Piller.ViewModels
                         this.Close(this);
                     }
                 });
+
+            Repeat = ReactiveCommand.Create<Unit, bool>(x => { return true; }, this.WhenAny(vm => vm.DosageHours.Count, h => h.Value > 0));
         }
 
 

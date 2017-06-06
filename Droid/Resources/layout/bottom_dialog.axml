@@ -31,11 +31,11 @@
         android:id="@+id/option1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Codziennie rano"
+        android:text="Codziennie"
         android:clickable="true"
         android:background="?attr/selectableItemBackground"
         android:button="@null"
-        android:drawableRight="?android:attr/listChoiceIndicatorSingle" 
+        android:drawableLeft="@drawable/radio_selector"
         android:padding="16dp"/>
   <View
        android:layout_width="match_parent"
@@ -45,11 +45,11 @@
         android:id="@+id/option2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Codziennie wieczorem"
+        android:text="Od poniedziłaku do piątku"
         android:clickable="true"
         android:button="@null"
         android:background="?attr/selectableItemBackground"
-        android:drawableRight="?android:attr/listChoiceIndicatorSingle" 
+        android:drawableLeft="@drawable/radio_selector"
         android:padding="16dp"/>
   <View
        android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:clickable="true"
         android:button="@null"
         android:background="?attr/selectableItemBackground"
-        android:drawableRight="?android:attr/listChoiceIndicatorSingle" 
+        android:drawableLeft="@drawable/radio_selector"
         android:padding="16dp"/>
   </RadioGroup>
 

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-    app:behavior_peekHeight="500dp"
+    app:behavior_peekHeight="800dp"
     android:id="@+id/bottom_dialog_2">
   <TextView
     android:id="@+id/textView1"
-    android:text="Dni"
+    android:text="Powtarzaj"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -100,58 +100,5 @@
       android:button="@null"
       android:padding="@dimen/basic_padding"
       android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal"
-     android:gravity="center"
-      
-     android:background="@color/md_grey_50">
-    <LinearLayout
-     android:id="@+id/cancelButton"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal"
-     android:clickable="true"
-     android:layout_weight="1"
-     android:gravity="center"
-     android:padding="16dp"
-     android:background="?attr/selectableItemBackground">
-
-      <ImageView
-          
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:srcCompat="@drawable/ic_close_black_24dp"
-          android:layout_marginLeft="5dp"/>
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Anuluj"/>
-    </LinearLayout>
-    <LinearLayout
-      android:id="@+id/okButton"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:clickable="true"
-      android:background="?attr/selectableItemBackground"
-      android:layout_weight="1"
-      android:gravity="center"
-      android:padding="16dp">
-
-      <ImageView
-          
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          app:srcCompat="@drawable/ic_done_black_24dp"
-          android:layout_marginLeft="5dp"/>
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ok"/>
-    </LinearLayout>
-
-  </LinearLayout>
-
+  <include layout="@layout/confirmation"/>
 </LinearLayout>

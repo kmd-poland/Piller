@@ -35,15 +35,9 @@ namespace Piller.Droid.Views
 		Button daysBtn;
 		Button timePicker;
 
-		CheckBox monday;
-		CheckBox tuesday;
-		CheckBox wednesday;
-		CheckBox thursday;
-		CheckBox friday;
-		CheckBox saturday;
-		CheckBox sunday;
+        TextView daysOfWeek;
 
-		MedicationDosageTimeLayout hoursList;
+        MedicationDosageTimeLayout hoursList;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -63,17 +57,10 @@ namespace Piller.Droid.Views
             takePicutre = FindViewById<Button>(Resource.Id.take_photo);
             picture = FindViewById<ImageView>(Resource.Id.photo);
 
-
-            monday = FindViewById<CheckBox>(Resource.Id.mondayCheckBox);
-            tuesday = FindViewById<CheckBox>(Resource.Id.tuesdayCheckBox);
-            wednesday = FindViewById<CheckBox>(Resource.Id.wednesdayCheckBox);
-            thursday = FindViewById<CheckBox>(Resource.Id.thursdayCheckBox);
-            friday = FindViewById<CheckBox>(Resource.Id.fridayCheckBox);
-            saturday = FindViewById<CheckBox>(Resource.Id.saturdayCheckBox);
-            sunday = FindViewById<CheckBox>(Resource.Id.sundayCheckBox);
+            daysOfWeek = FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
             deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
-            daysBtn = FindViewById<Button>(Resource.Id.everyDayBtn);
+            daysBtn = FindViewById<Button>(Resource.Id.daysButton);
             hoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.notificationHours);
             timePicker = FindViewById<Button>(Resource.Id.time_picker);
 
@@ -108,18 +95,32 @@ namespace Piller.Droid.Views
 
             FirstBottomSheet bottomDialog = new FirstBottomSheet(this);
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
+            DeleteDialog deleteDialog = new DeleteDialog(this);
 
             View sheetView = LayoutInflater.Inflate(Resource.Layout.bottom_dialog, null);
             View secondVIew = LayoutInflater.Inflate(Resource.Layout.bottom_dialog_2, null);
+            View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
             bottomDialog.SetContentView(sheetView);
             secondDialog.SetContentView(secondVIew);
+            deleteDialog.SetContentView(deleteView,new ViewGroup.LayoutParams( ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
             secondDialog.Create();
 
             bottomDialog.FirstOption.Subscribe(x =>
             {
                 ViewModel.SelectAllDays.Execute().Subscribe();
                 bottomDialog.Hide();
+            });
+            bottomDialog.SecondOption.Subscribe(x =>
+            {
+                this.ViewModel.Monday = true;
+                this.ViewModel.Tuesday = true;
+                this.ViewModel.Wednesday = true;
+                this.ViewModel.Thurdsday = true;
+                this.ViewModel.Friday = true;
+                this.ViewModel.Saturday = false;
+                this.ViewModel.Sunday = false;
+                bottomDialog.Dismiss();
             });
             bottomDialog.SetCustom.Subscribe(x =>
             {
@@ -138,8 +139,20 @@ namespace Piller.Droid.Views
                 bottomDialog.Hide();
                 secondDialog.Hide();
             });
+            secondDialog.Cancel.Subscribe(x =>
+            {
+                secondDialog.Dismiss();
+            });
 
             daysBtn.Click += (o, e) =>bottomDialog.Show();
+            deleteDialog.Create();
+            deleteBtn.Click += (o, e) => deleteDialog.Show();
+            deleteDialog.Accept.Subscribe(x =>
+            {
+                if(((ICommand)ViewModel.Delete).CanExecute(null))
+                    ViewModel.Delete.Execute().Subscribe();
+            });
+            deleteDialog.Cancel.Subscribe(x => deleteDialog.Dismiss());
             
             SetBinding();
 		}
@@ -212,42 +225,21 @@ namespace Piller.Droid.Views
 
 			bindingSet.Bind(dosageText)
 				.To(vm => vm.MedicationDosage);
-			bindingSet.Bind(deleteBtn)
-				.To(vm => vm.Delete);
+			//bindingSet.Bind(deleteBtn)
+			//	.To(vm => vm.Delete);
+/*
+            bindingSet.Bind(daysOfWeek)
+                .To(x => x.Days)
+                .WithConversion(new DaysOfWeekConverter());
+            bindingSet.Bind(daysOfWeek)
+                .To(x => x.Days)
+                .For(v => v.Visibility)
+                .WithConversion(new InlineValueConverter<DaysOfWeek, ViewStates>(dosageHours => dosageHours == DaysOfWeek.None ? ViewStates.Gone : ViewStates.Visible));
+                */
+            bindingSet.Bind(daysBtn)
+            .To(vm => vm.Repeat);
 
-			bindingSet.Bind(monday)
-				.For(x => x.Checked)
-				.Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-				.To(vm => vm.Monday);
-			bindingSet.Bind(tuesday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Tuesday);
-			bindingSet.Bind(wednesday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Wednesday);
-			bindingSet.Bind(thursday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Thurdsday);
-			bindingSet.Bind(friday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Friday);
-			bindingSet.Bind(saturday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Saturday);
-			bindingSet.Bind(sunday)
-			   .For(x => x.Checked)
-			   .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay)
-			   .To(vm => vm.Sunday);
-
-			//bindingSet.Bind(daysBtn)
-				//.To(vm => vm.SelectAllDays);
-
-			bindingSet.Bind(hoursList)
+            bindingSet.Bind(hoursList)
 				.For(x => x.ItemsSource)
 					  .To(vm => vm.DosageHours);
 			bindingSet.Apply();

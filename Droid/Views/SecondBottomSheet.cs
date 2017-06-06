@@ -34,11 +34,13 @@ namespace Piller.Droid.Views
 
         public SecondBottomSheet(Context context) : base(context)
         {
-
+            
         }
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            this.SetCancelable(false);
+
 
             monday = FindViewById<CheckBox>(Resource.Id.mondayCheckBox);
             tuesday = FindViewById<CheckBox>(Resource.Id.tuesdayCheckBox);
@@ -59,7 +61,6 @@ namespace Piller.Droid.Views
             canceltButton.Click += (o,e)=>Cancel.Execute().Subscribe();
         }
 
-        
         private bool[] GetSelectedDays()
         {
             return new bool[] { monday.Checked, tuesday.Checked, wednesday.Checked, thursday.Checked, friday.Checked, saturday.Checked, sunday.Checked };

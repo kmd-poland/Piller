@@ -10,14 +10,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/label_medication_hour"
         tools:text="12:34"
-        android:layout_weight="1" 
        />
+  <View
+      android:layout_width="1dp"
+      android:layout_height="match_parent"
+      android:background="@color/md_grey_400" 
+      android:layout_marginLeft="8dp"/>
  
     <ImageView
         android:layout_width="wrap_content"
         android:id="@+id/button_delete_dosage_hour"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srcCompat="@drawable/ic_close_black_24dp"
         android:clickable="true"
-        android:paddingLeft="16dp"/>
+        android:background="?attr/selectableItemBackground"/>
 </LinearLayout>

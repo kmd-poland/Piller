@@ -47,15 +47,5 @@ namespace Piller.Data
 
         }
         
-        private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
-        [Ignore]
-        public byte[] Bytes
-        {
-            get
-            {
-                    return imageLoader.LoadImage(ThumbnailName);
-            }
-            set { }
-        }
     }
 }
