@@ -92,17 +92,17 @@ namespace Piller.Droid.Views
                 RoundedBitmapDrawable dr =RoundedBitmapDrawableFactory.Create(res, src);
                 dr.CornerRadius= Math.Max(src.Width, src.Height) / 2.0f;
                 dr.Circular = true;
-                thumbnail.SetImageDrawable(dr);
+               // thumbnail.SetImageDrawable(dr);
 
-                //thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
+                thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
             } else {
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
                 var src = BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill);
                 var res = thumbnail.Resources;
                 RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.Create(res, src);
                 dr.CornerRadius = Math.Max(src.Width, src.Height) / 2.0f;
-                thumbnail.SetImageDrawable(dr);
-                // thumbnail.SetImageBitmap( BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
+               // thumbnail.SetImageDrawable(dr);
+                 thumbnail.SetImageBitmap( BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
 
             }
 

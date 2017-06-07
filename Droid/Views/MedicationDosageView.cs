@@ -28,12 +28,13 @@ namespace Piller.Droid.Views
 		EditText nameText;
 		EditText dosageText;
 
-		Button takePicutre;
+		LinearLayout takePicutre;
 		ImageView picture;
 
 		Button deleteBtn;
 		Button daysBtn;
 		Button timePicker;
+
 
         TextView daysOfWeek;
 
@@ -54,7 +55,7 @@ namespace Piller.Droid.Views
             nameText = FindViewById<EditText>(Resource.Id.NameEditText);
             dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
-            takePicutre = FindViewById<Button>(Resource.Id.take_photo);
+            takePicutre = FindViewById<LinearLayout>(Resource.Id.take_photo);
             picture = FindViewById<ImageView>(Resource.Id.photo);
 
             daysOfWeek = FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
@@ -67,6 +68,7 @@ namespace Piller.Droid.Views
 
             hoursList.ItemTemplateId = Resource.Layout.time_item;
 
+          
 
             //obsluga usuwania - jedna z kilku mozliwosci
             //wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
@@ -221,6 +223,7 @@ namespace Piller.Droid.Views
 			          .WithConversion(new InlineValueConverter<byte[], ViewStates>((byte[] arg) => arg == null ? ViewStates.Gone : ViewStates.Visible)) ;
 
             bindingSet.Bind(takePicutre)
+                .For(nameof(View.Click))
 				.To(vm => vm.TakePhotoCommand);
 
 			bindingSet.Bind(dosageText)
