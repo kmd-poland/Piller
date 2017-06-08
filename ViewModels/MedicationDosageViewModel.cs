@@ -66,51 +66,62 @@ namespace Piller.ViewModels
         public bool Monday
         {
             get { return monday; }
-            set { this.SetProperty(ref monday, value); }
+            set { this.SetProperty(ref monday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool tuesday;
         public bool Tuesday
         {
             get { return tuesday; }
-            set { this.SetProperty(ref tuesday, value); }
+            set { this.SetProperty(ref tuesday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool wednesday;
         public bool Wednesday
         {
             get { return wednesday; }
-            set { this.SetProperty(ref wednesday, value); }
+            set { this.SetProperty(ref wednesday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool thursday;
-        public bool Thurdsday
+        public bool Thursday
         {
             get { return thursday; }
-            set { this.SetProperty(ref thursday, value); }
+            set { this.SetProperty(ref thursday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool friday;
         public bool Friday
         {
             get { return friday; }
-            set { this.SetProperty(ref friday, value); }
+            set { this.SetProperty(ref friday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool saturday;
         public bool Saturday
         {
             get { return saturday; }
-            set { this.SetProperty(ref saturday, value); }
+            set { this.SetProperty(ref saturday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
         }
 
         private bool sunday;
         public bool Sunday
         {
             get { return sunday; }
-            set { this.SetProperty(ref sunday, value); }
+            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); }
         }
-       
+        public bool Everyday
+        {
+            get { return Monday && Tuesday && Wednesday && Thursday && Friday && Saturday && Sunday; }
+        }
+        public bool Cusom { get { return !Everyday && !isNew; } }
+        private bool isNew;
+        public bool IsNew
+        {
+            get { return isNew; }
+            set { SetProperty(ref isNew, value); RaisePropertyChanged(nameof(Cusom)); }
+        }
+
 
 
         private RxUI.ReactiveList<TimeSpan> dosageHours;
@@ -123,7 +134,7 @@ namespace Piller.ViewModels
         public ReactiveCommand<Unit, bool> Save { get; private set; }
         public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
         public ReactiveCommand<Unit, Unit> SelectAllDays { get; set; }
-        public ReactiveCommand<Unit, bool> Repeat { get; private set; }
+        
 
         public MedicationDosageViewModel()
         {
@@ -135,7 +146,7 @@ namespace Piller.ViewModels
 				vm => vm.Monday,
 				vm => vm.Tuesday,
 				vm => vm.Wednesday,
-				vm => vm.Thurdsday,
+				vm => vm.Thursday,
 				vm => vm.Friday,
 				vm => vm.Saturday,
 				vm => vm.Sunday,
@@ -167,7 +178,7 @@ namespace Piller.ViewModels
                         (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
                         | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
                         | (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
-                        | (this.Thurdsday ? DaysOfWeek.Thursday : DaysOfWeek.None)
+                        | (this.Thursday ? DaysOfWeek.Thursday : DaysOfWeek.None)
                         | (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
                         | (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
                         | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
@@ -201,7 +212,7 @@ namespace Piller.ViewModels
                    return false;
              }, canDelete);
 
-            this.SelectAllDays = ReactiveCommand<Unit,Unit>.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thurdsday = true; Friday = true; Saturday = true; Sunday = true;  });
+            this.SelectAllDays = ReactiveCommand<Unit,Unit>.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thursday = true; Friday = true; Saturday = true; Sunday = true;  });
 
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save
@@ -233,7 +244,6 @@ namespace Piller.ViewModels
                     }
                 });
 
-            Repeat = ReactiveCommand.Create<Unit, bool>(x => { return true; }, this.WhenAny(vm => vm.DosageHours.Count, h => h.Value > 0));
         }
 
 
@@ -242,6 +252,7 @@ namespace Piller.ViewModels
         {
             if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
             {
+                isNew = false;
                 Data.MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
                 Id = item.Id;
                 MedicationName = item.Name;
@@ -249,7 +260,7 @@ namespace Piller.ViewModels
                 Monday = item.Days.HasFlag(DaysOfWeek.Monday);
                 Tuesday = item.Days.HasFlag(DaysOfWeek.Tuesday);
                 Wednesday = item.Days.HasFlag(DaysOfWeek.Wednesday);
-                Thurdsday = item.Days.HasFlag(DaysOfWeek.Thursday);
+                Thursday = item.Days.HasFlag(DaysOfWeek.Thursday);
                 Friday = item.Days.HasFlag(DaysOfWeek.Friday);
                 Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
@@ -257,6 +268,10 @@ namespace Piller.ViewModels
 
                 if (!string.IsNullOrEmpty(item.ImageName))
 				    Bytes = imageLoader.LoadImage(item.ImageName);
+            }
+            else
+            {
+                isNew = true;
             }
       
         }

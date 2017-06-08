@@ -4978,9 +4978,6 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080056
 			public const int customPanel = 2131230806;
 			
-			// aapt resource value: 0x7f08009e
-			public const int daysButton = 2131230878;
-			
 			// aapt resource value: 0x7f080064
 			public const int decor_content_parent = 2131230820;
 			
@@ -5031,6 +5028,9 @@ namespace Piller.Droid
 			
 			// aapt resource value: 0x7f08002d
 			public const int enterAlwaysCollapsed = 2131230765;
+			
+			// aapt resource value: 0x7f08009d
+			public const int everyday = 2131230877;
 			
 			// aapt resource value: 0x7f08002e
 			public const int exitUntilCollapsed = 2131230766;
@@ -5362,8 +5362,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f0800b0
 			public const int time = 2131230896;
 			
-			// aapt resource value: 0x7f08009d
-			public const int time_picker = 2131230877;
+			// aapt resource value: 0x7f08009e
+			public const int time_picker = 2131230878;
 			
 			// aapt resource value: 0x7f08004c
 			public const int title = 2131230796;
