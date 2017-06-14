@@ -18,7 +18,7 @@ namespace Piller.Droid.Services
             var builder = new NotificationCompat.Builder(context);
             builder.SetContentTitle(medication.Name);
             builder.SetTicker($"[PILLER] {medication.Name}");
-            builder.SetSmallIcon(Resource.Drawable.pill);
+			builder.SetSmallIcon(Resource.Drawable.pill64x64);
 
 
             builder.SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
@@ -30,7 +30,7 @@ namespace Piller.Droid.Services
             contentView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(occurrenceDate));
 
             if (medication?.ThumbnailName == null)
-                contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill));
+				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
             else
             {
                 ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
@@ -52,7 +52,7 @@ namespace Piller.Droid.Services
             contentBigView.SetOnClickPendingIntent(Resource.Id.laterButton, intent);
 
             if (medication?.ThumbnailName == null)
-                contentBigView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill));
+				contentBigView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
             else
             {
                 ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();

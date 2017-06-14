@@ -249,6 +249,8 @@
     <AndroidResource Include="Resources\drawable\no.png" />
     <AndroidResource Include="Resources\drawable\ok3.png" />
     <AndroidResource Include="Resources\drawable\splashgif2.gif" />
+    <AndroidResource Include="Resources\drawable\pill500x500.png" />
+    <AndroidResource Include="Resources\drawable\pill64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -273,7 +275,6 @@
     <AndroidResource Include="Resources\layout\time_item.axml" />
     <AndroidResource Include="Resources\menu\dosagemenu.xml" />
     <AndroidResource Include="Resources\layout\medication_summary_item.axml" />
-    <AndroidResource Include="Resources\drawable\pill.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_black_48dp.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_white_36dp.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_add_white_36dp.png" />

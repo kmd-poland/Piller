@@ -4797,11 +4797,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f020074
 			public const int notification_icon_background = 2130837620;
 			
-			// aapt resource value: 0x7f02007e
-			public const int notification_template_icon_bg = 2130837630;
-			
 			// aapt resource value: 0x7f02007f
-			public const int notification_template_icon_low_bg = 2130837631;
+			public const int notification_template_icon_bg = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int notification_template_icon_low_bg = 2130837632;
 			
 			// aapt resource value: 0x7f020075
 			public const int notification_tile_bg = 2130837621;
@@ -4813,22 +4813,25 @@ namespace Piller.Droid
 			public const int ok3 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int pill = 2130837624;
+			public const int pill500x500 = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int pillSmall = 2130837625;
+			public const int pill64x64 = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int radio_selector = 2130837626;
+			public const int pillSmall = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int roundedbg = 2130837627;
+			public const int radio_selector = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int roundedbgdark = 2130837628;
+			public const int roundedbg = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int splashgif2 = 2130837629;
+			public const int roundedbgdark = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int splashgif2 = 2130837630;
 			
 			static Drawable()
 			{

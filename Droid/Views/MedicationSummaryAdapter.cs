@@ -81,7 +81,7 @@ namespace Piller.Droid.Views
 				thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
             } else {
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-                thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
+				thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill64x64));
 			}
 
 			return view;
