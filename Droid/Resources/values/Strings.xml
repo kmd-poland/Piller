@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, Click Me!</string>
     <string name="app_name">Piller.Droid</string>
+  
 </resources>
