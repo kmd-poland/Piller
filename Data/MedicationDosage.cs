@@ -2,8 +2,6 @@ using System;
 using SQLite;
 using System.Collections.Generic;
 using System.Linq;
-using Services;
-using MvvmCross.Platform;
 
 namespace Piller.Data
 {
@@ -22,6 +20,10 @@ namespace Piller.Data
         public string ThumbnailName { get; set; }
 
         public DaysOfWeek Days { get; set; }
+
+        public bool Morning { get; set; }
+
+        public bool Evening { get; set; }
 
         //lista godzin w postaci hh:mm;hh:mm...
         public string HoursEncoded { get; set; }
@@ -45,17 +47,6 @@ namespace Piller.Data
                     HoursEncoded = string.Join(";", value.Select(i => i.ToString(@"hh\:mm")));
             }
 
-        }
-        
-        private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
-        [Ignore]
-        public byte[] Bytes
-        {
-            get
-            {
-                    return imageLoader.LoadImage(ThumbnailName);
-            }
-            set { }
         }
     }
 }

@@ -6,6 +6,7 @@ using Piller.Resources;
 using MvvmCross.Binding.BindingContext;
 using Android.Support.Design.Widget;
 using Android.Views;
+using System;
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.Droid.Views;
@@ -45,8 +46,20 @@ namespace Piller.Droid.Views
 
 			SetBinding();
 		}
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            this.MenuInflater.Inflate(Resource.Menu.main_menu, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.action_settings)
+                ViewModel.GoSettings.Execute().Subscribe();
 
-		private void SetBinding()
+            return base.OnOptionsItemSelected(item);
+        }
+
+        private void SetBinding()
 		{
 			var bindingSet = this.CreateBindingSet<MedicationSummaryListView, MedicationSummaryListViewModel>();
 

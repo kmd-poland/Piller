@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -11,8 +11,9 @@ using ReactiveUI;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Plugins.PictureChooser;
 using System.IO;
-using MvvmCross.Plugins.File;
 using Services;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
+using Newtonsoft.Json;
 
 namespace Piller.ViewModels
 {
@@ -22,6 +23,7 @@ namespace Piller.ViewModels
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
 		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
+        private ISettings settings = Mvx.Resolve<ISettings>();
 
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
@@ -130,17 +132,49 @@ namespace Piller.ViewModels
             get { return this.dosageHours; }
             set { SetProperty(ref dosageHours, value); }
         }
+        public string HoursLabel
+        {
+            get
+            {
+                string label = "";
+                if (Morning)
+                    label += AppResources.MorningLabel;
+                if (Evening)
+                {
+                    if (Morning)
+                        label += ", ";
+                    label += AppResources.EveningLabel;
+                }
+                return label;
+            }
+        }
+        private bool morning;
+        public bool Morning
+        {
+            get { return morning; }
+            set { SetProperty(ref morning, value); RaisePropertyChanged(nameof(HoursLabel)); }
+        }
+        private bool evening;
+        public bool Evening
+        {
+            get { return evening; }
+            set { SetProperty(ref evening, value); RaisePropertyChanged(nameof(HoursLabel)); }
+        }
+
+        private TimeSpan morningHour;
+        private TimeSpan afternoon;
+        private TimeSpan eveningHour;
 
         public ReactiveCommand<Unit, bool> Save { get; private set; }
         public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
         public ReactiveCommand<Unit, Unit> SelectAllDays { get; set; }
-        
+        public ReactiveCommand<Unit, bool> GoSettings { get; }
+        public ReactiveCommand<HoursPattern, Unit> SetRepeatTime { get; }
 
         public MedicationDosageViewModel()
         {
-            this.DosageHours = new RxUI.ReactiveList<TimeSpan>();
-
-			var canSave = this.WhenAny(
+            this.DosageHours = new ReactiveList<TimeSpan>();
+            var canSave = this.WhenAny(
 				vm => vm.MedicationName,
 				vm => vm.MedicationDosage,
 				vm => vm.Monday,
@@ -173,6 +207,8 @@ namespace Piller.ViewModels
 					Id = this.Id,
 					Name = this.MedicationName,
 					Dosage = this.MedicationDosage,
+                    Morning = this.Morning,
+                    Evening = this.Evening,
 
                     Days =
                         (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
@@ -243,9 +279,45 @@ namespace Piller.ViewModels
                         this.Close(this);
                     }
                 });
+            GoSettings = ReactiveCommand.Create(() => this.ShowViewModel<SettingsViewModel>());
+            SetRepeatTime = ReactiveCommand.Create<HoursPattern>(p =>
+            {
+                Morning = p.Morning;
+                Evening = p.Evening;
+                setHours();
+
+            });
+
+            dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(mesg => 
+            {
+                morningHour = mesg.Morning;
+                eveningHour = mesg.Evening;
+                setHours();
+                Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
+            });
 
         }
+        MvxSubscriptionToken dataChangedSubscriptionToken;
+        private void loadSettings()
+        {
+            SettingsData data = JsonConvert.DeserializeObject<SettingsData>(settings.GetValue<string>(SettingsData.Key));
+            if (data == null)
+                data = new SettingsData();
 
+            morningHour = data.Morning;
+            afternoon = data.Afternoon;
+            eveningHour = data.Evening;
+            setHours();
+        }
+
+        private void setHours()
+        {
+            DosageHours.Clear();
+            if (Morning)
+                DosageHours.Add(morningHour);
+            if (Evening)
+                DosageHours.Add(eveningHour);
+        }
 
 
         public async void Init(MedicationDosageNavigation nav)
@@ -257,6 +329,8 @@ namespace Piller.ViewModels
                 Id = item.Id;
                 MedicationName = item.Name;
                 MedicationDosage = item.Dosage;
+                Morning = item.Morning;
+                Evening = item.Evening;
                 Monday = item.Days.HasFlag(DaysOfWeek.Monday);
                 Tuesday = item.Days.HasFlag(DaysOfWeek.Tuesday);
                 Wednesday = item.Days.HasFlag(DaysOfWeek.Wednesday);
@@ -273,7 +347,8 @@ namespace Piller.ViewModels
             {
                 isNew = true;
             }
-      
+            loadSettings();
+
         }
     }
 }
