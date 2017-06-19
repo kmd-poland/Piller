@@ -10,6 +10,7 @@ using Android.Views;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.Droid.BindingContext;
+using Android.Widget;
 
 namespace Piller.Droid.Views
 {
@@ -20,6 +21,8 @@ namespace Piller.Droid.Views
 
 		FloatingActionButton newMedicationDosage;
 		MvxListView medicationList;
+		TextView emptyLabel;
+
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -29,10 +32,11 @@ namespace Piller.Droid.Views
 
 			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 			newMedicationDosage = FindViewById<FloatingActionButton>(Resource.Id.newMedicationDosage);
+			emptyLabel = FindViewById<TextView>(Resource.Id.empty);
 
 			medicationList = FindViewById<MvxListView>(Resource.Id.medicationList);
-            medicationList.Adapter = new MedicationSummaryAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
-            medicationList.ItemTemplateId = Resource.Layout.medication_summary_item;
+			medicationList.Adapter = new MedicationSummaryAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+			medicationList.ItemTemplateId = Resource.Layout.medication_summary_item;
 
 			//Toolbar will now take on default actionbar characteristics
 			SetSupportActionBar(toolbar);
@@ -49,7 +53,7 @@ namespace Piller.Droid.Views
 			bindingSet.Bind(newMedicationDosage)
 					  .For(nameof(View.Click))
 					  .To(x => x.AddNew);
-            
+
 			bindingSet.Bind(medicationList)
 				.For(x => x.ItemsSource)
 				.To(vm => vm.MedicationList);
@@ -57,6 +61,12 @@ namespace Piller.Droid.Views
 			bindingSet.Bind(medicationList)
 				.For(x => x.ItemClick)
 				.To(vm => vm.Edit);
+
+			bindingSet.Bind(emptyLabel)
+				.For(v => v.Visibility)
+				.To(vm => vm.IsEmpty)
+				.WithConversion(new InlineValueConverter<bool, ViewStates>(isEmpty => isEmpty ? ViewStates.Visible : ViewStates.Gone));
+
 
 
 			bindingSet.Apply();

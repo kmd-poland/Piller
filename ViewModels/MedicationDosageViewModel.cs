@@ -161,7 +161,8 @@ namespace Piller.ViewModels
 			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
 			this.TakePhotoCommand.Subscribe(x =>
 			{
-				this.OnPicture(x);
+                if(x!=null)
+				    this.OnPicture(x);
 			});
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
