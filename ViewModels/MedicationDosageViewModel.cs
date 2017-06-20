@@ -180,7 +180,7 @@ namespace Piller.ViewModels
 			});
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
-            {
+			{
 
 				var dataRecord = new MedicationDosage
 				{
@@ -200,6 +200,18 @@ namespace Piller.ViewModels
                         | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
                     DosageHours = this.DosageHours
                 };
+
+				if (!string.IsNullOrEmpty(this.StartDate) && !string.IsNullOrEmpty(this.EndDate))
+				{
+					DateTime start = DateTime.Parse(this.StartDate);
+					DateTime end = DateTime.Parse(this.EndDate);
+					if (start > end)
+					{
+						UserDialogs.Instance.Toast("Ustaw prawidłowo zakres dat.");
+						return false;
+					}
+
+				}
 
                 if (this.Bytes != null)
                 {
@@ -291,6 +303,7 @@ namespace Piller.ViewModels
 
                 if (!string.IsNullOrEmpty(item.ImageName))
 				    Bytes = imageLoader.LoadImage(item.ImageName);
+
 
             }
             else

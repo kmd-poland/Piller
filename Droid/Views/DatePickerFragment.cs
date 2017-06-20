@@ -45,7 +45,7 @@ public class DatePickerFragment : DialogFragment,
 		// Note: monthOfYear is a value between 0 and 11, not 1 and 12!
 		DateTime selectedDate = new DateTime(year, monthOfYear + 1, dayOfMonth);
 		//  Log.Debug(TAG, selectedDate.ToLongDateString());
-		_dateSelectedHandler(selectedDate);
+			_dateSelectedHandler(selectedDate);
 	}
 }
 

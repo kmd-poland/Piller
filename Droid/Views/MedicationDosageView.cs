@@ -121,7 +121,7 @@ namespace Piller.Droid.Views
 			fromDate.Click += (o,e) =>{
 					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
 					{
-					fromDate.Text = time.ToLongDateString().ToString();
+					fromDate.Text = time.ToShortDateString();
 					});
 					frag.Show(FragmentManager, DatePickerFragment.TAG);
 			};
@@ -129,7 +129,7 @@ namespace Piller.Droid.Views
 			toDate.Click += (o,e) => {
 					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
 					{
-					toDate.Text = time.ToLongDateString().ToString();
+					toDate.Text = time.ToShortDateString();
 					});
 					frag.Show(FragmentManager, DatePickerFragment.TAG);
 			};
