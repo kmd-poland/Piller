@@ -43,6 +43,9 @@
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Data\RepeatPattern.cs" />
     <Compile Include="MixIns\DaysOfWeekMixIn.cs" />
+    <Compile Include="ViewModels\RootViewModel.cs" />
+    <Compile Include="ViewModels\MedicalCardViewModel.cs" />
+    <Compile Include="ViewModels\HolidayViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SQLite-net">

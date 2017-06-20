@@ -1,4 +1,4 @@
-﻿using Android.App;
+﻿﻿using Android.App;
 using Android.OS;
 using Piller.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
