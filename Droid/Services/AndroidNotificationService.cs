@@ -35,29 +35,134 @@ namespace Piller.Droid.Services
             // cancel previously scheduled notifications
             await this.CancelNotification(medicationDosage.Id.Value);
 
-			if (medicationDosage.Days.AllSelected()) {
-                // schedule for every occurrence of hour for every 24 hours
-                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
-                {
-                    var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
-                    var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
-                    not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                    await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
-                }
-            } else {
-                // schedule in a weekly manner for each day of week
-                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
-                {
-                    foreach (var day in medicationDosage.Days.GetSelected())
-                    {
-                        var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
-                        var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+			if (string.IsNullOrEmpty(medicationDosage.From) && string.IsNullOrEmpty(medicationDosage.To))
+			{
+				if (medicationDosage.Days.AllSelected())
+				{
+					// schedule for every occurrence of hour for every 24 hours
+					foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+					{
+						var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
+						var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
 						not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                        await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+						await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+					}
+				}
+				else
+				{
+					// schedule in a weekly manner for each day of week
+					foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+					{
+						foreach (var day in medicationDosage.Days.GetSelected())
+						{
+							var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
+							var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+							not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+							await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+						}
 					}
 				}
 			}
+			if (!string.IsNullOrEmpty(medicationDosage.From) && !string.IsNullOrEmpty(medicationDosage.To))
+			{ 
+				if (DateTime.Parse(medicationDosage.From) <= DateTime.Now.Date && DateTime.Parse(medicationDosage.To) >= DateTime.Now.Date)
+				{
+					if (DateTime.Parse(medicationDosage.From) <= DateTime.Now)
+				{
+					if (medicationDosage.Days.AllSelected())
+					{
+						// schedule for every occurrence of hour for every 24 hours
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
+							var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+							not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+							await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+						}
+					}
+					else
+					{
+						// schedule in a weekly manner for each day of week
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							foreach (var day in medicationDosage.Days.GetSelected())
+							{
+								var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
+								var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+								not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+								await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+							}
+						}
+					}
+				}
+				}			
+			}else
+			if (!string.IsNullOrEmpty(medicationDosage.From))
+			{
+				if (DateTime.Parse(medicationDosage.From) <= DateTime.Now.Date)
+				{
+					if (medicationDosage.Days.AllSelected())
+					{
+						// schedule for every occurrence of hour for every 24 hours
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
+							var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+							not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+							await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+						}
+					}
+					else
+					{
+						// schedule in a weekly manner for each day of week
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							foreach (var day in medicationDosage.Days.GetSelected())
+							{
+								var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
+								var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+								not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+								await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+							}
+						}
+					}
+				}
+			}else
+			if (!string.IsNullOrEmpty(medicationDosage.To))
+			{ 
+				if (DateTime.Parse(medicationDosage.To) >= DateTime.Now.Date)
+				{
+					if (medicationDosage.Days.AllSelected())
+					{
+						// schedule for every occurrence of hour for every 24 hours
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
+							var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+							not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+							await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+						}
+					}
+					else
+					{
+						// schedule in a weekly manner for each day of week
+						foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
+						{
+							foreach (var day in medicationDosage.Days.GetSelected())
+							{
+								var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
+								var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
+								not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+								await this.SetAlarm(not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+							}
+						}
+					}
+				}
+				
+			}
+
 		}
+
 
 		private DateTime NextOccurrenceFromHour(TimeSpan hour)
 		{
@@ -70,6 +175,7 @@ namespace Piller.Droid.Services
 
         private DateTime NextOccurrenceFromHourAndDayOfWeek(DaysOfWeek day, TimeSpan hour)
         {
+				
 			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
 
             if (DateTime.Now.DayOfWeek.EqualsDaysOfWeek(day)) {
@@ -78,6 +184,7 @@ namespace Piller.Droid.Services
             } else {
                 occurrenceDate = occurrenceDate.AddDays(this.GetDaysToNextDayOfWeek(day, occurrenceDate.DayOfWeek.ToDaysOfWeek()));
             }
+
 
 			return occurrenceDate;
         }

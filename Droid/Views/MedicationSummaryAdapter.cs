@@ -39,6 +39,8 @@ namespace Piller.Droid.Views
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
 
             var name = view.FindViewById<TextView>(Resource.Id.label_medication_name);
+			var date1 = view.FindViewById<TextView>(Resource.Id.label_medication_date);
+			var date2 = view.FindViewById<TextView>(Resource.Id.label_medication_date2);
             var time = view.FindViewById<TextView>(Resource.Id.label_medication_time);
             var daysOfWeek = view.FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
@@ -47,10 +49,15 @@ namespace Piller.Droid.Views
             bset.Bind(name)
                 .To(x => x.Name);
 
-            // Konwertery to specyficzny dla MvvmCross'a sposób translacji danych z view modelu do danych z których potrafi skorzystać widok.
-            // Zazwyczaj nie są one potrzebne, np. kiedy pokazujemy tekst, ale jeśli zachodzi potrzeba pokazania np. listy w jednej linii musimy użyć konwertera.
+			// Konwertery to specyficzny dla MvvmCross'a sposób translacji danych z view modelu do danych z których potrafi skorzystać widok.
+			// Zazwyczaj nie są one potrzebne, np. kiedy pokazujemy tekst, ale jeśli zachodzi potrzeba pokazania np. listy w jednej linii musimy użyć konwertera.
 
-            // TextView jest domyślnie bindowane do property Text, więc nie trzeba jej wprost wskazywać 
+			// TextView jest domyślnie bindowane do property Text, więc nie trzeba jej wprost wskazywać 
+			bset.Bind(date1)
+			    .To(x => x.From);
+			bset.Bind(date2)
+			    .To(x => x.To);
+			
             bset.Bind(time)
                 .To(x => x.DosageHours)
                 .WithConversion(new DosageHoursConverter());
