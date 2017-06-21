@@ -94,11 +94,14 @@ namespace Piller.Droid.Views
             var bindingSet = this.CreateBindingSet<SettingsView, SettingsViewModel>();
             bindingSet.Bind(morningHour)
                 .For(v => v.Text)
-                .To(vm => vm.MorningHour);
+                .To(vm => vm.MorningHour)
+                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
             bindingSet.Bind(afternoonHour)
-               .To(vm => vm.AfternoonHour);
+               .To(vm => vm.AfternoonHour)
+                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
             bindingSet.Bind(eveningHour)
-               .To(vm => vm.EveningHour);
+               .To(vm => vm.EveningHour)
+                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
             bindingSet.Apply();
 
         }

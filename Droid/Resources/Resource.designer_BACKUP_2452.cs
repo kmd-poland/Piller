@@ -2605,10 +2605,17 @@ namespace Piller.Droid
 			
 			// aapt resource value: 0x7f01010c
 			public const int rippleColor = 2130772236;
+<<<<<<< HEAD
 			
 			// aapt resource value: 0x7f0100fb
 			public const int scrimAnimationDuration = 2130772219;
 			
+=======
+			
+			// aapt resource value: 0x7f0100fb
+			public const int scrimAnimationDuration = 2130772219;
+			
+>>>>>>> new_scheduling
 			// aapt resource value: 0x7f0100fa
 			public const int scrimVisibleHeightTrigger = 2130772218;
 			
@@ -4698,8 +4705,26 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
+			// aapt resource value: 0x7f020081
+			public const int avd_hide_password_1 = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int avd_hide_password_2 = 2130837634;
+			
+			// aapt resource value: 0x7f020083
+			public const int avd_hide_password_3 = 2130837635;
+			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
+			
+			// aapt resource value: 0x7f020084
+			public const int avd_show_password_1 = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int avd_show_password_2 = 2130837637;
+			
+			// aapt resource value: 0x7f020086
+			public const int avd_show_password_3 = 2130837638;
 			
 			// aapt resource value: 0x7f020055
 			public const int button = 2130837589;
@@ -4732,118 +4757,106 @@ namespace Piller.Droid
 			public const int ic_add_white_36dp = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int ic_airplanemode_active_black_24dp = 2130837599;
+			public const int ic_cancel_black_24dp = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int ic_cancel_black_24dp = 2130837600;
+			public const int ic_chevron_right_black_36dp = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int ic_chevron_right_black_36dp = 2130837601;
+			public const int ic_chevron_right_white_36dp = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int ic_chevron_right_white_36dp = 2130837602;
+			public const int ic_close_black_24dp = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int ic_close_black_24dp = 2130837603;
+			public const int ic_delete_black_24dp = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int ic_delete_black_24dp = 2130837604;
+			public const int ic_delete_forever_white_36dp = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int ic_delete_forever_white_36dp = 2130837605;
+			public const int ic_done_black_24dp = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int ic_done_black_24dp = 2130837606;
+			public const int ic_errorstatus = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int ic_errorstatus = 2130837607;
+			public const int ic_event_note_white_36dp = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int ic_event_note_white_36dp = 2130837608;
+			public const int ic_plus = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int ic_local_hospital_black_24dp = 2130837609;
+			public const int ic_successstatus = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int ic_plus = 2130837610;
+			public const int later = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int ic_restore_black_24dp = 2130837611;
+			public const int navigation_empty_icon = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int ic_restore_black_36dp = 2130837612;
+			public const int no = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int ic_successstatus = 2130837613;
+			public const int notification_action_background = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int later = 2130837614;
+			public const int notification_bg = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int navigation_empty_icon = 2130837615;
+			public const int notification_bg_low = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int no = 2130837616;
+			public const int notification_bg_low_normal = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int notification_action_background = 2130837617;
+			public const int notification_bg_low_pressed = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int notification_bg = 2130837618;
+			public const int notification_bg_normal = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int notification_bg_low = 2130837619;
+			public const int notification_bg_normal_pressed = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int notification_bg_low_normal = 2130837620;
-			
-			// aapt resource value: 0x7f020075
-			public const int notification_bg_low_pressed = 2130837621;
-			
-			// aapt resource value: 0x7f020076
-			public const int notification_bg_normal = 2130837622;
-			
-			// aapt resource value: 0x7f020077
-			public const int notification_bg_normal_pressed = 2130837623;
-			
-			// aapt resource value: 0x7f020078
-			public const int notification_icon_background = 2130837624;
-			
-			// aapt resource value: 0x7f020083
-			public const int notification_template_icon_bg = 2130837635;
-			
-			// aapt resource value: 0x7f020084
-			public const int notification_template_icon_low_bg = 2130837636;
-			
-			// aapt resource value: 0x7f020079
-			public const int notification_tile_bg = 2130837625;
-			
-			// aapt resource value: 0x7f02007a
-			public const int notify_panel_notification_icon_bg = 2130837626;
-			
-			// aapt resource value: 0x7f02007b
-			public const int ok3 = 2130837627;
-			
-			// aapt resource value: 0x7f02007c
-			public const int pill500x500 = 2130837628;
-			
-			// aapt resource value: 0x7f02007d
-			public const int pill64x64 = 2130837629;
-			
-			// aapt resource value: 0x7f02007e
-			public const int pillSmall = 2130837630;
+			public const int notification_icon_background = 2130837620;
 			
 			// aapt resource value: 0x7f02007f
-			public const int radio_selector = 2130837631;
+			public const int notification_template_icon_bg = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int roundedbg = 2130837632;
+			public const int notification_template_icon_low_bg = 2130837632;
 			
-			// aapt resource value: 0x7f020081
-			public const int roundedbgdark = 2130837633;
+			// aapt resource value: 0x7f020075
+			public const int notification_tile_bg = 2130837621;
 			
-			// aapt resource value: 0x7f020082
-			public const int splashgif2 = 2130837634;
+			// aapt resource value: 0x7f020076
+			public const int notify_panel_notification_icon_bg = 2130837622;
+			
+			// aapt resource value: 0x7f020077
+			public const int ok3 = 2130837623;
+			
+			// aapt resource value: 0x7f020078
+			public const int pill500x500 = 2130837624;
+			
+			// aapt resource value: 0x7f020079
+			public const int pill64x64 = 2130837625;
+			
+			// aapt resource value: 0x7f02007a
+			public const int pillSmall = 2130837626;
+			
+			// aapt resource value: 0x7f02007b
+			public const int radio_selector = 2130837627;
+			
+			// aapt resource value: 0x7f02007c
+			public const int roundedbg = 2130837628;
+			
+			// aapt resource value: 0x7f02007d
+			public const int roundedbgdark = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int splashgif2 = 2130837630;
 			
 			static Drawable()
 			{
@@ -4858,8 +4871,13 @@ namespace Piller.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0800a1
-			public const int DosageEditText = 2131230881;
+<<<<<<< HEAD
+			// aapt resource value: 0x7f0800a2
+			public const int DosageEditText = 2131230882;
+=======
+			// aapt resource value: 0x7f08009f
+			public const int DosageEditText = 2131230879;
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 0x7f08000f
 			public const int MvvmCrossTagId = 2131230735;
@@ -4867,11 +4885,19 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080010
 			public const int MvxBindingTagUnique = 2131230736;
 			
-			// aapt resource value: 0x7f0800a0
-			public const int NameEditText = 2131230880;
+<<<<<<< HEAD
+			// aapt resource value: 0x7f0800a1
+			public const int NameEditText = 2131230881;
 			
-			// aapt resource value: 0x7f0800ae
-			public const int action0 = 2131230894;
+			// aapt resource value: 0x7f0800b0
+			public const int action0 = 2131230896;
+=======
+			// aapt resource value: 0x7f08009e
+			public const int NameEditText = 2131230878;
+			
+			// aapt resource value: 0x7f0800ac
+			public const int action0 = 2131230892;
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 0x7f080066
 			public const int action_bar = 2131230822;
@@ -4894,17 +4920,23 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080043
 			public const int action_bar_title = 2131230787;
 			
-			// aapt resource value: 0x7f0800ab
-			public const int action_container = 2131230891;
+<<<<<<< HEAD
+			// aapt resource value: 0x7f0800ad
+			public const int action_container = 2131230893;
+=======
+			// aapt resource value: 0x7f0800a9
+			public const int action_container = 2131230889;
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 0x7f080067
 			public const int action_context_bar = 2131230823;
 			
-			// aapt resource value: 0x7f0800b2
-			public const int action_divider = 2131230898;
+<<<<<<< HEAD
+			// aapt resource value: 0x7f0800b4
+			public const int action_divider = 2131230900;
 			
-			// aapt resource value: 0x7f0800ac
-			public const int action_image = 2131230892;
+			// aapt resource value: 0x7f0800ae
+			public const int action_image = 2131230894;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -4921,29 +4953,20 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080045
 			public const int action_mode_close_button = 2131230789;
 			
-			// aapt resource value: 0x7f0800d2
-			public const int action_save = 2131230930;
+			// aapt resource value: 0x7f0800d0
+			public const int action_save = 2131230928;
 			
-			// aapt resource value: 0x7f0800d3
-			public const int action_settings = 2131230931;
+			// aapt resource value: 0x7f0800af
+			public const int action_text = 2131230895;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int action_text = 2131230893;
-			
-			// aapt resource value: 0x7f0800bb
-			public const int actions = 2131230907;
+			// aapt resource value: 0x7f0800bd
+			public const int actions = 2131230909;
 			
 			// aapt resource value: 0x7f080046
 			public const int activity_chooser_view_content = 2131230790;
 			
 			// aapt resource value: 0x7f08001b
 			public const int add = 2131230747;
-			
-			// aapt resource value: 0x7f0800c3
-			public const int afternoon = 2131230915;
-			
-			// aapt resource value: 0x7f0800c4
-			public const int afternoonHour = 2131230916;
 			
 			// aapt resource value: 0x7f08005a
 			public const int alertTitle = 2131230810;
@@ -4954,8 +4977,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080025
 			public const int always = 2131230757;
 			
-			// aapt resource value: 0x7f0800cb
-			public const int appbar = 2131230923;
+			// aapt resource value: 0x7f0800c9
+			public const int appbar = 2131230921;
 			
 			// aapt resource value: 0x7f080031
 			public const int auto = 2131230769;
@@ -4966,23 +4989,23 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08002a
 			public const int bottom = 2131230762;
 			
-			// aapt resource value: 0x7f080079
-			public const int bottom_dialog_2 = 2131230841;
+			// aapt resource value: 0x7f08007a
+			public const int bottom_dialog_2 = 2131230842;
 			
-			// aapt resource value: 0x7f08009a
-			public const int bottom_navigation = 2131230874;
+			// aapt resource value: 0x7f08009b
+			public const int bottom_navigation = 2131230875;
 			
 			// aapt resource value: 0x7f08004d
 			public const int buttonPanel = 2131230797;
 			
-			// aapt resource value: 0x7f0800ca
-			public const int button_delete_dosage_hour = 2131230922;
+			// aapt resource value: 0x7f0800c8
+			public const int button_delete_dosage_hour = 2131230920;
 			
-			// aapt resource value: 0x7f080082
-			public const int cancelButton = 2131230850;
+			// aapt resource value: 0x7f080083
+			public const int cancelButton = 2131230851;
 			
-			// aapt resource value: 0x7f0800af
-			public const int cancel_action = 2131230895;
+			// aapt resource value: 0x7f0800b1
+			public const int cancel_action = 2131230897;
 			
 			// aapt resource value: 0x7f080032
 			public const int center = 2131230770;
@@ -4996,8 +5019,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08005d
 			public const int checkbox = 2131230813;
 			
-			// aapt resource value: 0x7f0800b7
-			public const int chronometer = 2131230903;
+			// aapt resource value: 0x7f0800b9
+			public const int chronometer = 2131230905;
 			
 			// aapt resource value: 0x7f08003b
 			public const int clip_horizontal = 2131230779;
@@ -5011,8 +5034,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080050
 			public const int contentPanel = 2131230800;
 			
-			// aapt resource value: 0x7f080099
-			public const int content_frame = 2131230873;
+			// aapt resource value: 0x7f08009a
+			public const int content_frame = 2131230874;
 			
 			// aapt resource value: 0x7f080057
 			public const int custom = 2131230807;
@@ -5026,8 +5049,578 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080049
 			public const int default_activity_button = 2131230793;
 			
+			// aapt resource value: 0x7f0800a8
+			public const int deleteBtn = 2131230888;
+			
+			// aapt resource value: 0x7f08008a
+			public const int deleteLabel = 2131230858;
+			
+			// aapt resource value: 0x7f080087
+			public const int descTextView = 2131230855;
+			
+			// aapt resource value: 0x7f080075
+			public const int design_bottom_sheet = 2131230837;
+			
+			// aapt resource value: 0x7f080094
+			public const int design_menu_item_action_area = 2131230868;
+			
+			// aapt resource value: 0x7f080093
+			public const int design_menu_item_action_area_stub = 2131230867;
+			
+			// aapt resource value: 0x7f080092
+			public const int design_menu_item_text = 2131230866;
+			
+			// aapt resource value: 0x7f080091
+			public const int design_navigation_view = 2131230865;
+			
+			// aapt resource value: 0x7f080076
+			public const int dialog_header = 2131230838;
+			
+			// aapt resource value: 0x7f080014
+			public const int disableHome = 2131230740;
+			
+			// aapt resource value: 0x7f080068
+			public const int edit_query = 2131230824;
+			
+			// aapt resource value: 0x7f0800aa
+			public const int empty = 2131230890;
+			
+			// aapt resource value: 0x7f080023
+			public const int end = 2131230755;
+			
+			// aapt resource value: 0x7f0800c3
+			public const int end_padder = 2131230915;
+			
+			// aapt resource value: 0x7f08002c
+			public const int enterAlways = 2131230764;
+			
+			// aapt resource value: 0x7f08002d
+			public const int enterAlwaysCollapsed = 2131230765;
+			
+			// aapt resource value: 0x7f0800a5
+			public const int everyday = 2131230885;
+			
+			// aapt resource value: 0x7f08002e
+			public const int exitUntilCollapsed = 2131230766;
+			
+			// aapt resource value: 0x7f080047
+			public const int expand_activities_button = 2131230791;
+			
+			// aapt resource value: 0x7f08005c
+			public const int expanded_menu = 2131230812;
+			
+			// aapt resource value: 0x7f08003d
+			public const int fill = 2131230781;
+			
+			// aapt resource value: 0x7f08003e
+			public const int fill_horizontal = 2131230782;
+			
+			// aapt resource value: 0x7f080035
+			public const int fill_vertical = 2131230773;
+			
+			// aapt resource value: 0x7f080041
+			public const int @fixed = 2131230785;
+			
+			// aapt resource value: 0x7f080080
+			public const int fridayCheckBox = 2131230848;
+			
+			// aapt resource value: 0x7f0800cf
+			public const int holidays = 2131230927;
+			
+			// aapt resource value: 0x7f080005
+			public const int home = 2131230725;
+			
+			// aapt resource value: 0x7f080015
+			public const int homeAsUp = 2131230741;
+			
+			// aapt resource value: 0x7f08004b
+			public const int icon = 2131230795;
+			
+			// aapt resource value: 0x7f0800be
+			public const int icon_group = 2131230910;
+			
+			// aapt resource value: 0x7f080027
+			public const int ifRoom = 2131230759;
+			
+			// aapt resource value: 0x7f080048
+			public const int image = 2131230792;
+			
+			// aapt resource value: 0x7f080085
+			public const int imageView = 2131230853;
+			
+			// aapt resource value: 0x7f0800c4
+			public const int imageView2 = 2131230916;
+			
+			// aapt resource value: 0x7f0800ba
+			public const int info = 2131230906;
+			
+			// aapt resource value: 0x7f080000
+			public const int item_touch_helper_previous_elevation = 2131230720;
+			
+			// aapt resource value: 0x7f08009f
+			public const int label_medication_days_of_week = 2131230879;
+			
+			// aapt resource value: 0x7f0800c7
+			public const int label_medication_hour = 2131230919;
+			
+			// aapt resource value: 0x7f08009d
+			public const int label_medication_name = 2131230877;
+			
+			// aapt resource value: 0x7f08009e
+			public const int label_medication_time = 2131230878;
+			
+			// aapt resource value: 0x7f08008c
+			public const int largeLabel = 2131230860;
+			
+			// aapt resource value: 0x7f080089
+			public const int laterButton = 2131230857;
+			
+			// aapt resource value: 0x7f080036
+			public const int left = 2131230774;
+			
+			// aapt resource value: 0x7f0800bf
+			public const int line1 = 2131230911;
+			
+			// aapt resource value: 0x7f0800c1
+			public const int line3 = 2131230913;
+			
+			// aapt resource value: 0x7f080011
+			public const int listMode = 2131230737;
+			
+			// aapt resource value: 0x7f08004a
+			public const int list_item = 2131230794;
+			
+			// aapt resource value: 0x7f08009c
+			public const int list_thumbnail = 2131230876;
+			
+			// aapt resource value: 0x7f080098
+			public const int loadingImage = 2131230872;
+			
+			// aapt resource value: 0x7f080096
+			public const int loadingProgressBar = 2131230870;
+			
+			// aapt resource value: 0x7f080099
+			public const int loadingProgressWheel = 2131230873;
+			
+			// aapt resource value: 0x7f0800a9
+			public const int main_content = 2131230889;
+			
+			// aapt resource value: 0x7f0800cc
+			public const int masked = 2131230924;
+			
+			// aapt resource value: 0x7f0800b3
+			public const int media_actions = 2131230899;
+			
+			// aapt resource value: 0x7f0800ce
+			public const int medical_card = 2131230926;
+			
+			// aapt resource value: 0x7f0800ab
+			public const int medicationList = 2131230891;
+			
+			// aapt resource value: 0x7f080024
+			public const int middle = 2131230756;
+			
+			// aapt resource value: 0x7f080040
+			public const int mini = 2131230784;
+			
+			// aapt resource value: 0x7f08007c
+			public const int mondayCheckBox = 2131230844;
+			
+			// aapt resource value: 0x7f08001c
+			public const int multiply = 2131230748;
+			
+			// aapt resource value: 0x7f080090
+			public const int navigation_header_container = 2131230864;
+			
+			// aapt resource value: 0x7f080028
+			public const int never = 2131230760;
+			
+			// aapt resource value: 0x7f0800ac
+			public const int newMedicationDosage = 2131230892;
+			
+			// aapt resource value: 0x7f080088
+			public const int noButton = 2131230856;
+			
+			// aapt resource value: 0x7f080016
+			public const int none = 2131230742;
+			
+			// aapt resource value: 0x7f080012
+			public const int normal = 2131230738;
+			
+			// aapt resource value: 0x7f0800a7
+			public const int notificationHours = 2131230887;
+			
+			// aapt resource value: 0x7f0800bc
+			public const int notification_background = 2131230908;
+			
+			// aapt resource value: 0x7f0800b6
+			public const int notification_main_column = 2131230902;
+			
+			// aapt resource value: 0x7f0800b5
+			public const int notification_main_column_container = 2131230901;
+			
+			// aapt resource value: 0x7f080084
+			public const int okButton = 2131230852;
+			
+			// aapt resource value: 0x7f080077
+			public const int option1 = 2131230839;
+			
+			// aapt resource value: 0x7f080078
+			public const int option2 = 2131230840;
+			
+			// aapt resource value: 0x7f080079
+			public const int option3 = 2131230841;
+			
+			// aapt resource value: 0x7f080039
+			public const int parallax = 2131230777;
+			
+			// aapt resource value: 0x7f08004f
+			public const int parentPanel = 2131230799;
+			
+			// aapt resource value: 0x7f0800a4
+			public const int photo = 2131230884;
+			
+			// aapt resource value: 0x7f0800c6
+			public const int pillertext = 2131230918;
+			
+			// aapt resource value: 0x7f08003a
+			public const int pin = 2131230778;
+			
+			// aapt resource value: 0x7f080006
+			public const int progress_circular = 2131230726;
+			
+			// aapt resource value: 0x7f080007
+			public const int progress_horizontal = 2131230727;
+			
+			// aapt resource value: 0x7f08005f
+			public const int radio = 2131230815;
+			
+			// aapt resource value: 0x7f080037
+			public const int right = 2131230775;
+			
+			// aapt resource value: 0x7f0800bb
+			public const int right_icon = 2131230907;
+			
+			// aapt resource value: 0x7f0800b7
+			public const int right_side = 2131230903;
+			
+			// aapt resource value: 0x7f080081
+			public const int saturdayCheckBox = 2131230849;
+			
+			// aapt resource value: 0x7f08001d
+			public const int screen = 2131230749;
+			
+			// aapt resource value: 0x7f08002f
+			public const int scroll = 2131230767;
+			
+			// aapt resource value: 0x7f080055
+			public const int scrollIndicatorDown = 2131230805;
+			
+			// aapt resource value: 0x7f080051
+			public const int scrollIndicatorUp = 2131230801;
+			
+			// aapt resource value: 0x7f080052
+			public const int scrollView = 2131230802;
+			
+			// aapt resource value: 0x7f080042
+			public const int scrollable = 2131230786;
+			
+			// aapt resource value: 0x7f08006a
+			public const int search_badge = 2131230826;
+			
+			// aapt resource value: 0x7f080069
+			public const int search_bar = 2131230825;
+			
+			// aapt resource value: 0x7f08006b
+			public const int search_button = 2131230827;
+			
+			// aapt resource value: 0x7f080070
+			public const int search_close_btn = 2131230832;
+			
+			// aapt resource value: 0x7f08006c
+			public const int search_edit_frame = 2131230828;
+			
+			// aapt resource value: 0x7f080072
+			public const int search_go_btn = 2131230834;
+			
+			// aapt resource value: 0x7f08006d
+			public const int search_mag_icon = 2131230829;
+			
+			// aapt resource value: 0x7f08006e
+			public const int search_plate = 2131230830;
+			
+			// aapt resource value: 0x7f08006f
+			public const int search_src_text = 2131230831;
+			
+			// aapt resource value: 0x7f080073
+			public const int search_voice_btn = 2131230835;
+			
+			// aapt resource value: 0x7f080074
+			public const int select_dialog_listview = 2131230836;
+			
+			// aapt resource value: 0x7f08005e
+			public const int shortcut = 2131230814;
+			
+			// aapt resource value: 0x7f080017
+			public const int showCustom = 2131230743;
+			
+			// aapt resource value: 0x7f080018
+			public const int showHome = 2131230744;
+			
+			// aapt resource value: 0x7f080019
+			public const int showTitle = 2131230745;
+			
+			// aapt resource value: 0x7f08008b
+			public const int smallLabel = 2131230859;
+			
+			// aapt resource value: 0x7f08008f
+			public const int snackbar_action = 2131230863;
+			
+			// aapt resource value: 0x7f08008e
+			public const int snackbar_text = 2131230862;
+			
+			// aapt resource value: 0x7f080030
+			public const int snap = 2131230768;
+			
+			// aapt resource value: 0x7f08004e
+			public const int spacer = 2131230798;
+			
+			// aapt resource value: 0x7f080008
+			public const int split_action_bar = 2131230728;
+			
+			// aapt resource value: 0x7f08001e
+			public const int src_atop = 2131230750;
+			
+			// aapt resource value: 0x7f08001f
+			public const int src_in = 2131230751;
+			
+			// aapt resource value: 0x7f080020
+			public const int src_over = 2131230752;
+			
+			// aapt resource value: 0x7f080038
+			public const int start = 2131230776;
+			
+			// aapt resource value: 0x7f0800b2
+			public const int status_bar_latest_event_content = 2131230898;
+			
+			// aapt resource value: 0x7f080060
+			public const int submenuarrow = 2131230816;
+			
+			// aapt resource value: 0x7f080071
+			public const int submit_area = 2131230833;
+			
+			// aapt resource value: 0x7f080082
+			public const int sundayCheckBox = 2131230850;
+			
+			// aapt resource value: 0x7f080013
+			public const int tabMode = 2131230739;
+			
+			// aapt resource value: 0x7f0800a3
+			public const int take_photo = 2131230883;
+			
+			// aapt resource value: 0x7f0800c2
+			public const int text = 2131230914;
+			
+			// aapt resource value: 0x7f0800c0
+			public const int text2 = 2131230912;
+			
+			// aapt resource value: 0x7f080054
+			public const int textSpacerNoButtons = 2131230804;
+			
+			// aapt resource value: 0x7f080053
+			public const int textSpacerNoTitle = 2131230803;
+			
+			// aapt resource value: 0x7f08007b
+			public const int textView1 = 2131230843;
+			
+			// aapt resource value: 0x7f0800c5
+			public const int textView9 = 2131230917;
+			
+			// aapt resource value: 0x7f080097
+			public const int textViewStatus = 2131230871;
+			
+			// aapt resource value: 0x7f080095
+			public const int text_input_password_toggle = 2131230869;
+			
+			// aapt resource value: 0x7f08000c
+			public const int textinput_counter = 2131230732;
+			
+			// aapt resource value: 0x7f08000d
+			public const int textinput_error = 2131230733;
+			
+			// aapt resource value: 0x7f08007f
+			public const int thursdayCheckBox = 2131230847;
+			
+			// aapt resource value: 0x7f0800b8
+			public const int time = 2131230904;
+			
 			// aapt resource value: 0x7f0800a6
-			public const int deleteBtn = 2131230886;
+			public const int time_picker = 2131230886;
+			
+			// aapt resource value: 0x7f08004c
+			public const int title = 2131230796;
+			
+			// aapt resource value: 0x7f08005b
+			public const int titleDividerNoCustom = 2131230811;
+			
+			// aapt resource value: 0x7f080086
+			public const int titleTextView = 2131230854;
+			
+			// aapt resource value: 0x7f080059
+			public const int title_template = 2131230809;
+			
+			// aapt resource value: 0x7f0800ca
+			public const int toolbar = 2131230922;
+			
+			// aapt resource value: 0x7f0800a0
+			public const int toolbars = 2131230880;
+			
+			// aapt resource value: 0x7f08002b
+			public const int top = 2131230763;
+			
+			// aapt resource value: 0x7f080058
+			public const int topPanel = 2131230808;
+			
+			// aapt resource value: 0x7f08008d
+			public const int touch_outside = 2131230861;
+			
+			// aapt resource value: 0x7f08000a
+			public const int transition_current_scene = 2131230730;
+			
+			// aapt resource value: 0x7f08000b
+			public const int transition_scene_layoutid_cache = 2131230731;
+			
+			// aapt resource value: 0x7f08007d
+			public const int tuesdayCheckBox = 2131230845;
+			
+			// aapt resource value: 0x7f080009
+			public const int up = 2131230729;
+			
+			// aapt resource value: 0x7f0800cd
+			public const int upcoming = 2131230925;
+=======
+			// aapt resource value: 0x7f0800b0
+			public const int action_divider = 2131230896;
+			
+			// aapt resource value: 0x7f0800aa
+			public const int action_image = 2131230890;
+			
+			// aapt resource value: 0x7f080003
+			public const int action_menu_divider = 2131230723;
+			
+			// aapt resource value: 0x7f080004
+			public const int action_menu_presenter = 2131230724;
+			
+			// aapt resource value: 0x7f080063
+			public const int action_mode_bar = 2131230819;
+			
+			// aapt resource value: 0x7f080062
+			public const int action_mode_bar_stub = 2131230818;
+			
+			// aapt resource value: 0x7f080045
+			public const int action_mode_close_button = 2131230789;
+			
+			// aapt resource value: 0x7f0800cd
+			public const int action_save = 2131230925;
+			
+			// aapt resource value: 0x7f0800ce
+			public const int action_settings = 2131230926;
+			
+			// aapt resource value: 0x7f0800ab
+			public const int action_text = 2131230891;
+			
+			// aapt resource value: 0x7f0800b9
+			public const int actions = 2131230905;
+			
+			// aapt resource value: 0x7f080046
+			public const int activity_chooser_view_content = 2131230790;
+			
+			// aapt resource value: 0x7f08001b
+			public const int add = 2131230747;
+			
+			// aapt resource value: 0x7f0800c1
+			public const int afternoon = 2131230913;
+			
+			// aapt resource value: 0x7f0800c2
+			public const int afternoonHour = 2131230914;
+			
+			// aapt resource value: 0x7f08005a
+			public const int alertTitle = 2131230810;
+			
+			// aapt resource value: 0x7f08003f
+			public const int all = 2131230783;
+			
+			// aapt resource value: 0x7f080025
+			public const int always = 2131230757;
+			
+			// aapt resource value: 0x7f0800c9
+			public const int appbar = 2131230921;
+			
+			// aapt resource value: 0x7f080031
+			public const int auto = 2131230769;
+			
+			// aapt resource value: 0x7f080022
+			public const int beginning = 2131230754;
+			
+			// aapt resource value: 0x7f08002a
+			public const int bottom = 2131230762;
+			
+			// aapt resource value: 0x7f080079
+			public const int bottom_dialog_2 = 2131230841;
+			
+			// aapt resource value: 0x7f08004d
+			public const int buttonPanel = 2131230797;
+			
+			// aapt resource value: 0x7f0800c8
+			public const int button_delete_dosage_hour = 2131230920;
+			
+			// aapt resource value: 0x7f080082
+			public const int cancelButton = 2131230850;
+			
+			// aapt resource value: 0x7f0800ad
+			public const int cancel_action = 2131230893;
+			
+			// aapt resource value: 0x7f080032
+			public const int center = 2131230770;
+			
+			// aapt resource value: 0x7f080033
+			public const int center_horizontal = 2131230771;
+			
+			// aapt resource value: 0x7f080034
+			public const int center_vertical = 2131230772;
+			
+			// aapt resource value: 0x7f08005d
+			public const int checkbox = 2131230813;
+			
+			// aapt resource value: 0x7f0800b5
+			public const int chronometer = 2131230901;
+			
+			// aapt resource value: 0x7f08003b
+			public const int clip_horizontal = 2131230779;
+			
+			// aapt resource value: 0x7f08003c
+			public const int clip_vertical = 2131230780;
+			
+			// aapt resource value: 0x7f080026
+			public const int collapseActionView = 2131230758;
+			
+			// aapt resource value: 0x7f080050
+			public const int contentPanel = 2131230800;
+			
+			// aapt resource value: 0x7f080057
+			public const int custom = 2131230807;
+			
+			// aapt resource value: 0x7f080056
+			public const int customPanel = 2131230806;
+			
+			// aapt resource value: 0x7f080064
+			public const int decor_content_parent = 2131230820;
+			
+			// aapt resource value: 0x7f080049
+			public const int default_activity_button = 2131230793;
+			
+			// aapt resource value: 0x7f0800a4
+			public const int deleteBtn = 2131230884;
 			
 			// aapt resource value: 0x7f080089
 			public const int deleteLabel = 2131230857;
@@ -5059,14 +5652,14 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080068
 			public const int edit_query = 2131230824;
 			
-			// aapt resource value: 0x7f0800a8
-			public const int empty = 2131230888;
+			// aapt resource value: 0x7f0800a6
+			public const int empty = 2131230886;
 			
 			// aapt resource value: 0x7f080023
 			public const int end = 2131230755;
 			
-			// aapt resource value: 0x7f0800c1
-			public const int end_padder = 2131230913;
+			// aapt resource value: 0x7f0800bf
+			public const int end_padder = 2131230911;
 			
 			// aapt resource value: 0x7f08002c
 			public const int enterAlways = 2131230764;
@@ -5077,11 +5670,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080078
 			public const int evening = 2131230840;
 			
-			// aapt resource value: 0x7f0800c5
-			public const int eveningHour = 2131230917;
+			// aapt resource value: 0x7f0800c3
+			public const int eveningHour = 2131230915;
 			
-			// aapt resource value: 0x7f0800a4
-			public const int everyday = 2131230884;
+			// aapt resource value: 0x7f0800a2
+			public const int everyday = 2131230882;
 			
 			// aapt resource value: 0x7f08002e
 			public const int exitUntilCollapsed = 2131230766;
@@ -5107,9 +5700,6 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08007f
 			public const int fridayCheckBox = 2131230847;
 			
-			// aapt resource value: 0x7f0800d1
-			public const int holidays = 2131230929;
-			
 			// aapt resource value: 0x7f080005
 			public const int home = 2131230725;
 			
@@ -5119,8 +5709,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08004b
 			public const int icon = 2131230795;
 			
-			// aapt resource value: 0x7f0800bc
-			public const int icon_group = 2131230908;
+			// aapt resource value: 0x7f0800ba
+			public const int icon_group = 2131230906;
 			
 			// aapt resource value: 0x7f080027
 			public const int ifRoom = 2131230759;
@@ -5131,26 +5721,26 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080084
 			public const int imageView = 2131230852;
 			
-			// aapt resource value: 0x7f0800c6
-			public const int imageView2 = 2131230918;
+			// aapt resource value: 0x7f0800c4
+			public const int imageView2 = 2131230916;
 			
-			// aapt resource value: 0x7f0800b8
-			public const int info = 2131230904;
+			// aapt resource value: 0x7f0800b6
+			public const int info = 2131230902;
 			
 			// aapt resource value: 0x7f080000
 			public const int item_touch_helper_previous_elevation = 2131230720;
 			
-			// aapt resource value: 0x7f08009e
-			public const int label_medication_days_of_week = 2131230878;
-			
-			// aapt resource value: 0x7f0800c9
-			public const int label_medication_hour = 2131230921;
-			
 			// aapt resource value: 0x7f08009c
-			public const int label_medication_name = 2131230876;
+			public const int label_medication_days_of_week = 2131230876;
 			
-			// aapt resource value: 0x7f08009d
-			public const int label_medication_time = 2131230877;
+			// aapt resource value: 0x7f0800c7
+			public const int label_medication_hour = 2131230919;
+			
+			// aapt resource value: 0x7f08009a
+			public const int label_medication_name = 2131230874;
+			
+			// aapt resource value: 0x7f08009b
+			public const int label_medication_time = 2131230875;
 			
 			// aapt resource value: 0x7f08008b
 			public const int largeLabel = 2131230859;
@@ -5161,11 +5751,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080036
 			public const int left = 2131230774;
 			
-			// aapt resource value: 0x7f0800bd
-			public const int line1 = 2131230909;
+			// aapt resource value: 0x7f0800bb
+			public const int line1 = 2131230907;
 			
-			// aapt resource value: 0x7f0800bf
-			public const int line3 = 2131230911;
+			// aapt resource value: 0x7f0800bd
+			public const int line3 = 2131230909;
 			
 			// aapt resource value: 0x7f080011
 			public const int listMode = 2131230737;
@@ -5173,8 +5763,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08004a
 			public const int list_item = 2131230794;
 			
-			// aapt resource value: 0x7f08009b
-			public const int list_thumbnail = 2131230875;
+			// aapt resource value: 0x7f080099
+			public const int list_thumbnail = 2131230873;
 			
 			// aapt resource value: 0x7f080097
 			public const int loadingImage = 2131230871;
@@ -5185,20 +5775,17 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080098
 			public const int loadingProgressWheel = 2131230872;
 			
+			// aapt resource value: 0x7f0800a5
+			public const int main_content = 2131230885;
+			
+			// aapt resource value: 0x7f0800cc
+			public const int masked = 2131230924;
+			
+			// aapt resource value: 0x7f0800af
+			public const int media_actions = 2131230895;
+			
 			// aapt resource value: 0x7f0800a7
-			public const int main_content = 2131230887;
-			
-			// aapt resource value: 0x7f0800ce
-			public const int masked = 2131230926;
-			
-			// aapt resource value: 0x7f0800b1
-			public const int media_actions = 2131230897;
-			
-			// aapt resource value: 0x7f0800d0
-			public const int medical_card = 2131230928;
-			
-			// aapt resource value: 0x7f0800a9
-			public const int medicationList = 2131230889;
+			public const int medicationList = 2131230887;
 			
 			// aapt resource value: 0x7f080024
 			public const int middle = 2131230756;
@@ -5212,8 +5799,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080077
 			public const int morning = 2131230839;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int morningHour = 2131230914;
+			// aapt resource value: 0x7f0800c0
+			public const int morningHour = 2131230912;
 			
 			// aapt resource value: 0x7f08001c
 			public const int multiply = 2131230748;
@@ -5224,8 +5811,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080028
 			public const int never = 2131230760;
 			
-			// aapt resource value: 0x7f0800aa
-			public const int newMedicationDosage = 2131230890;
+			// aapt resource value: 0x7f0800a8
+			public const int newMedicationDosage = 2131230888;
 			
 			// aapt resource value: 0x7f080087
 			public const int noButton = 2131230855;
@@ -5236,14 +5823,14 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080012
 			public const int normal = 2131230738;
 			
-			// aapt resource value: 0x7f0800ba
-			public const int notification_background = 2131230906;
+			// aapt resource value: 0x7f0800b8
+			public const int notification_background = 2131230904;
 			
-			// aapt resource value: 0x7f0800b4
-			public const int notification_main_column = 2131230900;
+			// aapt resource value: 0x7f0800b2
+			public const int notification_main_column = 2131230898;
 			
-			// aapt resource value: 0x7f0800b3
-			public const int notification_main_column_container = 2131230899;
+			// aapt resource value: 0x7f0800b1
+			public const int notification_main_column_container = 2131230897;
 			
 			// aapt resource value: 0x7f080083
 			public const int okButton = 2131230851;
@@ -5254,11 +5841,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08004f
 			public const int parentPanel = 2131230799;
 			
-			// aapt resource value: 0x7f0800a3
-			public const int photo = 2131230883;
+			// aapt resource value: 0x7f0800a1
+			public const int photo = 2131230881;
 			
-			// aapt resource value: 0x7f0800c8
-			public const int pillertext = 2131230920;
+			// aapt resource value: 0x7f0800c6
+			public const int pillertext = 2131230918;
 			
 			// aapt resource value: 0x7f08003a
 			public const int pin = 2131230778;
@@ -5275,11 +5862,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080037
 			public const int right = 2131230775;
 			
-			// aapt resource value: 0x7f0800b9
-			public const int right_icon = 2131230905;
+			// aapt resource value: 0x7f0800b7
+			public const int right_icon = 2131230903;
 			
-			// aapt resource value: 0x7f0800b5
-			public const int right_side = 2131230901;
+			// aapt resource value: 0x7f0800b3
+			public const int right_side = 2131230899;
 			
 			// aapt resource value: 0x7f080080
 			public const int saturdayCheckBox = 2131230848;
@@ -5377,8 +5964,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080038
 			public const int start = 2131230776;
 			
-			// aapt resource value: 0x7f0800b0
-			public const int status_bar_latest_event_content = 2131230896;
+			// aapt resource value: 0x7f0800ae
+			public const int status_bar_latest_event_content = 2131230894;
 			
 			// aapt resource value: 0x7f080060
 			public const int submenuarrow = 2131230816;
@@ -5392,14 +5979,14 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080013
 			public const int tabMode = 2131230739;
 			
-			// aapt resource value: 0x7f0800a2
-			public const int take_photo = 2131230882;
-			
-			// aapt resource value: 0x7f0800c0
-			public const int text = 2131230912;
+			// aapt resource value: 0x7f0800a0
+			public const int take_photo = 2131230880;
 			
 			// aapt resource value: 0x7f0800be
-			public const int text2 = 2131230910;
+			public const int text = 2131230910;
+			
+			// aapt resource value: 0x7f0800bc
+			public const int text2 = 2131230908;
 			
 			// aapt resource value: 0x7f080054
 			public const int textSpacerNoButtons = 2131230804;
@@ -5410,8 +5997,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08007a
 			public const int textView1 = 2131230842;
 			
-			// aapt resource value: 0x7f0800c7
-			public const int textView9 = 2131230919;
+			// aapt resource value: 0x7f0800c5
+			public const int textView9 = 2131230917;
 			
 			// aapt resource value: 0x7f080096
 			public const int textViewStatus = 2131230870;
@@ -5428,11 +6015,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08007e
 			public const int thursdayCheckBox = 2131230846;
 			
-			// aapt resource value: 0x7f0800b6
-			public const int time = 2131230902;
+			// aapt resource value: 0x7f0800b4
+			public const int time = 2131230900;
 			
-			// aapt resource value: 0x7f0800a5
-			public const int timeSelector = 2131230885;
+			// aapt resource value: 0x7f0800a3
+			public const int timeSelector = 2131230883;
 			
 			// aapt resource value: 0x7f08004c
 			public const int title = 2131230796;
@@ -5446,11 +6033,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f080059
 			public const int title_template = 2131230809;
 			
-			// aapt resource value: 0x7f0800cc
-			public const int toolbar = 2131230924;
+			// aapt resource value: 0x7f0800ca
+			public const int toolbar = 2131230922;
 			
-			// aapt resource value: 0x7f08009f
-			public const int toolbars = 2131230879;
+			// aapt resource value: 0x7f08009d
+			public const int toolbars = 2131230877;
 			
 			// aapt resource value: 0x7f08002b
 			public const int top = 2131230763;
@@ -5472,9 +6059,7 @@ namespace Piller.Droid
 			
 			// aapt resource value: 0x7f080009
 			public const int up = 2131230729;
-			
-			// aapt resource value: 0x7f0800cf
-			public const int upcoming = 2131230927;
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 0x7f08001a
 			public const int useLogo = 2131230746;
@@ -5482,11 +6067,16 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f08000e
 			public const int view_offset_helper = 2131230734;
 			
-			// aapt resource value: 0x7f0800cd
-			public const int visible = 2131230925;
+			// aapt resource value: 0x7f0800cb
+			public const int visible = 2131230923;
 			
+<<<<<<< HEAD
+			// aapt resource value: 0x7f08007e
+			public const int wednesdayCheckBox = 2131230846;
+=======
 			// aapt resource value: 0x7f08007d
 			public const int wednesdayCheckBox = 2131230845;
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 0x7f080029
 			public const int withText = 2131230761;
@@ -5764,6 +6354,7 @@ namespace Piller.Droid
 			public const int notification_template_part_time = 2130968647;
 			
 			// aapt resource value: 0x7f040048
+<<<<<<< HEAD
 			public const int select_dialog_item_material = 2130968648;
 			
 			// aapt resource value: 0x7f040049
@@ -5773,19 +6364,31 @@ namespace Piller.Droid
 			public const int select_dialog_singlechoice_material = 2130968650;
 			
 			// aapt resource value: 0x7f04004b
-			public const int Settings = 2130968651;
+			public const int SplashScreen = 2130968651;
 			
 			// aapt resource value: 0x7f04004c
-			public const int SplashScreen = 2130968652;
+			public const int support_simple_spinner_dropdown_item = 2130968652;
 			
 			// aapt resource value: 0x7f04004d
-			public const int support_simple_spinner_dropdown_item = 2130968653;
+			public const int time_item = 2130968653;
 			
 			// aapt resource value: 0x7f04004e
-			public const int time_item = 2130968654;
+			public const int toolbar = 2130968654;
+=======
+			public const int Settings = 2130968648;
 			
-			// aapt resource value: 0x7f04004f
-			public const int toolbar = 2130968655;
+			// aapt resource value: 0x7f040049
+			public const int SplashScreen = 2130968649;
+			
+			// aapt resource value: 0x7f04004a
+			public const int support_simple_spinner_dropdown_item = 2130968650;
+			
+			// aapt resource value: 0x7f04004b
+			public const int time_item = 2130968651;
+			
+			// aapt resource value: 0x7f04004c
+			public const int toolbar = 2130968652;
+>>>>>>> new_scheduling
 			
 			static Layout()
 			{
@@ -5806,11 +6409,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f0e0001
 			public const int dosagemenu = 2131623937;
 			
-			// aapt resource value: 0x7f0e0002
-			public const int main_menu = 2131623938;
+			// aapt resource value: 0x7f0e0001
+			public const int main_menu = 2131623937;
 			
-			// aapt resource value: 0x7f0e0003
-			public const int settings_menu = 2131623939;
+			// aapt resource value: 0x7f0e0002
+			public const int settings_menu = 2131623938;
 			
 			static Menu()
 			{
@@ -7145,7 +7748,12 @@ namespace Piller.Droid
 		public partial class Styleable
 		{
 			
+<<<<<<< HEAD
+			public static int[] ActionBar = new int[]
+			{
+=======
 			public static int[] ActionBar = new int[] {
+>>>>>>> new_scheduling
 					2130771973,
 					2130771975,
 					2130771976,
@@ -7277,7 +7885,12 @@ namespace Piller.Droid
 			
 			public static int[] ActionMenuView;
 			
+<<<<<<< HEAD
+			public static int[] ActionMode = new int[]
+			{
+=======
 			public static int[] ActionMode = new int[] {
+>>>>>>> new_scheduling
 					2130771973,
 					2130771979,
 					2130771980,
@@ -7303,7 +7916,12 @@ namespace Piller.Droid
 			// aapt resource value: 1
 			public const int ActionMode_titleTextStyle = 1;
 			
+<<<<<<< HEAD
+			public static int[] ActivityChooserView = new int[]
+			{
+=======
 			public static int[] ActivityChooserView = new int[] {
+>>>>>>> new_scheduling
 					2130772003,
 					2130772004};
 			
@@ -7353,11 +7971,20 @@ namespace Piller.Droid
 			
 			// aapt resource value: 1
 			public const int AppBarLayout_elevation = 1;
+<<<<<<< HEAD
+			
+			// aapt resource value: 2
+			public const int AppBarLayout_expanded = 2;
+			
+			public static int[] AppBarLayoutStates = new int[]
+			{
+=======
 			
 			// aapt resource value: 2
 			public const int AppBarLayout_expanded = 2;
 			
 			public static int[] AppBarLayoutStates = new int[] {
+>>>>>>> new_scheduling
 					2130772201,
 					2130772202};
 			
@@ -7367,7 +7994,12 @@ namespace Piller.Droid
 			// aapt resource value: 1
 			public const int AppBarLayoutStates_state_collapsible = 1;
 			
+<<<<<<< HEAD
+			public static int[] AppBarLayout_Layout = new int[]
+			{
+=======
 			public static int[] AppBarLayout_Layout = new int[] {
+>>>>>>> new_scheduling
 					2130772203,
 					2130772204};
 			
@@ -7405,7 +8037,12 @@ namespace Piller.Droid
 			// aapt resource value: 3
 			public const int AppCompatSeekBar_tickMarkTintMode = 3;
 			
+<<<<<<< HEAD
+			public static int[] AppCompatTextHelper = new int[]
+			{
+=======
 			public static int[] AppCompatTextHelper = new int[] {
+>>>>>>> new_scheduling
 					16842804,
 					16843117,
 					16843118,
@@ -7435,7 +8072,12 @@ namespace Piller.Droid
 			// aapt resource value: 0
 			public const int AppCompatTextHelper_android_textAppearance = 0;
 			
+<<<<<<< HEAD
+			public static int[] AppCompatTextView = new int[]
+			{
+=======
 			public static int[] AppCompatTextView = new int[] {
+>>>>>>> new_scheduling
 					16842804,
 					2130772015};
 			
@@ -7445,7 +8087,12 @@ namespace Piller.Droid
 			// aapt resource value: 1
 			public const int AppCompatTextView_textAllCaps = 1;
 			
+<<<<<<< HEAD
+			public static int[] AppCompatTheme = new int[]
+			{
+=======
 			public static int[] AppCompatTheme = new int[] {
+>>>>>>> new_scheduling
 					16842839,
 					16842926,
 					2130772016,
@@ -7907,7 +8554,12 @@ namespace Piller.Droid
 			// aapt resource value: 3
 			public const int AppCompatTheme_windowNoTitle = 3;
 			
+<<<<<<< HEAD
+			public static int[] BottomNavigationView = new int[]
+			{
+=======
 			public static int[] BottomNavigationView = new int[] {
+>>>>>>> new_scheduling
 					2130772000,
 					2130772243,
 					2130772244,
@@ -7929,7 +8581,12 @@ namespace Piller.Droid
 			// aapt resource value: 1
 			public const int BottomNavigationView_menu = 1;
 			
+<<<<<<< HEAD
+			public static int[] BottomSheetBehavior_Layout = new int[]
+			{
+=======
 			public static int[] BottomSheetBehavior_Layout = new int[] {
+>>>>>>> new_scheduling
 					2130772205,
 					2130772206,
 					2130772207};
@@ -7943,13 +8600,23 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int BottomSheetBehavior_Layout_behavior_skipCollapsed = 2;
 			
+<<<<<<< HEAD
+			public static int[] ButtonBarLayout = new int[]
+			{
+=======
 			public static int[] ButtonBarLayout = new int[] {
+>>>>>>> new_scheduling
 					2130772129};
 			
 			// aapt resource value: 0
 			public const int ButtonBarLayout_allowStacking = 0;
 			
+<<<<<<< HEAD
+			public static int[] CollapsingToolbarLayout = new int[]
+			{
+=======
 			public static int[] CollapsingToolbarLayout = new int[] {
+>>>>>>> new_scheduling
 					2130771975,
 					2130772208,
 					2130772209,
@@ -7993,6 +8660,7 @@ namespace Piller.Droid
 			
 			// aapt resource value: 3
 			public const int CollapsingToolbarLayout_expandedTitleMarginTop = 3;
+<<<<<<< HEAD
 			
 			// aapt resource value: 6
 			public const int CollapsingToolbarLayout_expandedTitleTextAppearance = 6;
@@ -8009,13 +8677,36 @@ namespace Piller.Droid
 			// aapt resource value: 0
 			public const int CollapsingToolbarLayout_title = 0;
 			
+=======
+			
+			// aapt resource value: 6
+			public const int CollapsingToolbarLayout_expandedTitleTextAppearance = 6;
+			
+			// aapt resource value: 12
+			public const int CollapsingToolbarLayout_scrimAnimationDuration = 12;
+			
+			// aapt resource value: 11
+			public const int CollapsingToolbarLayout_scrimVisibleHeightTrigger = 11;
+			
+			// aapt resource value: 9
+			public const int CollapsingToolbarLayout_statusBarScrim = 9;
+			
+			// aapt resource value: 0
+			public const int CollapsingToolbarLayout_title = 0;
+			
+>>>>>>> new_scheduling
 			// aapt resource value: 15
 			public const int CollapsingToolbarLayout_titleEnabled = 15;
 			
 			// aapt resource value: 10
 			public const int CollapsingToolbarLayout_toolbarId = 10;
 			
+<<<<<<< HEAD
+			public static int[] CollapsingToolbarLayout_Layout = new int[]
+			{
+=======
 			public static int[] CollapsingToolbarLayout_Layout = new int[] {
+>>>>>>> new_scheduling
 					2130772223,
 					2130772224};
 			
@@ -8053,7 +8744,12 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int CompoundButton_buttonTintMode = 2;
 			
+<<<<<<< HEAD
+			public static int[] CoordinatorLayout = new int[]
+			{
+=======
 			public static int[] CoordinatorLayout = new int[] {
+>>>>>>> new_scheduling
 					2130772225,
 					2130772226};
 			
@@ -8093,7 +8789,12 @@ namespace Piller.Droid
 			// aapt resource value: 3
 			public const int CoordinatorLayout_Layout_layout_keyline = 3;
 			
+<<<<<<< HEAD
+			public static int[] DesignTheme = new int[]
+			{
+=======
 			public static int[] DesignTheme = new int[] {
+>>>>>>> new_scheduling
 					2130772233,
 					2130772234,
 					2130772235};
@@ -8107,7 +8808,12 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int DesignTheme_textColorError = 2;
 			
+<<<<<<< HEAD
+			public static int[] DrawerArrowToggle = new int[]
+			{
+=======
 			public static int[] DrawerArrowToggle = new int[] {
+>>>>>>> new_scheduling
 					2130772133,
 					2130772134,
 					2130772135,
@@ -8141,7 +8847,12 @@ namespace Piller.Droid
 			// aapt resource value: 7
 			public const int DrawerArrowToggle_thickness = 7;
 			
+<<<<<<< HEAD
+			public static int[] FloatingActionButton = new int[]
+			{
+=======
 			public static int[] FloatingActionButton = new int[] {
+>>>>>>> new_scheduling
 					2130772000,
 					2130772198,
 					2130772199,
@@ -8165,6 +8876,20 @@ namespace Piller.Droid
 			
 			// aapt resource value: 4
 			public const int FloatingActionButton_fabSize = 4;
+<<<<<<< HEAD
+			
+			// aapt resource value: 5
+			public const int FloatingActionButton_pressedTranslationZ = 5;
+			
+			// aapt resource value: 3
+			public const int FloatingActionButton_rippleColor = 3;
+			
+			// aapt resource value: 7
+			public const int FloatingActionButton_useCompatPadding = 7;
+			
+			public static int[] FloatingActionButton_Behavior_Layout = new int[]
+			{
+=======
 			
 			// aapt resource value: 5
 			public const int FloatingActionButton_pressedTranslationZ = 5;
@@ -8176,6 +8901,7 @@ namespace Piller.Droid
 			public const int FloatingActionButton_useCompatPadding = 7;
 			
 			public static int[] FloatingActionButton_Behavior_Layout = new int[] {
+>>>>>>> new_scheduling
 					2130772241};
 			
 			// aapt resource value: 0
@@ -8395,7 +9121,12 @@ namespace Piller.Droid
 			// aapt resource value: 8
 			public const int MenuView_subMenuArrow = 8;
 			
+<<<<<<< HEAD
+			public static int[] MvxBinding = new int[]
+			{
+=======
 			public static int[] MvxBinding = new int[] {
+>>>>>>> new_scheduling
 					2130772282,
 					2130772283};
 			
@@ -8405,25 +9136,45 @@ namespace Piller.Droid
 			// aapt resource value: 1
 			public const int MvxBinding_MvxLang = 1;
 			
+<<<<<<< HEAD
+			public static int[] MvxControl = new int[]
+			{
+=======
 			public static int[] MvxControl = new int[] {
+>>>>>>> new_scheduling
 					2130772284};
 			
 			// aapt resource value: 0
 			public const int MvxControl_MvxTemplate = 0;
 			
+<<<<<<< HEAD
+			public static int[] MvxExpandableListView = new int[]
+			{
+=======
 			public static int[] MvxExpandableListView = new int[] {
+>>>>>>> new_scheduling
 					2130772287};
 			
 			// aapt resource value: 0
 			public const int MvxExpandableListView_MvxGroupItemTemplate = 0;
 			
+<<<<<<< HEAD
+			public static int[] MvxImageView = new int[]
+			{
+=======
 			public static int[] MvxImageView = new int[] {
+>>>>>>> new_scheduling
 					2130772288};
 			
 			// aapt resource value: 0
 			public const int MvxImageView_MvxSource = 0;
 			
+<<<<<<< HEAD
+			public static int[] MvxListView = new int[]
+			{
+=======
 			public static int[] MvxListView = new int[] {
+>>>>>>> new_scheduling
 					2130772285,
 					2130772286};
 			
@@ -8475,7 +9226,12 @@ namespace Piller.Droid
 			// aapt resource value: 4
 			public const int NavigationView_menu = 4;
 			
+<<<<<<< HEAD
+			public static int[] PopupWindow = new int[]
+			{
+=======
 			public static int[] PopupWindow = new int[] {
+>>>>>>> new_scheduling
 					16843126,
 					16843465,
 					2130772150};
@@ -8489,13 +9245,23 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int PopupWindow_overlapAnchor = 2;
 			
+<<<<<<< HEAD
+			public static int[] PopupWindowBackgroundState = new int[]
+			{
+=======
 			public static int[] PopupWindowBackgroundState = new int[] {
+>>>>>>> new_scheduling
 					2130772151};
 			
 			// aapt resource value: 0
 			public const int PopupWindowBackgroundState_state_above_anchor = 0;
 			
+<<<<<<< HEAD
+			public static int[] ProgressWheel = new int[]
+			{
+=======
 			public static int[] ProgressWheel = new int[] {
+>>>>>>> new_scheduling
 					2130772289,
 					2130772290,
 					2130772291,
@@ -8545,7 +9311,12 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int ProgressWheel_ahTextSize = 2;
 			
+<<<<<<< HEAD
+			public static int[] RecycleListView = new int[]
+			{
+=======
 			public static int[] RecycleListView = new int[] {
+>>>>>>> new_scheduling
 					2130772152,
 					2130772153};
 			
@@ -8581,13 +9352,23 @@ namespace Piller.Droid
 			// aapt resource value: 5
 			public const int RecyclerView_stackFromEnd = 5;
 			
+<<<<<<< HEAD
+			public static int[] ScrimInsetsFrameLayout = new int[]
+			{
+=======
 			public static int[] ScrimInsetsFrameLayout = new int[] {
+>>>>>>> new_scheduling
 					2130772249};
 			
 			// aapt resource value: 0
 			public const int ScrimInsetsFrameLayout_insetForeground = 0;
 			
+<<<<<<< HEAD
+			public static int[] ScrollingViewBehavior_Layout = new int[]
+			{
+=======
 			public static int[] ScrollingViewBehavior_Layout = new int[] {
+>>>>>>> new_scheduling
 					2130772250};
 			
 			// aapt resource value: 0
@@ -8673,6 +9454,12 @@ namespace Piller.Droid
 			
 			// aapt resource value: 1
 			public const int SnackbarLayout_elevation = 1;
+<<<<<<< HEAD
+			
+			// aapt resource value: 2
+			public const int SnackbarLayout_maxActionInlineWidth = 2;
+=======
+>>>>>>> new_scheduling
 			
 			// aapt resource value: 2
 			public const int SnackbarLayout_maxActionInlineWidth = 2;
@@ -8771,7 +9558,12 @@ namespace Piller.Droid
 			// aapt resource value: 2
 			public const int TabItem_android_text = 2;
 			
+<<<<<<< HEAD
+			public static int[] TabLayout = new int[]
+			{
+=======
 			public static int[] TabLayout = new int[] {
+>>>>>>> new_scheduling
 					2130772252,
 					2130772253,
 					2130772254,

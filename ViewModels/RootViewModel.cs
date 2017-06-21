@@ -11,11 +11,13 @@ namespace Piller.ViewModels
         public ReactiveCommand<Unit, bool> ShowUpcomingMedicationView { get; }
         public ReactiveCommand<Unit, bool> ShowMedicalCardView { get; }
         public ReactiveCommand<Unit, bool> ShowHolidayView { get; }
+        public ReactiveCommand<Unit, bool> GoSettings { get; set; }
 
         public RootViewModel() {
             ShowUpcomingMedicationView = ReactiveCommand.Create(() => this.ShowViewModel<MedicationSummaryListViewModel>());
             ShowMedicalCardView = ReactiveCommand.Create(() => this.ShowViewModel<MedicalCardViewModel>());
             ShowHolidayView = ReactiveCommand.Create(() => this.ShowViewModel<HolidayViewModel>());
+            GoSettings = ReactiveCommand.Create(() => this.ShowViewModel<SettingsViewModel>());
         }
     }
 }

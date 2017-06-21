@@ -91,6 +91,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:button="@null"
                     android:drawableLeft="@drawable/radio_selector"
+                    android:checked="false"
                     android:padding="8dp" />
                 <View
                     android:layout_width="1dp"
@@ -107,6 +108,7 @@
                     android:button="@null"
                     android:background="?attr/selectableItemBackground"
                     android:drawableLeft="@drawable/radio_selector"
+                    android:checked="false"
                     android:padding="8dp" />
             </RadioGroup>
             <View

@@ -25,6 +25,7 @@ namespace Piller.ViewModels
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
         private ISettings settings = Mvx.Resolve<ISettings>();
 
+        MvxSubscriptionToken dataChangedSubscriptionToken;
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
 		private byte[] _bytes;
@@ -68,42 +69,42 @@ namespace Piller.ViewModels
         public bool Monday
         {
             get { return monday; }
-            set { this.SetProperty(ref monday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref monday, value);  }
         }
 
         private bool tuesday;
         public bool Tuesday
         {
             get { return tuesday; }
-            set { this.SetProperty(ref tuesday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref tuesday, value); }
         }
 
         private bool wednesday;
         public bool Wednesday
         {
             get { return wednesday; }
-            set { this.SetProperty(ref wednesday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref wednesday, value); }
         }
 
         private bool thursday;
         public bool Thursday
         {
             get { return thursday; }
-            set { this.SetProperty(ref thursday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref thursday, value); }
         }
 
         private bool friday;
         public bool Friday
         {
             get { return friday; }
-            set { this.SetProperty(ref friday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref friday, value);  }
         }
 
         private bool saturday;
         public bool Saturday
         {
             get { return saturday; }
-            set { this.SetProperty(ref saturday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(Cusom)); }
+            set { this.SetProperty(ref saturday, value); }
         }
 
         private bool sunday;
@@ -112,17 +113,29 @@ namespace Piller.ViewModels
             get { return sunday; }
             set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); }
         }
+        private bool everyday;
         public bool Everyday
         {
-            get { return Monday && Tuesday && Wednesday && Thursday && Friday && Saturday && Sunday; }
+            get { return everyday || (Monday && Tuesday && Wednesday && Thursday && Friday && Saturday && Sunday); }
+            set {
+                isNew = false;
+                if(value)
+                    SelectAllDays.Execute().Subscribe();
+                SetProperty(ref everyday, value);
+            }
         }
-        public bool Cusom { get { return !Everyday && !isNew; } }
-        private bool isNew;
-        public bool IsNew
+        private bool custom;
+        public bool Custom
         {
-            get { return isNew; }
-            set { SetProperty(ref isNew, value); RaisePropertyChanged(nameof(Cusom)); }
+            get { return custom || (!Everyday&&!isNew); }
+            set
+            {
+                isNew = false;
+                SetProperty(ref custom, value);
+            }
         }
+        private bool isNew;
+
 
 
 
@@ -148,7 +161,7 @@ namespace Piller.ViewModels
                 return label;
             }
         }
-        private bool morning;
+        private bool morning = true;
         public bool Morning
         {
             get { return morning; }
@@ -161,9 +174,9 @@ namespace Piller.ViewModels
             set { SetProperty(ref evening, value); RaisePropertyChanged(nameof(HoursLabel)); }
         }
 
-        private TimeSpan morningHour;
+        public TimeSpan MorningHour { get; private set; }
         private TimeSpan afternoon;
-        private TimeSpan eveningHour;
+        public TimeSpan EveningHour { get; private set; }
 
         public ReactiveCommand<Unit, bool> Save { get; private set; }
         public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
@@ -248,7 +261,17 @@ namespace Piller.ViewModels
                    return false;
              }, canDelete);
 
-            this.SelectAllDays = ReactiveCommand<Unit,Unit>.Create(() => { Monday = true; Tuesday = true; Wednesday = true; Thursday = true; Friday = true; Saturday = true; Sunday = true;  });
+            this.SelectAllDays = ReactiveCommand.Create(() => 
+            {
+                Monday = true;
+                Tuesday = true;
+                Wednesday = true;
+                Thursday = true;
+                Friday = true;
+                Saturday = true;
+                Sunday = true;
+
+            });
 
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
             this.Save
@@ -290,23 +313,24 @@ namespace Piller.ViewModels
 
             dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(mesg => 
             {
-                morningHour = mesg.Morning;
-                eveningHour = mesg.Evening;
+                MorningHour = mesg.Morning;
+                EveningHour = mesg.Evening;
                 setHours();
                 Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
             });
 
         }
-        MvxSubscriptionToken dataChangedSubscriptionToken;
+
+
         private void loadSettings()
         {
             SettingsData data = JsonConvert.DeserializeObject<SettingsData>(settings.GetValue<string>(SettingsData.Key));
             if (data == null)
                 data = new SettingsData();
 
-            morningHour = data.Morning;
+            MorningHour = data.Morning;
             afternoon = data.Afternoon;
-            eveningHour = data.Evening;
+            EveningHour = data.Evening;
             setHours();
         }
 
@@ -314,9 +338,9 @@ namespace Piller.ViewModels
         {
             DosageHours.Clear();
             if (Morning)
-                DosageHours.Add(morningHour);
+                DosageHours.Add(MorningHour);
             if (Evening)
-                DosageHours.Add(eveningHour);
+                DosageHours.Add(EveningHour);
         }
 
 
@@ -325,7 +349,7 @@ namespace Piller.ViewModels
             if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
             {
                 isNew = false;
-                Data.MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
+                MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
                 Id = item.Id;
                 MedicationName = item.Name;
                 MedicationDosage = item.Dosage;

@@ -46,11 +46,9 @@ namespace Piller.ViewModels
         {
             readSettings();
             MorningHour = settingsData.Morning;
-            afternoonHour = settingsData.Afternoon;
             eveningHour = settingsData.Evening;
 
             SetMorning = ReactiveCommand.Create<TimeSpan>(hour => MorningHour = hour);
-            SetAfternoon = ReactiveCommand.Create<TimeSpan>(hour => AfternoonHour = hour);
             SetEvening = ReactiveCommand.Create<TimeSpan>(hour => EveningHour = hour);
 
             Save = ReactiveCommand.Create(() =>
@@ -76,7 +74,7 @@ namespace Piller.ViewModels
             var items = await storage.List<MedicationDosage>();
             if (items == null)
                 return;
-            var medicationList = new ReactiveList<MedicationDosage>(items);
+            var medicationList = new List<MedicationDosage>(items);
             foreach(var item in medicationList)
             {
                 var dosageHours = new List<TimeSpan>();

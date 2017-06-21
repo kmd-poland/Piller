@@ -47,18 +47,6 @@ namespace Piller.Droid.Views
 			SetBinding();
             return view;
 		}
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            this.MenuInflater.Inflate(Resource.Menu.main_menu, menu);
-            return base.OnCreateOptionsMenu(menu);
-        }
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            if (item.ItemId == Resource.Id.action_settings)
-                ViewModel.GoSettings.Execute().Subscribe();
-
-            return base.OnOptionsItemSelected(item);
-        }
 
         private void SetBinding()
 		{

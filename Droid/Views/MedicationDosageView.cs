@@ -60,7 +60,7 @@ namespace Piller.Droid.Views
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-            timeSelector.Click += (o, e) => firsDialog.Show();
+            timeSelector.Click += (o, e) => firsDialog.Show(ViewModel.MorningHour,ViewModel.EveningHour);
             deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
             custom.Click += (o, e) =>
@@ -174,14 +174,11 @@ namespace Piller.Droid.Views
             bindingSet.Bind(dosageText)
                 .To(vm => vm.MedicationDosage);
             bindingSet.Bind(everyday)
-                .For(nameof(View.Click))
-                .To(vm => vm.SelectAllDays);
-            bindingSet.Bind(everyday)
                 .For(v => v.Checked)
                 .To(vm => vm.Everyday);
             bindingSet.Bind(custom)
                 .For(v => v.Checked)
-                .To(vm => vm.Cusom);
+                .To(vm => vm.Custom);
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
 

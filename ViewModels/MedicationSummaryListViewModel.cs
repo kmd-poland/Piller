@@ -16,9 +16,11 @@ namespace Piller.ViewModels
 	{
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
         MvxSubscriptionToken dataChangedSubscriptionToken;
+        MvxSubscriptionToken settingsChangedSubscriptionToken;
 
-        private ReactiveList<MedicationDosage> medicationList;
-        public ReactiveList<MedicationDosage> MedicationList
+        private List<MedicationDosage> medicationList;
+
+        public List<MedicationDosage> MedicationList
         {
             get { return medicationList; }
             set { SetProperty(ref medicationList, value); RaisePropertyChanged(nameof(IsEmpty)); }
@@ -30,29 +32,27 @@ namespace Piller.ViewModels
 
         public ReactiveCommand<Unit, bool> AddNew { get; }
 		public ReactiveCommand<Data.MedicationDosage, Unit> Edit { get; }
-        public ReactiveCommand<Unit, bool> GoSettings { get; set; }
 
 
         public MedicationSummaryListViewModel()
-		{
-			AddNew = ReactiveCommand.Create(() => this.ShowViewModel<MedicationDosageViewModel>());
-			Edit = ReactiveCommand.Create<Data.MedicationDosage>((item) =>
-			 {
-                this.ShowViewModel<MedicationDosageViewModel>(new MedicationDosageNavigation { MedicationDosageId = item.Id.Value });
-			 });
+        {
+            AddNew = ReactiveCommand.Create(() => this.ShowViewModel<MedicationDosageViewModel>());
+            Edit = ReactiveCommand.Create<Data.MedicationDosage>((item) =>
+             {
+                 this.ShowViewModel<MedicationDosageViewModel>(new MedicationDosageNavigation { MedicationDosageId = item.Id.Value });
+             });
 
             dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<DataChangedMessage>(async mesg => await Init());
-            GoSettings = ReactiveCommand.Create(() => this.ShowViewModel<SettingsViewModel>());
+            settingsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(async mesg => await Init());
         }
-
         public async Task Init()
         {
 
             var items = await storage.List<MedicationDosage>();
             if (items != null)
-                MedicationList = new ReactiveList<MedicationDosage>(items);
+                MedicationList = new List<MedicationDosage>(items);
             else
-                MedicationList = new ReactiveList<MedicationDosage>();
+                MedicationList = new List<MedicationDosage>();
         }
 
 

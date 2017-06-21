@@ -4,19 +4,19 @@
     <item
         android:id="@+id/upcoming"
         android:enabled="true"
-        android:icon="@drawable/ic_done_black_24dp"
+        android:icon="@drawable/ic_restore_black_24dp"
         android:title="upcoming"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/medical_card"
         android:enabled="true"
-        android:icon="@drawable/ic_done_black_24dp"
+        android:icon="@drawable/ic_local_hospital_black_24dp"
         android:title="medical card"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/holidays"
         android:enabled="true"
-        android:icon="@drawable/ic_done_black_24dp"
+        android:icon="@drawable/ic_airplanemode_active_black_24dp"
         android:title="holidays"
         app:showAsAction="ifRoom" />
 </menu>
