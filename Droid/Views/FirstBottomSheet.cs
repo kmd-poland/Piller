@@ -12,32 +12,45 @@ using Android.Widget;
 using Android.Support.Design.Widget;
 using ReactiveUI;
 using System.Reactive;
+using Piller.ViewModels;
 
 namespace Piller.Droid.Views
 {
-    class FirstBottomSheet:BottomSheetDialog
+    class FirstBottomSheet : BottomSheetDialog
     {
-        RadioButton customOption;
-        RadioButton firstOption;
-        RadioButton secondOption;
+        CheckBox customOption;
+        CheckBox morning;
+        CheckBox evening;
+        LinearLayout acceptButton;
+        LinearLayout canceltButton;
         View firstView;
         public FirstBottomSheet(Context context) : base(context)
         {
+            firstView = LayoutInflater.Inflate(Resource.Layout.bottom_dialog, null);
+            SetContentView(firstView);
+            this.Create();
         }
-        public new ReactiveCommand<Unit, bool> FirstOption { get; } = ReactiveCommand.Create(() => { return true; });
-        public new ReactiveCommand<Unit, bool> SecondOption { get; } = ReactiveCommand.Create(() => { return true; });
-        public new ReactiveCommand<Unit, bool> SetCustom { get; } = ReactiveCommand.Create(() => { return true; });
+
+
+        public ReactiveCommand<Unit, HoursPattern> Accept { get; private set; }
+        public new ReactiveCommand<Unit, bool> Cancel { get; } = ReactiveCommand<Unit, bool>.Create(() => { return true; });
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            firstView = LayoutInflater.Inflate(Resource.Layout.bottom_dialog, null);
-            customOption = FindViewById<RadioButton>(Resource.Id.option3);
-            firstOption = FindViewById<RadioButton>(Resource.Id.option1);
-            secondOption = FindViewById<RadioButton>(Resource.Id.option2);
 
-            customOption.Click += (o, e) => SetCustom.Execute().Subscribe();
-            firstOption.Click += (o, e) => FirstOption.Execute().Subscribe();
-            secondOption.Click += (o, e) => SecondOption.Execute().Subscribe();
+            morning = FindViewById<CheckBox>(Resource.Id.morning);
+            evening = FindViewById<CheckBox>(Resource.Id.evening);
+
+            Accept = ReactiveCommand.Create(() =>
+            {
+                return new HoursPattern() { Morning = morning.Checked, Evening = evening.Checked };
+            }
+         );
+            acceptButton = FindViewById<LinearLayout>(Resource.Id.okButton);
+            acceptButton.Click += (o, e) => Accept.Execute().Subscribe<HoursPattern>();
+
+            canceltButton = FindViewById<LinearLayout>(Resource.Id.cancelButton);
+            canceltButton.Click += (o, e) => Cancel.Execute().Subscribe();
         }
 
     }
