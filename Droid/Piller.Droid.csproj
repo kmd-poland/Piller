@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Piller.Droid</RootNamespace>
     <AssemblyName>Piller.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -44,6 +44,25 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cheesebaron.MvxPlugins.Settings, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Cheesebaron.MvxPlugins.Settings.Droid, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Java.Interop" />
+    <Reference Include="MvvmCross.Platform, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.5.0.2\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.Droid, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.5.0.2\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.PictureChooser, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.2\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.PictureChooser.Droid, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.2\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.Droid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -132,18 +151,6 @@
     <Reference Include="MvvmCross.Plugins.Messenger">
       <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.5.0.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform.Droid">
-      <HintPath>..\packages\MvvmCross.Platform.5.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.PictureChooser">
-      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.0\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.PictureChooser.Droid">
-      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.0\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="Acr.Support.Android">
       <HintPath>..\packages\Acr.Support.2.1.0\lib\MonoAndroid10\Acr.Support.Android.dll</HintPath>
     </Reference>
@@ -203,6 +210,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
@@ -212,8 +221,8 @@
     <Compile Include="Setup.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
-    <Compile Include="Views\DeleteDialog.cs" />
-    <Compile Include="Views\FirstBottomSheet.cs" />
+    <Compile Include="Views\HolidayView.cs" />
+    <Compile Include="Views\MedicalCardView.cs" />
     <Compile Include="Views\MedicationSummaryListView.cs" />
     <Compile Include="Views\MedicationDosageView.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
@@ -224,31 +233,40 @@
     <Compile Include="BindingConverters\DaysOfWeekConverter.cs" />
     <Compile Include="BindingConverters\DosageHoursConverter.cs" />
     <Compile Include="BindingConverters\InlineValueConverter.cs" />
-    <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="InlineValueConverter.cs" />
     <Compile Include="Services\AndroidImageLoader.cs" />
     <Compile Include="Services\AndroidNotificationService.cs" />
     <Compile Include="NotificationPublisher.cs" />
+    <Compile Include="Views\BottomSheet.cs" />
+    <Compile Include="Views\DeleteDialog.cs" />
+    <Compile Include="Views\FirstBottomSheet.cs" />
+    <Compile Include="Views\RootView.cs" />
+    <Compile Include="Views\RoundedImageView.cs" />
     <Compile Include="Views\SecondBottomSheet.cs" />
+    <Compile Include="Views\SettingsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <AndroidResource Include="Resources\layout\bottom_dialog.axml">
+    <AndroidResource Include="Resources\layout\customBigNotification.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\bottom_dialog_2.axml">
+    <AndroidResource Include="Resources\layout\customNotification.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\confirmation.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\delete_dialog.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Settings.axml" />
+    <AndroidResource Include="Resources\layout\HolidayView.axml" />
+    <AndroidResource Include="Resources\layout\MainLayout.axml" />
+    <AndroidResource Include="Resources\layout\MedicalCard.axml" />
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
+    <AndroidResource Include="Resources\drawable\later.png" />
+    <AndroidResource Include="Resources\drawable\no.png" />
+    <AndroidResource Include="Resources\drawable\ok3.png" />
+    <AndroidResource Include="Resources\drawable\splashgif2.gif" />
+    <AndroidResource Include="Resources\drawable\pill500x500.png" />
+    <AndroidResource Include="Resources\drawable\pill64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -260,7 +278,6 @@
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\layout\MedicationSummaryListView.axml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\values\material_design_colors.xml" />
     <AndroidResource Include="Resources\layout\toolbar.axml" />
@@ -273,160 +290,126 @@
     <AndroidResource Include="Resources\layout\MedicationDosageView.axml" />
     <AndroidResource Include="Resources\layout\time_item.axml" />
     <AndroidResource Include="Resources\menu\dosagemenu.xml" />
-    <AndroidResource Include="Resources\layout\medication_summary_item.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\drawable\pill.png" />
+    <AndroidResource Include="Resources\layout\medication_summary_item.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_chevron_right_black_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_chevron_right_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_delete_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_event_note_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable\button.xml" />
+    <AndroidResource Include="Resources\drawable\radio_selector.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_chevron_right_black_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_chevron_right_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_delete_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_event_note_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_chevron_right_black_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_chevron_right_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_delete_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_event_note_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_chevron_right_black_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_chevron_right_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_delete_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_delete_forever_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_event_note_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_chevron_right_black_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_chevron_right_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_delete_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_event_note_white_36dp.png" />
+    <AndroidResource Include="Resources\layout\bottom_dialog_2.axml" />
+    <AndroidResource Include="Resources\layout\bottom_dialog.axml" />
+    <AndroidResource Include="Resources\layout\confirmation.axml" />
+    <AndroidResource Include="Resources\layout\delete_dialog.axml" />
+    <AndroidResource Include="Resources\layout\dialog_days.axml" />
+    <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\menu\main_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pillSmall.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\menu\settings_menu.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\menu\bottom_navigation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_restore_black_36dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_restore_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_restore_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_restore_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_restore_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_restore_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_airplanemode_active_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_airplanemode_active_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_airplanemode_active_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_airplanemode_active_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_airplanemode_active_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_cancel_black_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_local_hospital_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\dimens.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_local_hospital_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_a_photo_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_local_hospital_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_delete_forever_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_local_hospital_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_event_note_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\radio_selector.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\button.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_chevron_right_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_chevron_right_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_chevron_right_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_chevron_right_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_chevron_right_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_chevron_right_black_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_chevron_right_black_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_chevron_right_black_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_chevron_right_black_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_chevron_right_black_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_a_photo_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_a_photo_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_add_a_photo_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_add_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_add_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_event_note_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_event_note_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_event_note_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_event_note_white_36dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_a_photo_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_add_a_photo_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_a_photo_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_add_a_photo_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_a_photo_black_48dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_local_hospital_black_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets')" />

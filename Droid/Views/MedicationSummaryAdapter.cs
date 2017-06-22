@@ -14,8 +14,6 @@ using MvvmCross.Plugins.File;
 using MvvmCross.Platform;
 using Android.Graphics;
 using Services;
-using MvvmCross.Plugins.PictureChooser.Droid;
-using Android.Support.V4.Graphics.Drawable;
 
 namespace Piller.Droid.Views
 {
@@ -43,11 +41,9 @@ namespace Piller.Droid.Views
             var name = view.FindViewById<TextView>(Resource.Id.label_medication_name);
             var time = view.FindViewById<TextView>(Resource.Id.label_medication_time);
             var daysOfWeek = view.FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
-            //var picture = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 
             var bset = view.CreateBindingSet<MvxListItemView, MedicationDosage>();
 
-           // picture.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
             bset.Bind(name)
                 .To(x => x.Name);
 
@@ -73,40 +69,22 @@ namespace Piller.Droid.Views
 				.To(x => x.Days)
                 .For(v => v.Visibility)
                 .WithConversion(new InlineValueConverter<DaysOfWeek, ViewStates>(dosageHours => dosageHours == DaysOfWeek.None ? ViewStates.Gone : ViewStates.Visible));
-            /*
-            bset.Bind(picture)
-                .To(vm => vm.Bytes)
-                .For("Bitmap")
-                .WithConversion(new MvxInMemoryImageValueConverter());
-                */
-            bset.Apply();
-
             
+			bset.Apply();
+
+
             var medication = dataContext as MedicationDosage;
             if (medication?.ThumbnailName != null)
             {
 				var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 				byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
-                var res = thumbnail.Resources;
-                var src = BitmapFactory.DecodeByteArray(array, 0, array.Length);
-                RoundedBitmapDrawable dr =RoundedBitmapDrawableFactory.Create(res, src);
-                dr.CornerRadius= Math.Max(src.Width, src.Height) / 2.0f;
-                dr.Circular = true;
-               // thumbnail.SetImageDrawable(dr);
-
-                thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
+				thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
             } else {
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-                var src = BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill);
-                var res = thumbnail.Resources;
-                RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.Create(res, src);
-                dr.CornerRadius = Math.Max(src.Width, src.Height) / 2.0f;
-               // thumbnail.SetImageDrawable(dr);
-                 thumbnail.SetImageBitmap( BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill));
+				thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill64x64));
+			}
 
-            }
-
-            return view;
+			return view;
 		}
 	}
 }

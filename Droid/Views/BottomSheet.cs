@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Acr.UserDialogs.Fragments;
 using Android.App;
 using Android.Content;
 using Android.OS;
