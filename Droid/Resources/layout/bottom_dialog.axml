@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    app:behavior_peekHeight="500dp"
+    android:id="@+id/design_bottom_sheet">
+
+    <TextView
+        android:id="@+id/dialog_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Termin"
+        
+/>
+  <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="@color/md_grey_50" />
+  <RadioGroup
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+  <RadioButton
+        android:id="@+id/option1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Codziennie"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:button="@null"
+        android:drawableLeft="@drawable/radio_selector"
+        android:padding="16dp"/>
+  <View
+       android:layout_width="match_parent"
+       android:layout_height="2dp"
+       android:background="@color/md_grey_50"/>
+  <RadioButton
+        android:id="@+id/option2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Od poniedziłaku do piątku"
+        android:clickable="true"
+        android:button="@null"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/radio_selector"
+        android:padding="16dp"/>
+  <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="@color/md_grey_50" />
+  <RadioButton
+        android:id="@+id/option3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Własne"
+        android:clickable="true"
+        android:button="@null"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/radio_selector"
+        android:padding="16dp"/>
+  </RadioGroup>
+
+</LinearLayout>

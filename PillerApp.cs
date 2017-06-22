@@ -1,5 +1,7 @@
 ﻿using System;
+using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
+using Piller.Services;
 
 namespace Piller
 {
@@ -11,6 +13,8 @@ namespace Piller
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
+
+            Mvx.RegisterSingleton<IPermanentStorageService>(new PermanentStorageService());
 
             RegisterAppStart<ViewModels.MedicationSummaryListViewModel>();
         }

@@ -8,6 +8,7 @@ using Piller.Services;
 using MvvmCross.Platform;
 using System.Threading.Tasks;
 using MvvmCross.Plugins.Messenger;
+using System.Linq;
 
 namespace Piller.ViewModels
 {
@@ -20,11 +21,14 @@ namespace Piller.ViewModels
 		public List<MedicationDosage> MedicationList
 		{
 			get { return medicationList; }
-			set { SetProperty(ref medicationList, value); }
+			set { SetProperty(ref medicationList, value);RaisePropertyChanged(nameof(IsEmpty)); }
 		}
+        public bool IsEmpty
+        {
+            get { return !medicationList.Any(); }
+        }
 
-
-		public ReactiveCommand<Unit, bool> AddNew { get; }
+        public ReactiveCommand<Unit, bool> AddNew { get; }
 		public ReactiveCommand<Data.MedicationDosage, Unit> Edit { get; }
 
 		public MedicationSummaryListViewModel()

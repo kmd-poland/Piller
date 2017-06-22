@@ -5,6 +5,12 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Droid.Shared.Presenter;
 using MvvmCross.Droid.Views;
 using MvvmCross.Platform;
+using Services;
+using Acr.UserDialogs;
+using System;
+using MvvmCross.Platform.Droid.Platform;
+using Piller.Services;
+using Piller.Droid.Services;
 
 namespace Piller.Droid
 {
@@ -28,8 +34,24 @@ namespace Piller.Droid
         {
             var mvxFragmentsPresenter = new MvxFragmentsPresenter(AndroidViewAssemblies);
             Mvx.RegisterSingleton<IMvxAndroidViewPresenter>(mvxFragmentsPresenter);
+			Mvx.RegisterSingleton<ImageLoaderService>(new AndroidImageLoader());
             return mvxFragmentsPresenter;
 
+        }
+
+        protected override void InitializeIoC()
+        {
+            base.InitializeIoC();
+
+            Func<Android.App.Activity> activityResolver = () => Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
+            UserDialogs.Init(activityResolver);
+        }
+
+        protected override void InitializeLastChance()
+        {
+            base.InitializeLastChance();
+
+			Mvx.RegisterSingleton<INotificationService>(new AndroidNotificationService(this.ApplicationContext));
         }
     }
 }

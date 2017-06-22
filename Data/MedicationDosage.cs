@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using SQLite;
 using System.Collections.Generic;
 using System.Linq;
+using Services;
+using MvvmCross.Platform;
 
 namespace Piller.Data
 {
@@ -14,6 +16,10 @@ namespace Piller.Data
         public string Name { get; set; }
 
         public string Dosage { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string ThumbnailName { get; set; }
 
         public DaysOfWeek Days { get; set; }
 
@@ -39,6 +45,17 @@ namespace Piller.Data
                     HoursEncoded = string.Join(";", value.Select(i => i.ToString(@"hh\:mm")));
             }
 
+        }
+        
+        private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+        [Ignore]
+        public byte[] Bytes
+        {
+            get
+            {
+                    return imageLoader.LoadImage(ThumbnailName);
+            }
+            set { }
         }
     }
 }

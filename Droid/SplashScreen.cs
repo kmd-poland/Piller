@@ -7,7 +7,7 @@ namespace Piller.Droid
     [Activity(
         Label = "Piller.Droid"
         , MainLauncher = true
-        , Icon = "@mipmap/icon"
+        , Icon = "@drawable/pill64x64"
         , Theme = "@style/Theme.Splash"
         , NoHistory = true
         , ScreenOrientation = ScreenOrientation.Portrait)]

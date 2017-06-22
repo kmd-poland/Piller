@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_peekHeight="300dp">
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Pasek"/>
+
+  <CheckBox
+      android:id="@+id/mondayCheckBox"
+      android:text="Poniedziałek"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/tuesdayCheckBox"
+      android:text="Wtorek"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/wednesdayCheckBox"
+      android:text="Środa"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/thursdayCheckBox"
+      android:text="Czwartek"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/fridayCheckBox"
+      android:text="Piątek"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/saturdayCheckBox"
+      android:text="Sobota"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+  <CheckBox
+      android:id="@+id/sundayCheckBox"
+      android:text="Niedziela"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:button="@null"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+
+</LinearLayout>
