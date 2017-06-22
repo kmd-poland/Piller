@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,12 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-         android:id="@+id/toolbars"
-      >
-    <include
-        layout="@layout/toolbar"
-     
- />
+        android:id="@+id/toolbars">
+        <include
+            layout="@layout/toolbar" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -28,20 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp">
-
             <EditText
                 android:id="@+id/NameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nazwa Leku *" />
-
             <EditText
                 android:id="@+id/DosageEditText"
                 android:layout_width="match_parent"
                 android:hint="Dawka Leku *"
-                android:layout_height="wrap_content"
-
-                />
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:id="@+id/take_photo"
                 android:orientation="vertical"
@@ -49,8 +40,6 @@
                 android:layout_height="200dp"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground">
-
-
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="match_parent"
@@ -66,35 +55,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dodaj zdjęcie"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center" />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_add_a_photo_black_48dp"
+                        local:srcCompat="@drawable/ic_add_a_photo_black_48dp"
                         android:elevation="16dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center" />
                 </LinearLayout>
-
             </LinearLayout>
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/md_grey_300"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
-
-
+                android:layout_marginBottom="8dp" />
             <TextView
                 android:text="Powiadomienia *"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView1"
                 android:textStyle="normal"
-                android:layout_marginTop="20px"/>
-
-
+                android:layout_marginTop="20px" />
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -109,13 +91,12 @@
                     android:background="?attr/selectableItemBackground"
                     android:button="@null"
                     android:drawableLeft="@drawable/radio_selector"
-                    android:padding="8dp"/>
+                    android:padding="8dp" />
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/md_grey_400"
-                    android:padding="5dp"/>
-
+                    android:padding="5dp" />
                 <RadioButton
                     android:id="@+id/custom"
                     android:layout_width="wrap_content"
@@ -126,9 +107,8 @@
                     android:button="@null"
                     android:background="?attr/selectableItemBackground"
                     android:drawableLeft="@drawable/radio_selector"
-                    android:padding="8dp"/>
+                    android:padding="8dp" />
             </RadioGroup>
-
             <Button
                 android:id="@+id/time_picker"
                 android:text="Dodaj"
@@ -139,8 +119,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorAccent"
                 android:paddingRight="8dp"
-                android:layout_marginTop="8dp"/>
-
+                android:layout_marginTop="8dp" />
             <MedicationDosageTimeLayout
                 android:id="@+id/notificationHours"
                 android:layout_width="wrap_content"
@@ -152,9 +131,7 @@
                 android:layout_height="2dp"
                 android:background="@color/md_grey_300"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
-
-
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
     </ScrollView>
     <Button
@@ -167,5 +144,15 @@
         android:textColor="@android:color/white"
         android:paddingRight="8dp"
         android:layout_alignParentBottom="true"
-        android:drawableRight="@drawable/ic_delete_forever_white_36dp"/>
+        android:drawableRight="@drawable/ic_delete_forever_white_36dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/barScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/icons8_Barcode_26"
+        local:layout_anchorGravity="bottom|right|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

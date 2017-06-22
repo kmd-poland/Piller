@@ -19,6 +19,8 @@ using System.Globalization;
 using MvvmCross.Plugins.PictureChooser.Droid;
 using System.Reactive.Linq;
 using Android.Support.Design.Widget;
+using ZXing.Net.Mobile;
+using ZXing.Mobile;
 
 namespace Piller.Droid.Views
 {
@@ -40,6 +42,8 @@ namespace Piller.Droid.Views
         TextView daysOfWeek;
 
         MedicationDosageTimeLayout hoursList;
+
+        FloatingActionButton barScan;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -71,7 +75,28 @@ namespace Piller.Droid.Views
 
             hoursList.ItemTemplateId = Resource.Layout.time_item;
 
-          
+            barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
+
+            MobileBarcodeScanner.Initialize(Application);
+
+            barScan.Click += async (sender, e) =>
+            {
+
+
+                // Initialize the scanner first so it can track the current context
+                
+
+
+                var scanner = new MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                {
+                    nameText.SetText(result.ToString(), TextView.BufferType.Editable);
+                }
+                   
+            };
 
             //obsluga usuwania - jedna z kilku mozliwosci
             //wcisniecie przyscisku delete spowoduje wywolanie na adapterze komendy z usuwana godzina (implementacja w MedicationDosageTimeListAdapter
