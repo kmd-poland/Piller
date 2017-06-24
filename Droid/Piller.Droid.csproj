@@ -262,6 +262,9 @@
     <AndroidResource Include="Resources\layout\customNotification.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <EmbeddedResource Include="Resources\leki.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
     <AndroidResource Include="Resources\drawable\later.png" />
     <AndroidResource Include="Resources\drawable\no.png" />

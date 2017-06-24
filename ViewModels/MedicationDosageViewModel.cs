@@ -13,6 +13,7 @@ using MvvmCross.Plugins.PictureChooser;
 using System.IO;
 using MvvmCross.Plugins.File;
 using Services;
+using System.Threading.Tasks;
 
 namespace Piller.ViewModels
 {
@@ -22,6 +23,7 @@ namespace Piller.ViewModels
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
 		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
+        private IMedicineDatabaseService medicinesDatabase = Mvx.Resolve<IMedicineDatabaseService>();
 
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
@@ -51,6 +53,20 @@ namespace Piller.ViewModels
         {
             get { return medicationName; }
             set { this.SetProperty(ref medicationName, value); }
+        }
+
+        public async Task<Data.Medicines> GetNameByEAN(long kodEAN)
+        {
+            return await this.medicinesDatabase.GetAsync<Data.Medicines>(kodEAN);
+        }
+
+        long ean;
+        public long EAN
+        {
+            get { return ean; }
+            set {
+                this.SetProperty(ref ean, value);
+            }
         }
 
 

@@ -45,6 +45,8 @@ namespace Piller.Droid.Views
 
         FloatingActionButton barScan;
 
+        long ean;
+
         protected override void OnCreate(Bundle bundle)
         {
 
@@ -93,7 +95,8 @@ namespace Piller.Droid.Views
 
                 if (result != null)
                 {
-                    nameText.SetText(result.ToString(), TextView.BufferType.Editable);
+                    ean = Convert.ToInt64(result.Text);
+                    nameText.SetText(ViewModel.GetNameByEAN(ean).Result.NazwaProduktu, TextView.BufferType.Editable);
                 }
                    
             };
@@ -242,8 +245,6 @@ namespace Piller.Droid.Views
             bindingSet.Bind(custom)
                 .For(v => v.Checked)
                 .To(vm => vm.Cusom);
-            
-
 
 
             bindingSet.Bind(hoursList)
