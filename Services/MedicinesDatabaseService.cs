@@ -26,8 +26,6 @@ namespace Piller.Services
             this.connection = new SQLiteAsyncConnection(dbFileName, SQLiteOpenFlags.ReadOnly);
 
 
-            this.connection.GetConnection();
-            xx();
         }
 
         protected abstract string PrepareDatabaseFile();
