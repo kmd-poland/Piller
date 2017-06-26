@@ -51,6 +51,9 @@
     <Compile Include="MixIns\DaysOfWeekMixIn.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Data\Medicines.cs" />
+    <Compile Include="Services\MedicinesDatabaseService.cs" />
+    <Compile Include="Services\IMedicinesDatabaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Cheesebaron.MvxPlugins.Settings, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -150,4 +150,14 @@
         android:paddingRight="8dp"
         android:layout_alignParentBottom="true"
         android:drawableRight="@drawable/ic_delete_forever_white_36dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/barScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/icons8_Barcode_26"
+        local:layout_anchorGravity="bottom|right|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

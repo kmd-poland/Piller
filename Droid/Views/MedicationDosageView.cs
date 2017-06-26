@@ -1,4 +1,4 @@
-﻿﻿using Android.App;
+﻿using Android.App;
 using Android.OS;
 using Piller.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -12,6 +12,8 @@ using System.Windows.Input;
 
 using System.Reactive.Linq;
 using MvvmCross.Plugins.PictureChooser.Droid;
+using Android.Support.Design.Widget;
+using ZXing.Mobile;
 
 namespace Piller.Droid.Views
 {
@@ -27,6 +29,9 @@ namespace Piller.Droid.Views
         RadioButton custom;
         TextView daysOfWeek;
         TextView timeSelector;
+
+
+        FloatingActionButton barScan;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -55,6 +60,32 @@ namespace Piller.Droid.Views
             custom = FindViewById<RadioButton>(Resource.Id.custom);
 
             FirstBottomSheet firsDialog = new FirstBottomSheet(this);
+
+          
+            barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
+
+            MobileBarcodeScanner.Initialize(Application);
+
+            barScan.Click += async (sender, e) =>
+            {
+
+
+                // Initialize the scanner first so it can track the current context
+                
+
+
+                var scanner = new MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                {
+                    ViewModel.SetMedicinesName(result.Text);
+                }
+                   
+            };
+
+         
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
             DeleteDialog deleteDialog = new DeleteDialog(this);
 
