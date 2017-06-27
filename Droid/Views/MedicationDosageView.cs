@@ -1,4 +1,4 @@
-﻿﻿using Android.App;
+﻿using Android.App;
 using Android.OS;
 using Piller.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -25,8 +25,19 @@ namespace Piller.Droid.Views
         Button deleteBtn;
         RadioButton everyday;
         RadioButton custom;
+//<<<<<<< HEAD
         TextView daysOfWeek;
         TextView timeSelector;
+//=======
+		TextView fromDate;
+		TextView toDate;
+
+        //TextView daysOfWeek;
+		ImageButton clearFrom;
+		ImageButton clearTo;
+
+        MedicationDosageTimeLayout hoursList;
+//>>>>>>> wojtaszek/Do_not_know_what
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -40,7 +51,11 @@ namespace Piller.Droid.Views
             SetSupportActionBar(toolbar);
 
             SupportActionBar.Title = AppResources.MedicationDosageViewModel_Title;
-            nameText = FindViewById<EditText>(Resource.Id.NameEditText);
+			nameText = FindViewById<EditText>(Resource.Id.NameEditText);
+			fromDate = FindViewById<TextView>(Resource.Id.odKiedy);
+			toDate = FindViewById<TextView>(Resource.Id.doKiedy);
+			clearFrom = FindViewById<ImageButton>(Resource.Id.clearFrom);
+			clearTo = FindViewById<ImageButton>(Resource.Id.clearTo);
             dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
             takePicutre = FindViewById<LinearLayout>(Resource.Id.take_photo);
@@ -74,7 +89,49 @@ namespace Piller.Droid.Views
             });
             firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
 
-            secondDialog.Accept.Subscribe(x =>
+//<<<<<<< HEAD
+//            secondDialog.Accept.Subscribe(x =>
+//=======
+			fromDate.Click += (o,e) =>{
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					fromDate.Text = time.ToShortDateString();
+					});
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+			};
+
+			toDate.Click += (o,e) => {
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					toDate.Text = time.ToShortDateString();
+					});
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+			};
+
+			clearFrom.Click += (o,e) => {
+				fromDate.Text = "";
+			};
+
+			clearTo.Click += (o,e) => {
+				toDate.Text = "";
+			};
+
+			fromDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(fromDate.Text))
+					clearFrom.Visibility=ViewStates.Invisible;
+				else
+					clearFrom.Visibility=ViewStates.Visible;
+			};
+
+			toDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(toDate.Text))
+					clearTo.Visibility=ViewStates.Invisible;
+				else
+					clearTo.Visibility=ViewStates.Visible;
+			};
+
+            secondDialog.Accept.Subscribe(x  =>
+//>>>>>>> wojtaszek/Do_not_know_what
             {
                 this.ViewModel.Monday = x[0];
                 this.ViewModel.Tuesday = x[1];
@@ -158,6 +215,15 @@ namespace Piller.Droid.Views
             bindingSet.Bind(nameText)
                 .To(x => x.MedicationName);
 
+			bindingSet.Bind(fromDate)
+			          .To(x => x.StartDate)
+			          .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay);
+
+
+			bindingSet.Bind(toDate)
+			          .To(x => x.EndDate)
+			          .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay);
+
             bindingSet.Bind(picture)
                 .To(x => x.Bytes)
                 .For("Bitmap")
@@ -178,9 +244,15 @@ namespace Piller.Droid.Views
                 .To(vm => vm.Everyday);
             bindingSet.Bind(custom)
                 .For(v => v.Checked)
+//<<<<<<< HEAD
                 .To(vm => vm.Custom);
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
+//=======
+//                .To(vm => vm.Cusom);           
+
+
+//>>>>>>> wojtaszek/Do_not_know_what
 
             bindingSet.Apply();
 

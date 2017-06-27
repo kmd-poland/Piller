@@ -126,6 +126,80 @@
             <TextView
                 android:id="@+id/timeSelector"
                 android:layout_width="match_parent"
+                android:padding="8dp" />
+            <TextView
+                android:text="Od kiedy/do kiedy (opcjonalne)"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textStyle="normal"
+                android:layout_marginTop="20px" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Od:"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical" />
+                <TextView
+                    android:id="@+id/odKiedy"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    style="@android:style/Widget.Button"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:hint="+"
+                    android:editable="false" />
+                <ImageButton
+                    android:id="@+id/clearFrom"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    local:srcCompat="@android:drawable/ic_delete"
+                    android:background="@android:color/transparent"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Do:"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/doKiedy"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@android:style/Widget.Button"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:hint="+"
+                    android:editable="false" />
+                <ImageButton
+                    android:id="@+id/clearTo"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    local:srcCompat="@android:drawable/ic_delete"
+                    android:background="@android:color/transparent"
+                    android:gravity="center" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/time_picker"
+                android:text="Dodaj"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:drawableRight="@drawable/ic_add_white_36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorAccent"
+                android:paddingRight="8dp"
+                android:layout_marginTop="8dp" />
+            <MedicationDosageTimeLayout
+                android:id="@+id/notificationHours"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="rano"
                 android:clickable="true"

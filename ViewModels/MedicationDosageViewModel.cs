@@ -52,10 +52,23 @@ namespace Piller.ViewModels
         string medicationName;
         public string MedicationName
         {
-            get { return medicationName; }
+			get { return medicationName; }
             set { this.SetProperty(ref medicationName, value); }
         }
 
+		string startDate;
+		public string StartDate
+		{
+			get { return startDate; }
+			set { this.SetProperty(ref startDate, value); }
+		}
+
+		string endDate;
+		public string EndDate
+		{
+			get { return endDate; }
+			set	{ this.SetProperty(ref endDate, value); }
+		}
 
         string medicationDosage;
         public string MedicationDosage
@@ -139,6 +152,8 @@ namespace Piller.ViewModels
 
 
 
+
+
         private RxUI.ReactiveList<TimeSpan> dosageHours;
         public RxUI.ReactiveList<TimeSpan> DosageHours
         {
@@ -208,17 +223,18 @@ namespace Piller.ViewModels
 			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
 			this.TakePhotoCommand.Subscribe(x =>
 			{
-                if(x!=null)
-				    this.OnPicture(x);
+				this.OnPicture(x);
 			});
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
-            {
+			{
 
 				var dataRecord = new MedicationDosage
 				{
 					Id = this.Id,
 					Name = this.MedicationName,
+					From = this.StartDate,
+					To = this.EndDate,
 					Dosage = this.MedicationDosage,
                     Morning = this.Morning,
                     Evening = this.Evening,
@@ -233,6 +249,18 @@ namespace Piller.ViewModels
                         | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
                     DosageHours = this.DosageHours
                 };
+
+				if (!string.IsNullOrEmpty(this.StartDate) && !string.IsNullOrEmpty(this.EndDate))
+				{
+					DateTime start = DateTime.Parse(this.StartDate);
+					DateTime end = DateTime.Parse(this.EndDate);
+					if (start > end)
+					{
+						UserDialogs.Instance.Toast("Ustaw prawidłowo zakres dat.");
+						return false;
+					}
+
+				}
 
                 if (this.Bytes != null)
                 {
@@ -352,6 +380,8 @@ namespace Piller.ViewModels
                 MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
                 Id = item.Id;
                 MedicationName = item.Name;
+				StartDate = item.From;
+				EndDate = item.To;
                 MedicationDosage = item.Dosage;
                 Morning = item.Morning;
                 Evening = item.Evening;
@@ -362,15 +392,23 @@ namespace Piller.ViewModels
                 Friday = item.Days.HasFlag(DaysOfWeek.Friday);
                 Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
-                DosageHours = new RxUI.ReactiveList<TimeSpan>(item.DosageHours);
+				DosageHours = new RxUI.ReactiveList<TimeSpan>(item.DosageHours);
+
+
+
+
+
 
                 if (!string.IsNullOrEmpty(item.ImageName))
 				    Bytes = imageLoader.LoadImage(item.ImageName);
+
+
             }
             else
             {
                 isNew = true;
             }
+
             loadSettings();
 
         }
