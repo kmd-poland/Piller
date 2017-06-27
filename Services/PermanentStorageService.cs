@@ -23,6 +23,7 @@ namespace Piller.Services
 
             this.connection.GetConnection ().CreateTable<MedicationDosage> ();
             this.connection.GetConnection ().CreateTable<NotificationOccurrence>();
+            this.connection.GetConnection().CreateTable<OverdueNotification>();
         }
 
         public async Task<T> GetAsync<T> (int id) where T : new()

@@ -42,15 +42,29 @@ namespace Piller.Droid.Services
             contentBigView.SetTextViewText(Resource.Id.titleTextView, medication.Name);
             contentBigView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(occurrenceDate));
 
-            PendingIntent intent = PendingIntent.GetActivity(context, 0, notificationIntent, 0);
-            contentBigView.SetOnClickPendingIntent(Resource.Id.okButton, intent);
+            var medicationId = notificationIntent.GetIntExtra(NotificationPublisher.MEDICATION_ID, 0);
 
-            intent = PendingIntent.GetActivity(context, 0, notificationIntent, 0);
-            contentBigView.SetOnClickPendingIntent(Resource.Id.noButton, intent);
+            Intent okIntent = new Intent(notificationIntent);
+            Intent noIntent = new Intent(notificationIntent);
+            Intent laterIntent = new Intent(notificationIntent);
 
-            intent = PendingIntent.GetActivity(context, 0, notificationIntent, 0);
-            contentBigView.SetOnClickPendingIntent(Resource.Id.laterButton, intent);
+            okIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            noIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            laterIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
 
+            okIntent.SetAction("OK");
+            noIntent.SetAction("NO");
+            laterIntent.SetAction("LATER");
+
+            PendingIntent ok_intent = PendingIntent.GetBroadcast(context, 0, okIntent, 0);
+            contentBigView.SetOnClickPendingIntent(Resource.Id.okButton, ok_intent);
+
+            PendingIntent no_intent = PendingIntent.GetBroadcast(context, 0, noIntent, 0);
+            contentBigView.SetOnClickPendingIntent(Resource.Id.noButton, no_intent);
+
+            PendingIntent later_intent = PendingIntent.GetBroadcast(context, 0, laterIntent, 0);
+            contentBigView.SetOnClickPendingIntent(Resource.Id.laterButton, later_intent);
+            
             if (medication?.ThumbnailName == null)
 				contentBigView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
             else
@@ -62,7 +76,7 @@ namespace Piller.Droid.Services
 
             builder.SetCustomContentView(contentView);
             builder.SetCustomBigContentView(contentBigView);
-
+           
             return builder.Build();
         }
 

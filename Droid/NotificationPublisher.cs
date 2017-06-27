@@ -25,7 +25,8 @@ namespace Piller.Droid
         private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
 
         public static string MEDICATION_ID = "medication-id";
-		public static string NOTIFICATION_ID = "notification-id";
+        public static string MEDICATION_NAME = "medication-name";
+        public static string NOTIFICATION_ID = "notification-id";
 		public static string NOTIFICATION = "notification";
 		public static string NOTIFICATION_FIRE_TIME = "notification-fire-time";
 
@@ -35,14 +36,14 @@ namespace Piller.Droid
 				(NotificationManager)context.GetSystemService(Context.NotificationService);
 
 			var notification = intent.GetParcelableExtra(NOTIFICATION) as Notification;
+            var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
 
-			if (notification != null)
+            if (notification != null)
 			{
                 var notificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
-                var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
+                
                 var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
-
-				notificationManager.Notify(notificationId, notification);
+                notificationManager.Notify(notificationId, notification);
 
                 var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
                 var cal = dateFormat.Format(fireTime);
@@ -63,7 +64,11 @@ namespace Piller.Droid
                     foreach (var overdueNotificationOccurrence in overdueNotificationsOccurrences)
                     {
                         var medication = await this.storage.GetAsync<MedicationDosage>(overdueNotificationOccurrence.MedicationDosageId);
-						Intent notificationIntent = new Intent(context, typeof(NotificationPublisher));
+
+                        Intent notificationIntent = new Intent(context, typeof(NotificationPublisher));
+                        
+                        notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+                        
                         var overdueNotification = NotificationHelper.GetNotification(context, medication, overdueNotificationOccurrence.OccurrenceDateTime, notificationIntent);
                         notificationManager.Notify(overdueNotificationOccurrence.Id.Value, overdueNotification);
                     }
@@ -72,19 +77,65 @@ namespace Piller.Droid
 			else
 			{
 				System.Diagnostics.Debug.WriteLine(intent.Action);
+                System.Diagnostics.Debug.WriteLine(medicationId);
 
-				var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
-				//if (intent.Action == "Akcja 1") {
-				var request = new MvxViewModelRequest();
-				request.ParameterValues = new System.Collections.Generic.Dictionary<string, string>();
-                request.ParameterValues.Add("nav", JsonConvert.SerializeObject(new MedicationDosageNavigation() { MedicationDosageId = 123 }));
-				request.ViewModelType = typeof(MedicationDosageViewModel);
-				var requestTranslator = Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>();
-				var newActivity = requestTranslator.GetIntentFor(request);
-				newActivity.SetFlags(ActivityFlags.NewTask);
-				context.StartActivity(newActivity);
-				//}
-			}
+                var notificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
+
+                if (intent.Action == "OK")
+                {
+                    //test
+                    Task.Run(async () =>
+                    {
+                        var overdueNotification = new OverdueNotification(15, "aa", 0);
+                        await this.storage.SaveAsync(overdueNotification);
+                    });
+
+                    notificationManager.Cancel(notificationId);
+                }
+
+                if (intent.Action == "NO")
+                {
+                    var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
+                    var name = intent.GetStringExtra(MEDICATION_NAME);
+
+                    Task.Run(async () =>
+                    {
+                        var overdueNotification = new OverdueNotification(medicationId, name, fireTime);
+                        await this.storage.SaveAsync(overdueNotification);
+                    });
+
+                    notificationManager.Cancel(notificationId);
+                }
+
+                if (intent.Action == "LATER")
+                {
+                    Task.Run(async () =>
+                    {
+                        var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
+                        var name = intent.GetStringExtra(MEDICATION_NAME);
+                        DateTime occurrenceDate = new DateTime(fireTime);
+                        occurrenceDate = occurrenceDate.AddSeconds(15);
+                        //DateTime occurrenceDate = new DateTime(2017, 6, 25, 19, 40, 00);
+                        occurrenceDate = occurrenceDate.AddSeconds(15);
+
+                        Intent notificationIntent = new Intent(context, typeof(NotificationPublisher));
+                        notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+                        //notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, 15);
+
+
+                        var medications = await this.storage.List<MedicationDosage>();
+                        var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
+                        //var medicationDosage = medications.FirstOrDefault(n => n.Id == 15);
+
+                        var not = NotificationHelper.GetNotification(context, medicationDosage, occurrenceDate, notificationIntent);
+                        
+                        await new AndroidNotificationService(context).OverdueNotification(not, medicationDosage, occurrenceDate, notificationIntent);
+                    });
+
+                    notificationManager.Cancel(notificationId);
+
+                }
+            }
 		}
 
 		public void CancelAlarm(Context context)
@@ -101,5 +152,7 @@ namespace Piller.Droid
 			PackageManager pm = context.PackageManager;
 			pm.SetComponentEnabledSetting(receiver, ComponentEnabledState.Disabled, ComponentEnableOption.DontKillApp);
 		}
+
+        
 	}
 }
