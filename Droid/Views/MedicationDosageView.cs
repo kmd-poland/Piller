@@ -12,6 +12,8 @@ using System.Windows.Input;
 
 using System.Reactive.Linq;
 using MvvmCross.Plugins.PictureChooser.Droid;
+using Android.Support.Design.Widget;
+using ZXing.Mobile;
 
 namespace Piller.Droid.Views
 {
@@ -25,10 +27,8 @@ namespace Piller.Droid.Views
         Button deleteBtn;
         RadioButton everyday;
         RadioButton custom;
-//<<<<<<< HEAD
         TextView daysOfWeek;
         TextView timeSelector;
-//=======
 		TextView fromDate;
 		TextView toDate;
 
@@ -37,7 +37,8 @@ namespace Piller.Droid.Views
 		ImageButton clearTo;
 
         MedicationDosageTimeLayout hoursList;
-//>>>>>>> wojtaszek/Do_not_know_what
+
+        FloatingActionButton barScan;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -70,6 +71,32 @@ namespace Piller.Droid.Views
             custom = FindViewById<RadioButton>(Resource.Id.custom);
 
             FirstBottomSheet firsDialog = new FirstBottomSheet(this);
+
+          
+            barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
+
+            MobileBarcodeScanner.Initialize(Application);
+
+            barScan.Click += async (sender, e) =>
+            {
+
+
+                // Initialize the scanner first so it can track the current context
+                
+
+
+                var scanner = new MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                {
+                    ViewModel.SetMedicinesName(result.Text);
+                }
+                   
+            };
+
+         
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
             DeleteDialog deleteDialog = new DeleteDialog(this);
 
@@ -89,9 +116,6 @@ namespace Piller.Droid.Views
             });
             firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
 
-//<<<<<<< HEAD
-//            secondDialog.Accept.Subscribe(x =>
-//=======
 			fromDate.Click += (o,e) =>{
 					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
 					{
@@ -131,7 +155,6 @@ namespace Piller.Droid.Views
 			};
 
             secondDialog.Accept.Subscribe(x  =>
-//>>>>>>> wojtaszek/Do_not_know_what
             {
                 this.ViewModel.Monday = x[0];
                 this.ViewModel.Tuesday = x[1];
@@ -167,7 +190,10 @@ namespace Piller.Droid.Views
             this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
             var saveItem = menu.FindItem(Resource.Id.action_save);
 
-            this.ViewModel.Save.CanExecute.Subscribe(canExecute => saveItem.SetEnabled(canExecute));
+			this.ViewModel.Save.CanExecute.Subscribe(canExecute =>
+			{
+				saveItem.SetEnabled(canExecute);
+			});
 
             return base.OnCreateOptionsMenu(menu);
         }
@@ -244,15 +270,9 @@ namespace Piller.Droid.Views
                 .To(vm => vm.Everyday);
             bindingSet.Bind(custom)
                 .For(v => v.Checked)
-//<<<<<<< HEAD
                 .To(vm => vm.Custom);
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
-//=======
-//                .To(vm => vm.Cusom);           
-
-
-//>>>>>>> wojtaszek/Do_not_know_what
 
             bindingSet.Apply();
 

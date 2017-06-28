@@ -126,6 +126,7 @@
             <TextView
                 android:id="@+id/timeSelector"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="8dp" />
             <TextView
                 android:text="Od kiedy/do kiedy (opcjonalne)"
@@ -186,31 +187,6 @@
                     android:background="@android:color/transparent"
                     android:gravity="center" />
             </LinearLayout>
-            <Button
-                android:id="@+id/time_picker"
-                android:text="Dodaj"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:drawableRight="@drawable/ic_add_white_36dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorAccent"
-                android:paddingRight="8dp"
-                android:layout_marginTop="8dp" />
-            <MedicationDosageTimeLayout
-                android:id="@+id/notificationHours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="rano"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
         </LinearLayout>
     </ScrollView>
     <Button
@@ -224,4 +200,14 @@
         android:paddingRight="8dp"
         android:layout_alignParentBottom="true"
         android:drawableRight="@drawable/ic_delete_forever_white_36dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/barScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/icons8_Barcode_26"
+        local:layout_anchorGravity="bottom|right|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

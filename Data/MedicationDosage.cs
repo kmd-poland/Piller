@@ -3,7 +3,6 @@ using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using Services;
-using MvvmCross.Platform;
 
 namespace Piller.Data
 {

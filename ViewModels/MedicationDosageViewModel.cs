@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -24,6 +24,7 @@ namespace Piller.ViewModels
 		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
         private ISettings settings = Mvx.Resolve<ISettings>();
+		private IMedicineDatabaseService medicinesDatabase = Mvx.Resolve<IMedicineDatabaseService>();
 
         MvxSubscriptionToken dataChangedSubscriptionToken;
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
@@ -69,6 +70,30 @@ namespace Piller.ViewModels
 			get { return endDate; }
 			set	{ this.SetProperty(ref endDate, value); }
 		}
+
+        public async void SetMedicinesName(string kodEAN)
+        {
+            Data.Medicines medicine =  await this.medicinesDatabase.GetAsync(kodEAN);
+
+            if(medicine != null)
+            {
+                MedicationName = medicine.NazwaProduktu;
+            }
+            else
+            {
+                MedicationName = "";
+                UserDialogs.Instance.Toast("Nie znaleziono w bazie leków");
+            }
+        }
+
+        long ean;
+        public long EAN
+        {
+            get { return ean; }
+            set {
+                this.SetProperty(ref ean, value);
+            }
+        }
 
         string medicationDosage;
         public string MedicationDosage
