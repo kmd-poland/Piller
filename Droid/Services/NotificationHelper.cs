@@ -42,12 +42,14 @@ namespace Piller.Droid.Services
             contentBigView.SetTextViewText(Resource.Id.titleTextView, medication.Name);
             contentBigView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(occurrenceDate));
 
-            var medicationId = notificationIntent.GetIntExtra(NotificationPublisher.MEDICATION_ID, 0);
+            var medicationId = medication.Id.Value;
+            System.Diagnostics.Debug.Write(medicationId);
 
             Intent okIntent = new Intent(notificationIntent);
             Intent noIntent = new Intent(notificationIntent);
             Intent laterIntent = new Intent(notificationIntent);
 
+            notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
             okIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
             noIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
             laterIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
@@ -56,13 +58,13 @@ namespace Piller.Droid.Services
             noIntent.SetAction("NO");
             laterIntent.SetAction("LATER");
 
-            PendingIntent ok_intent = PendingIntent.GetBroadcast(context, 0, okIntent, 0);
+            PendingIntent ok_intent = PendingIntent.GetBroadcast(context, Environment.TickCount, okIntent, 0);
             contentBigView.SetOnClickPendingIntent(Resource.Id.okButton, ok_intent);
 
-            PendingIntent no_intent = PendingIntent.GetBroadcast(context, 0, noIntent, 0);
+            PendingIntent no_intent = PendingIntent.GetBroadcast(context, Environment.TickCount, noIntent, 0);
             contentBigView.SetOnClickPendingIntent(Resource.Id.noButton, no_intent);
 
-            PendingIntent later_intent = PendingIntent.GetBroadcast(context, 0, laterIntent, 0);
+            PendingIntent later_intent = PendingIntent.GetBroadcast(context, Environment.TickCount, laterIntent, 0);
             contentBigView.SetOnClickPendingIntent(Resource.Id.laterButton, later_intent);
             
             if (medication?.ThumbnailName == null)

@@ -25,8 +25,8 @@ namespace Piller.ViewModels
         {
             get { return !nearestList.Any(); }
         }
-        private List<OverdueNotification> overdueList;
-        public List<OverdueNotification> OverdueList
+        private List<NotificationOccurrence> overdueList;
+        public List<NotificationOccurrence> OverdueList
         {
             get { return overdueList; }
             set { SetProperty(ref overdueList, value); RaisePropertyChanged(nameof(IsEmptyOverdue)); }
@@ -36,19 +36,32 @@ namespace Piller.ViewModels
             get { return !overdueList.Any(); }
         }
 
-        public async Task DeleteOverdue(OverdueNotification medication)
+        private List<NotificationOccurrence> laterList;
+        public List<NotificationOccurrence> LaterList
         {
-            await storage.DeleteAsync<OverdueNotification>(medication);
-            this.OverdueList.Remove(medication);
+            get { return laterList; }
+            set { SetProperty(ref laterList, value); RaisePropertyChanged(nameof(IsEmptyLater)); }
+        }
+        public bool IsEmptyLater
+        {
+            get { return !laterList.Any(); }
+        }
+
+        public async Task DeleteOverdue(NotificationOccurrence notification)
+        {
+            this.notifications.CancelNotification(notification);
+            await storage.DeleteAsync<NotificationOccurrence>(notification);
+            this.OverdueList.Remove(notification);
         }
 
         public async Task DeleteNearest(NotificationOccurrence notification)
         {
             this.notifications.CancelNotification(notification);
             await storage.DeleteAsync<NotificationOccurrence>(notification);
+            this.NearestList.Remove(notification);
         }
 
-        public async Task OverdueNearest(NotificationOccurrence notification)
+        /*public async Task OverdueNearest(NotificationOccurrence notification)
         {
             var medications = await this.storage.List<MedicationDosage>();
             var medicationDosage = medications.FirstOrDefault(n => n.Id == notification.MedicationDosageId);
@@ -56,21 +69,28 @@ namespace Piller.ViewModels
             
             await storage.DeleteAsync<NotificationOccurrence>(notification);
             //await this.notifications.OverdueNotification();
-        }
+        }*/
 
         public async Task Init()
         {
-            var itemsOverdue = await this.storage.List<OverdueNotification>();
-            if (itemsOverdue != null)
-                this.OverdueList = itemsOverdue;
-            else
-                this.OverdueList = new List<OverdueNotification>();
+            var notifications = await this.storage.List<NotificationOccurrence>();
 
-            var itemsNearest = await this.storage.List<NotificationOccurrence>();
+            DateTime now = DateTime.Now;
+            DateTime start = now.AddHours(-2);
+            DateTime end = now.AddHours(2);
+            var overdueNotifications = notifications.Where(n => n.OccurrenceDateTime < start);
+            var nearestNotifications = notifications.Where(n => n.OccurrenceDateTime > start && n.OccurrenceDateTime < end);
+            var laterNotifications = notifications.Where(n => n.OccurrenceDateTime > end);
+
+            this.OverdueList = overdueNotifications.ToList<NotificationOccurrence>();
+            this.NearestList = nearestNotifications.ToList<NotificationOccurrence>();
+            this.LaterList = laterNotifications.ToList<NotificationOccurrence>();
+
+            /*var itemsNearest = await this.storage.List<NotificationOccurrence>();
             if (itemsNearest != null)
                 this.NearestList = itemsNearest;
             else
-                this.NearestList = new List<NotificationOccurrence>();
+                this.NearestList = new List<NotificationOccurrence>();*/
         }
     }
 }

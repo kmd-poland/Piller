@@ -10,23 +10,38 @@
         android:layout_width="match_parent">
         <include
             layout="@layout/toolbar" />
-      <TextView xmlns:tools="http://schemas.android.com/tools"
+        <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:padding="15dp"
             android:text="Zaległe" />
         <MvxListView
             android:id="@+id/overdueList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-      <TextView xmlns:tools="http://schemas.android.com/tools"
+        <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:padding="15dp"
             android:text="Najbliższe" />
-      <MvxListView
+        <MvxListView
             android:id="@+id/nearestList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
+        <TextView xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textColor="@android:color/black"
+              android:textSize="15sp"
+              android:padding="15dp"
+              android:text="Później" />
+        <MvxListView
+            android:id="@+id/laterList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

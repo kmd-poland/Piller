@@ -39,6 +39,8 @@ namespace Piller.Droid.Views
         {
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
             var name = view.FindViewById<TextView>(Resource.Id.label_nearest_name);
+            var dosage = view.FindViewById<TextView>(Resource.Id.label_nearest_dosage);
+            var time = view.FindViewById<TextView>(Resource.Id.label_nearest_time);
             var bset = view.CreateBindingSet<MvxListItemView, NotificationOccurrence>();
             var del_nearest_not_button = view.FindViewById<ImageView>(Resource.Id.del_nearest_not_button);
 
@@ -46,6 +48,13 @@ namespace Piller.Droid.Views
 
             bset.Bind(name)
                 .To(x => x.Name);
+
+            bset.Bind(dosage)
+                .To(x => x.Dosage);
+
+            bset.Bind(time)
+                .To(x => x.OccurrenceDateTime);
+
             bset.Apply();
             return view;
         }

@@ -23,6 +23,7 @@ namespace Piller.Droid.Views
     {
         MvxListView nearestList;
         MvxListView overdueList;
+        MvxListView laterList;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -42,6 +43,10 @@ namespace Piller.Droid.Views
             var overdueAdapter = (OverdueListAdapter)overdueList.Adapter;
             overdueAdapter.DeleteRequested.Subscribe(async medication => await this.ViewModel.DeleteOverdue(medication));
 
+            laterList = FindViewById<MvxListView>(Resource.Id.laterList);
+            laterList.Adapter = new LaterListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+            laterList.ItemTemplateId = Resource.Layout.later_item;
+            
             //Toolbar will now take on default actionbar characteristics
             SetSupportActionBar(toolbar);
             SetBinding();
@@ -58,6 +63,10 @@ namespace Piller.Droid.Views
             bindingSet.Bind(nearestList)
                 .For(x => x.ItemsSource)
                 .To(vm => vm.NearestList);
+
+            bindingSet.Bind(laterList)
+                .For(x => x.ItemsSource)
+                .To(vm => vm.LaterList);
 
             bindingSet.Apply();
         }

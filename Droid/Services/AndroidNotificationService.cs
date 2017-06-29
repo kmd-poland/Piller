@@ -43,7 +43,7 @@ namespace Piller.Droid.Services
                     var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
                     var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
                     not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                    await this.SetAlarm(medicationDosage.Name, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+                    await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
                 }
             } else {
                 // schedule in a weekly manner for each day of week
@@ -54,7 +54,7 @@ namespace Piller.Droid.Services
                         var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
                         var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
 						not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                        await this.SetAlarm(medicationDosage.Name, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+                        await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
 					}
 				}
 			}
@@ -136,10 +136,10 @@ namespace Piller.Droid.Services
 
         public async Task OverdueNotification(Notification not, MedicationDosage medicationDosage, DateTime nextOccurrenceDate, Intent notificationIntent)
         {
-            await this.SetAlarm(medicationDosage.Name, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
         }
 
-        private async Task SetAlarm(String name, Notification notification, int id, DateTime occurrenceDate, Intent notificationIntent)
+        private async Task SetAlarm(String name, String dosage, Notification notification, int id, DateTime occurrenceDate, Intent notificationIntent)
         {
 			var firingCal = Java.Util.Calendar.Instance;
 
@@ -156,7 +156,7 @@ namespace Piller.Droid.Services
 			var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
 			var cal = dateFormat.Format(triggerTime);
             System.Diagnostics.Debug.WriteLine(cal);
-            var notificationOccurrence = new NotificationOccurrence(name, id, occurrenceDate, triggerTime);
+            var notificationOccurrence = new NotificationOccurrence(name, dosage, id, occurrenceDate, triggerTime);
             await this.storage.SaveAsync(notificationOccurrence);
 
             notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationOccurrence.Id.Value);

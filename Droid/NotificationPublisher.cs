@@ -83,17 +83,10 @@ namespace Piller.Droid
 
                 if (intent.Action == "OK")
                 {
-                    //test
-                    Task.Run(async () =>
-                    {
-                        var overdueNotification = new OverdueNotification(15, "aa", 0);
-                        await this.storage.SaveAsync(overdueNotification);
-                    });
-
                     notificationManager.Cancel(notificationId);
                 }
 
-                if (intent.Action == "NO")
+                /*if (intent.Action == "NO")
                 {
                     var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
                     var name = intent.GetStringExtra(MEDICATION_NAME);
@@ -105,30 +98,26 @@ namespace Piller.Droid
                     });
 
                     notificationManager.Cancel(notificationId);
-                }
+                }*/
 
                 if (intent.Action == "LATER")
                 {
                     Task.Run(async () =>
                     {
-                        var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
                         var name = intent.GetStringExtra(MEDICATION_NAME);
-                        DateTime occurrenceDate = new DateTime(fireTime);
-                        occurrenceDate = occurrenceDate.AddSeconds(15);
-                        //DateTime occurrenceDate = new DateTime(2017, 6, 25, 19, 40, 00);
-                        occurrenceDate = occurrenceDate.AddSeconds(15);
+                        var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
+                        DateTime now = DateTime.Now;
+                        DateTime occurrenceDate = now.AddMinutes(15);
 
                         Intent notificationIntent = new Intent(context, typeof(NotificationPublisher));
                         notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
-                        //notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, 15);
-
 
                         var medications = await this.storage.List<MedicationDosage>();
                         var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
-                        //var medicationDosage = medications.FirstOrDefault(n => n.Id == 15);
-
                         var not = NotificationHelper.GetNotification(context, medicationDosage, occurrenceDate, notificationIntent);
-                        
+
+                        NotificationOccurrence newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000);
+                        await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
                         await new AndroidNotificationService(context).OverdueNotification(not, medicationDosage, occurrenceDate, notificationIntent);
                     });
 

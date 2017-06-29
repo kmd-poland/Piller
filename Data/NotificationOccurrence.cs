@@ -11,6 +11,8 @@ namespace Piller.Data
 
         public string Name { get; set; }
 
+        public string Dosage { get; set; }
+
         public int MedicationDosageId { get; set; }
 
         public long OccurrenceDateMillis { get; set; }
@@ -22,9 +24,10 @@ namespace Piller.Data
 
         }
 
-        public NotificationOccurrence(string Name, int medicationDosageId, DateTime occurrenceDate, long occurrenceDateMillis)
+        public NotificationOccurrence(string name, string dosage, int medicationDosageId, DateTime occurrenceDate, long occurrenceDateMillis)
         {
-            this.Name = Name;
+            this.Name = name;
+            this.Dosage = dosage;
             this.MedicationDosageId = medicationDosageId;
             this.OccurrenceDateTime = occurrenceDate;
             this.OccurrenceDateMillis = occurrenceDateMillis;
