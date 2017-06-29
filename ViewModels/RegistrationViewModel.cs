@@ -49,14 +49,14 @@ namespace Piller.ViewModels
 
         public async Task DeleteOverdue(NotificationOccurrence notification)
         {
-            this.notifications.CancelNotification(notification);
+            await this.notifications.CancelNotification(notification);
             await storage.DeleteAsync<NotificationOccurrence>(notification);
             this.OverdueList.Remove(notification);
         }
 
         public async Task DeleteNearest(NotificationOccurrence notification)
         {
-            this.notifications.CancelNotification(notification);
+            await this.notifications.CancelNotification(notification);
             await storage.DeleteAsync<NotificationOccurrence>(notification);
             this.NearestList.Remove(notification);
         }
@@ -73,14 +73,14 @@ namespace Piller.ViewModels
 
         public async Task Init()
         {
-            var notifications = await this.storage.List<NotificationOccurrence>();
+            var allNotifications = await this.storage.List<NotificationOccurrence>();
 
             DateTime now = DateTime.Now;
             DateTime start = now.AddHours(-2);
             DateTime end = now.AddHours(2);
-            var overdueNotifications = notifications.Where(n => n.OccurrenceDateTime < start);
-            var nearestNotifications = notifications.Where(n => n.OccurrenceDateTime > start && n.OccurrenceDateTime < end);
-            var laterNotifications = notifications.Where(n => n.OccurrenceDateTime > end);
+            var overdueNotifications = allNotifications.Where(n => n.OccurrenceDateTime < start);
+            var nearestNotifications = allNotifications.Where(n => n.OccurrenceDateTime > start && n.OccurrenceDateTime < end);
+            var laterNotifications = allNotifications.Where(n => n.OccurrenceDateTime > end);
 
             this.OverdueList = overdueNotifications.ToList<NotificationOccurrence>();
             this.NearestList = nearestNotifications.ToList<NotificationOccurrence>();

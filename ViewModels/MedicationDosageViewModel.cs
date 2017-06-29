@@ -13,6 +13,8 @@ using MvvmCross.Plugins.PictureChooser;
 using System.IO;
 using MvvmCross.Plugins.File;
 using Services;
+using Piller.MixIns.DaysOfWeekMixIns;
+using System.Threading.Tasks;
 
 namespace Piller.ViewModels
 {
@@ -193,8 +195,12 @@ namespace Piller.ViewModels
                 }
 
 				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
-                //var notification = new CoreNotification(dataRecord.Id.Value, dataRecord.Name, "Rano i wieczorem", new RepeatPattern() { DayOfWeek = dataRecord.Days, Interval = RepetitionInterval.None, RepetitionFrequency = 1 });
-                await this.notifications.ScheduleNotification(dataRecord);
+                // usuwam poprzednie notyfikacje
+                await this.notifications.CancelNotifications(dataRecord);
+                // dodaję najbliższe wystąpienia do tabeli NotificationOccurrence
+                await this.AddNotificationOccurrences(dataRecord);
+                // dodaję notyfikacje - w środku czytam NotificationOccurrence
+                await this.notifications.ScheduleNotifications(dataRecord);
 
                 return true;
             }, canSave);
@@ -245,7 +251,53 @@ namespace Piller.ViewModels
 
         }
 
+        private async Task AddNotificationOccurrences(MedicationDosage medDosage)
+        {
+			if (medDosage.Days.AllSelected())
+			{
+				// schedule for every occurrence of hour for every 24 hours
+				foreach (var hour in medDosage.HoursEncoded.Split(';'))
+				{
+                    var occurrence = new NotificationOccurrence()
+                    {
+                        Name = "TO BE SET LATER WHEN NOTIFICATION SERVICE TAKES CARE OF SHOWING NOTIFICATION",
+                        Dosage = medDosage.Dosage,
+                        MedicationDosageId = medDosage.Id.Value,
+                        OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
+                    };
 
+                    await this.storage.SaveAsync(occurrence);
+				}
+			}
+			else
+			{
+				// schedule in a weekly manner for each day of week
+				foreach (var hour in medDosage.HoursEncoded.Split(';'))
+				{
+					foreach (var day in medDosage.Days.GetSelected())
+					{
+                        var occurrence = new NotificationOccurrence()
+                        {
+                            Name = "TO BE SET LATER WHEN NOTIFICATION SERVICE TAKES CARE OF SHOWING NOTIFICATION",
+							Dosage = medDosage.Dosage,
+							MedicationDosageId = medDosage.Id.Value,
+							OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
+                        };
+
+                        await this.storage.SaveAsync(occurrence);
+					}
+				}
+			}
+        }
+
+		private DateTime NextOccurrenceFromHour(TimeSpan hour)
+		{
+			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
+			if (DateTime.Now.Hour > hour.Hours)
+				return occurrenceDate.AddDays(1);
+
+			return occurrenceDate;
+		}
 
         public async void Init(MedicationDosageNavigation nav)
         {

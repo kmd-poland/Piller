@@ -23,6 +23,7 @@ namespace Piller.Droid
 	public class NotificationPublisher : BroadcastReceiver
 	{
         private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+        private INotificationService notificationService = Mvx.Resolve<INotificationService>();
 
         public static string MEDICATION_ID = "medication-id";
         public static string MEDICATION_NAME = "medication-name";
@@ -69,7 +70,7 @@ namespace Piller.Droid
                         
                         notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
                         
-                        var overdueNotification = NotificationHelper.GetNotification(context, medication, overdueNotificationOccurrence.OccurrenceDateTime, notificationIntent);
+                        var overdueNotification = NotificationHelper.GetNotification(context, medication, overdueNotificationOccurrence, notificationIntent);
                         notificationManager.Notify(overdueNotificationOccurrence.Id.Value, overdueNotification);
                     }
                 });
@@ -114,11 +115,12 @@ namespace Piller.Droid
 
                         var medications = await this.storage.List<MedicationDosage>();
                         var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
-                        var not = NotificationHelper.GetNotification(context, medicationDosage, occurrenceDate, notificationIntent);
+						var newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000);
 
-                        NotificationOccurrence newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000);
+                        var not = NotificationHelper.GetNotification(context, medicationDosage, newNotification, notificationIntent);
+
                         await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
-                        await new AndroidNotificationService(context).OverdueNotification(not, medicationDosage, occurrenceDate, notificationIntent);
+                        await notificationService.OverdueNotification(newNotification, medicationDosage);
                     });
 
                     notificationManager.Cancel(notificationId);
