@@ -36,7 +36,7 @@ namespace Piller.Droid.Views
 		ImageButton clearFrom;
 		ImageButton clearTo;
 
-        MedicationDosageTimeLayout hoursList;
+        //MedicationDosageTimeLayout hoursList;
 
         FloatingActionButton barScan;
 

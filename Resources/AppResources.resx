@@ -135,4 +135,16 @@
   <data name="MorningLabel" xml:space="preserve">
     <value>rano</value>
   </data>
+  <data name="AddHourMessage" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
+  <data name="CancelText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="NewHourLabel" xml:space="preserve">
+    <value>Nowa godzina</value>
+  </data>
+  <data name="SaveText" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
 </root>

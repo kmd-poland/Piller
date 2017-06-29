@@ -62,6 +62,24 @@ namespace Piller.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dodaj.
+        /// </summary>
+        public static string AddHourMessage {
+            get {
+                return ResourceManager.GetString("AddHourMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Anuluj.
+        /// </summary>
+        public static string CancelText {
+            get {
+                return ResourceManager.GetString("CancelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to wieczorem.
         /// </summary>
         public static string EveningLabel {
@@ -112,6 +130,24 @@ namespace Piller.Resources {
         public static string MorningLabel {
             get {
                 return ResourceManager.GetString("MorningLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nowa godzina.
+        /// </summary>
+        public static string NewHourLabel {
+            get {
+                return ResourceManager.GetString("NewHourLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zapisz.
+        /// </summary>
+        public static string SaveText {
+            get {
+                return ResourceManager.GetString("SaveText", resourceCulture);
             }
         }
     }

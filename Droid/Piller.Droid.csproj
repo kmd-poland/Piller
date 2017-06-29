@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Piller.Droid</RootNamespace>
     <AssemblyName>Piller.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -201,7 +201,7 @@
     <Reference Include="FastAndroidCamera">
       <HintPath>..\packages\FastAndroidCamera.2.0.0\lib\MonoAndroid403\FastAndroidCamera.dll</HintPath>
     </Reference>
-		<Reference Include="Xamarin.Android.Support.v4">
+    <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\packages\Xamarin.Android.Support.v4.25.3.1\lib\MonoAndroid70\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
     <Reference Include="ZXing.Net.Mobile.Core">
@@ -293,7 +293,9 @@
     <AndroidResource Include="Resources\menu\settings_menu.xml" />
     <AndroidResource Include="Resources\menu\main_menu.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\icons8_Barcode_26.png" />
-    <AndroidResource Include="Resources\layout\Settings.axml" />
+    <AndroidResource Include="Resources\layout\Settings.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -304,7 +306,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\layout\MedicationSummaryListView.axml" />
+    <AndroidResource Include="Resources\layout\MedicationSummaryListView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\values\material_design_colors.xml" />
     <AndroidResource Include="Resources\layout\toolbar.axml" />
@@ -378,18 +382,7 @@
     <AndroidResource Include="Resources\layout\dialog_days.axml" />
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-ldpi\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\drawable-xxhdpi\" />
-    <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\menu\" />
-    <Folder Include="BindingConverters\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pillSmall.png" />
   </ItemGroup>

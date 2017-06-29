@@ -11,6 +11,8 @@ using MvvmCross.Plugins.Messenger;
 using System.Threading.Tasks;
 using Piller.Services;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Acr.UserDialogs;
 
 namespace Piller.ViewModels
 {
@@ -34,6 +36,13 @@ namespace Piller.ViewModels
             get { return eveningHour; }
             set { SetProperty(ref eveningHour, value); }
         }
+        private ObservableCollection<TimeItem> hoursList;
+        public ObservableCollection<TimeItem> HoursList
+        {
+            get { return hoursList; }
+            set { SetProperty(ref hoursList, value); }
+        }
+        public ReactiveCommand<Unit,Unit> AddHour { get; }
         public ReactiveCommand<TimeSpan, Unit> SetMorning { get; }
         public ReactiveCommand<TimeSpan, Unit> SetAfternoon { get; }
         public ReactiveCommand<TimeSpan, Unit> SetEvening { get; }
@@ -45,15 +54,41 @@ namespace Piller.ViewModels
         public SettingsViewModel()
         {
             readSettings();
-            MorningHour = settingsData.Morning;
-            eveningHour = settingsData.Evening;
 
-            SetMorning = ReactiveCommand.Create<TimeSpan>(hour => MorningHour = hour);
+            if (settingsData.HoursList == null)
+            {
+                HoursList = new ObservableCollection<TimeItem>()
+                {
+                    new TimeItem("Rano") {Hour = TimeSpan.Parse("08:00:00") },
+                    new TimeItem("Wieczorem"){Hour=TimeSpan.Parse("20:00:00")}
+                };
+            }
+            else
+                HoursList = new ObservableCollection<TimeItem>(settingsData.HoursList);
+            SetMorning = ReactiveCommand.Create<TimeSpan>(hour =>
+            {
+                MorningHour = hour;
+            });
             SetEvening = ReactiveCommand.Create<TimeSpan>(hour => EveningHour = hour);
+            var canAdd = this.WhenAnyValue(vm => vm.HoursList.Count, c => c <= 6);
+            AddHour = ReactiveCommand.Create(() =>
+            {
+                var result = UserDialogs.Instance.Prompt(new PromptConfig()
+                    .SetInputMode(InputType.Name)
+                    .SetTitle(Resources.AppResources.AddHourMessage)
+                    .SetPlaceholder(Resources.AppResources.NewHourLabel)
+                    .SetOkText(Resources.AppResources.SaveText)
+                    .SetCancelText(Resources.AppResources.CancelText)
+                    .SetAction(o => {
+                    HoursList.Add(new TimeItem(o.Text));
+                    }));
+               
+            }
+            , canAdd);
 
             Save = ReactiveCommand.Create(() =>
             {
-                var data = JsonConvert.SerializeObject(new SettingsData() { Morning = this.MorningHour, Afternoon = this.AfternoonHour, Evening = this.EveningHour });
+                var data = JsonConvert.SerializeObject(new SettingsData() {HoursList=this.HoursList });
                 settings.AddOrUpdateValue<string>(key, data);
                 return true;
             });

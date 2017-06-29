@@ -13,6 +13,9 @@ using Piller.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Binding.Droid.Views;
+using MvvmCross.Binding.Droid.BindingContext;
+using Piller.Data;
 
 namespace Piller.Droid.Views
 {
@@ -25,6 +28,9 @@ namespace Piller.Droid.Views
         TextView morningHour;
         TextView afternoonHour;
         TextView eveningHour;
+        MedicationDosageTimeLayout HoursList;
+        Button addHour;
+        TimeItem newItem;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -36,15 +42,40 @@ namespace Piller.Droid.Views
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.Title = "Ustawienia";
 
-            morning = FindViewById<RelativeLayout>(Resource.Id.morning);
-            afternoon = FindViewById<RelativeLayout>(Resource.Id.afternoon);
-            evening = FindViewById<RelativeLayout>(Resource.Id.evening);
+            HoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.hoursList);
+            //HoursList.Adapter = new MedicationDosageTimeListAdapter(this);
+            HoursList.ItemTemplateId = Resource.Layout.time_item;
 
-            morningHour = FindViewById<TextView>(Resource.Id.morningHour);
-            afternoonHour = FindViewById<TextView>(Resource.Id.afternoonHour);
-            eveningHour = FindViewById<TextView>(Resource.Id.eveningHour);
+            addHour = FindViewById<Button>(Resource.Id.addHourBtn);
+            var hoursAdapter = (MedicationDosageTimeListAdapter) HoursList.Adapter;
+            hoursAdapter.CLickItem.Subscribe(item =>
+            {
+                TimePickerDialog timePicker = new TimePickerDialog(
+                    this,
+                    (s, args) =>
+                    {
+                        if (((TimePicker)s).IsShown)
+                        {
+                            newItem = new TimeItem(item.Name);
+                            newItem.Hour= new TimeSpan(args.HourOfDay, args.Minute, 0);
+                            var id = this.ViewModel.HoursList.IndexOf(item);
+                            if(id>=0)
+                            {
+                                this.ViewModel.HoursList.RemoveAt(id);
+                                this.ViewModel.HoursList.Insert(id,newItem);
+                            }
+                        }
+                               // this.ViewModel.HoursList.First(o => o.Name == item.Name).Hour = new TimeSpan(args.HourOfDay,args.Minute,0);
+                    },
+                     12,
+                     00,
+                     true);
+                timePicker.Show();
+            });
             SetBinding();
-
+            
+          
+            /*
             morning.Click += (o, e) =>
             {
                 TimePickerDialog timePicker = new TimePickerDialog(
@@ -87,6 +118,7 @@ namespace Piller.Droid.Views
                      true);
                 timePicker.Show();
             };
+            */
         }
 
         private void SetBinding()
@@ -102,6 +134,12 @@ namespace Piller.Droid.Views
             bindingSet.Bind(eveningHour)
                .To(vm => vm.EveningHour)
                 .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
+            bindingSet.Bind(HoursList)
+                .For(v => v.ItemsSource)
+                .To(vm => vm.HoursList);
+            bindingSet.Bind(addHour)
+                .For(nameof(View.Click))
+                .To(vm => vm.AddHour);
             bindingSet.Apply();
 
         }

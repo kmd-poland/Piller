@@ -381,9 +381,7 @@ namespace Piller.ViewModels
             if (data == null)
                 data = new SettingsData();
 
-            MorningHour = data.Morning;
-            afternoon = data.Afternoon;
-            EveningHour = data.Evening;
+
             setHours();
         }
 
