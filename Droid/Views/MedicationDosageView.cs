@@ -77,6 +77,7 @@ namespace Piller.Droid.Views
 
             MobileBarcodeScanner.Initialize(Application);
 
+
             barScan.Click += async (sender, e) =>
             {
 
@@ -95,7 +96,6 @@ namespace Piller.Droid.Views
                 }
                    
             };
-
          
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
             DeleteDialog deleteDialog = new DeleteDialog(this);
@@ -121,7 +121,10 @@ namespace Piller.Droid.Views
 					{
 					fromDate.Text = time.ToShortDateString();
 					});
+					frag.minDate = DateTime.Now.Date;
+
 					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
 			};
 
 			toDate.Click += (o,e) => {
@@ -129,7 +132,16 @@ namespace Piller.Droid.Views
 					{
 					toDate.Text = time.ToShortDateString();
 					});
+				if (!string.IsNullOrEmpty(fromDate.Text))
+				{
+					frag.minDate = DateTime.Parse(fromDate.Text);
+				}
+				else
+				{
+					frag.minDate = DateTime.Now.Date;
+				}
 					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
 			};
 
 			clearFrom.Click += (o,e) => {
