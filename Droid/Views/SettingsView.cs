@@ -22,14 +22,8 @@ namespace Piller.Droid.Views
     [Activity]
     public class SettingsView : MvxAppCompatActivity<SettingsViewModel>
     {
-        RelativeLayout morning;
-        RelativeLayout afternoon;
-        RelativeLayout evening;
-        TextView morningHour;
-        TextView afternoonHour;
-        TextView eveningHour;
         MedicationDosageTimeLayout HoursList;
-        Button addHour;
+        TextView addHour;
         TimeItem newItem;
 
         protected override void OnCreate(Bundle bundle)
@@ -45,7 +39,7 @@ namespace Piller.Droid.Views
             HoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.hoursList);
             HoursList.ItemTemplateId = Resource.Layout.time_item;
 
-            addHour = FindViewById<Button>(Resource.Id.addHourBtn);
+            addHour = FindViewById<TextView>(Resource.Id.addHourBtn);
             var hoursAdapter = (MedicationDosageTimeListAdapter) HoursList.Adapter;
             hoursAdapter.CLickItem.Subscribe(item =>
             {
@@ -77,17 +71,7 @@ namespace Piller.Droid.Views
 
         private void SetBinding()
         {
-            var bindingSet = this.CreateBindingSet<SettingsView, SettingsViewModel>();
-            bindingSet.Bind(morningHour)
-                .For(v => v.Text)
-                .To(vm => vm.MorningHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
-            bindingSet.Bind(afternoonHour)
-               .To(vm => vm.AfternoonHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
-            bindingSet.Bind(eveningHour)
-               .To(vm => vm.EveningHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
+            var bindingSet = this.CreateBindingSet<SettingsView, SettingsViewModel>();          
             bindingSet.Bind(HoursList)
                 .For(v => v.ItemsSource)
                 .To(vm => vm.HoursList);
@@ -95,7 +79,6 @@ namespace Piller.Droid.Views
                 .For(nameof(View.Click))
                 .To(vm => vm.AddHour);
             bindingSet.Apply();
-
         }
 
         public override bool OnSupportNavigateUp()

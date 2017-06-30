@@ -80,10 +80,11 @@ namespace Piller.ViewModels
                     .SetTitle(Resources.AppResources.AddHourMessage)
                     .SetPlaceholder(Resources.AppResources.NewHourLabel)
                     .SetOkText(Resources.AppResources.SaveText)
-                    .SetCancelText(Resources.AppResources.CancelText)
+                    .SetCancelText(Resources.AppResources.CancelText)     
                     .SetAction(o => {
-                    HoursList.Add(new TimeItem(o.Text));
-                    }));             
+                    if(o.Ok)
+                        HoursList.Add(new TimeItem(o.Text));
+                    }));
             }, 
             canAdd);
 

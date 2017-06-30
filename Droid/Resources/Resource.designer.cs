@@ -4815,11 +4815,11 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f020079
 			public const int notification_icon_background = 2130837625;
 			
-			// aapt resource value: 0x7f020084
-			public const int notification_template_icon_bg = 2130837636;
-			
 			// aapt resource value: 0x7f020085
-			public const int notification_template_icon_low_bg = 2130837637;
+			public const int notification_template_icon_bg = 2130837637;
+			
+			// aapt resource value: 0x7f020086
+			public const int notification_template_icon_low_bg = 2130837638;
 			
 			// aapt resource value: 0x7f02007a
 			public const int notification_tile_bg = 2130837626;
@@ -4850,6 +4850,9 @@ namespace Piller.Droid
 			
 			// aapt resource value: 0x7f020083
 			public const int splashgif2 = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int text_view_selector = 2130837636;
 			
 			static Drawable()
 			{

@@ -386,7 +386,9 @@
     <AndroidResource Include="Resources\layout\dialog_days.axml" />
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pillSmall.png" />
   </ItemGroup>
