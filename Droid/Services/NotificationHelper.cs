@@ -13,13 +13,12 @@ namespace Piller.Droid.Services
 {
     public static class NotificationHelper
     {
-        public static Notification GetNotification(Context context, MedicationDosage medication, DateTime occurrenceDate, Intent notificationIntent)
+        public static Notification GetNotification(Context context, MedicationDosage medication, NotificationOccurrence notificationOccurrence, Intent notificationIntent)
         {
             var builder = new NotificationCompat.Builder(context);
             builder.SetContentTitle(medication.Name);
             builder.SetTicker($"[PILLER] {medication.Name}");
 			builder.SetSmallIcon(Resource.Drawable.pill64x64);
-
 
             builder.SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
             builder.SetPriority((int)NotificationPriority.High);
@@ -27,7 +26,7 @@ namespace Piller.Droid.Services
 
             RemoteViews contentView = new RemoteViews(context.PackageName, Resource.Layout.customNotification);
             contentView.SetTextViewText(Resource.Id.titleTextView, medication.Name);
-            contentView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(occurrenceDate));
+            contentView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
 
             if (medication?.ThumbnailName == null)
 				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
@@ -40,7 +39,7 @@ namespace Piller.Droid.Services
 
             RemoteViews contentBigView = new RemoteViews(context.PackageName, Resource.Layout.customBigNotification);
             contentBigView.SetTextViewText(Resource.Id.titleTextView, medication.Name);
-            contentBigView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(occurrenceDate));
+            contentBigView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
 
             var medicationId = medication.Id.Value;
             System.Diagnostics.Debug.Write(medicationId);

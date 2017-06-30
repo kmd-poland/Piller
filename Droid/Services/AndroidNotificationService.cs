@@ -27,36 +27,23 @@ namespace Piller.Droid.Services
 			this.ctx = context;
 		}
 
-        public async Task ScheduleNotification(MedicationDosage medicationDosage)
+        public async Task ScheduleNotifications(MedicationDosage medicationDosage)
 		{
 			Intent notificationIntent = new Intent(this.ctx, typeof(NotificationPublisher));
 
             var notificationDefaults = NotificationDefaults.Lights | NotificationDefaults.Sound | NotificationDefaults.Vibrate;
 
             // cancel previously scheduled notifications
-            await this.CancelNotification(medicationDosage.Id.Value);
+            // no; notifications have been cancelled already
 
-			if (medicationDosage.Days.AllSelected()) {
-                // schedule for every occurrence of hour for every 24 hours
-                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
-                {
-                    var nextOccurrenceDate = this.NextOccurrenceFromHour(TimeSpan.Parse(hour));
-                    var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
-                    not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                    await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
-                }
-            } else {
-                // schedule in a weekly manner for each day of week
-                foreach (var hour in medicationDosage.HoursEncoded.Split(';'))
-                {
-                    foreach (var day in medicationDosage.Days.GetSelected())
-                    {
-                        var nextOccurrenceDate = this.NextOccurrenceFromHourAndDayOfWeek(day, TimeSpan.Parse(hour));
-                        var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, nextOccurrenceDate, notificationIntent);
-						not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-                        await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
-					}
-				}
+            // NotificationOccurrence table already contains nearest occurrences, just loop over them to shcedule
+            var notificationOccurrences = await this.storage.List<NotificationOccurrence>(o => o.MedicationDosageId == medicationDosage.Id.Value);
+
+            foreach (var notificationOccurrence in notificationOccurrences)
+            {
+                var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
+				not.Defaults |= notificationDefaults; // todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
+				await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, notificationOccurrence, notificationIntent);
 			}
 		}
 
@@ -97,19 +84,29 @@ namespace Piller.Droid.Services
                 return 0;
         }
 
-        public void CancelNotification(NotificationOccurrence item)
+        public async Task CancelNotification(NotificationOccurrence notificationOccurrence)
         {
+            // todo removing not matter if actual notification has been cancelled or not 
+            await this.storage.DeleteAsync(notificationOccurrence);
+
             var alarmManager = (AlarmManager)this.ctx.GetSystemService(Context.AlarmService);
             Intent intent = new Intent(this.ctx, typeof(NotificationPublisher));
-            if (PendingIntent.GetBroadcast(this.ctx, item.Id.Value, intent, PendingIntentFlags.NoCreate) != null)
+            if (PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.NoCreate) != null)
             {
-                PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, item.Id.Value, intent, PendingIntentFlags.CancelCurrent);
+                PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.CancelCurrent);
                 alarmManager.Cancel(alarmIntent);
             }
             else
             {
-                System.Diagnostics.Debug.Write($"Alarm with id {item.Id.Value} does not exist.");
+                System.Diagnostics.Debug.Write($"Alarm with id {notificationOccurrence.Id.Value} does not exist.");
             }
+        }
+
+        public async Task CancelNotifications(MedicationDosage medicationDosage)
+        {
+            var notifications = await this.storage.List<NotificationOccurrence>(o => o.MedicationDosageId == medicationDosage.Id.Value);
+            foreach (var notification in notifications)
+                await this.CancelNotification(notification);
         }
 
         public async Task CancelNotification(int medicationDosageId)
@@ -134,30 +131,29 @@ namespace Piller.Droid.Services
                 await this.storage.DeleteByKeyAsync<NotificationOccurrence>(notificationId);
 		}
 
-        public async Task OverdueNotification(Notification not, MedicationDosage medicationDosage, DateTime nextOccurrenceDate, Intent notificationIntent)
+        public async Task OverdueNotification(NotificationOccurrence notificationOccurrence, MedicationDosage medicationDosage)
         {
-            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, nextOccurrenceDate, notificationIntent);
+            var notificationIntent = new Intent(this.ctx, typeof(NotificationPublisher));
+            var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
+            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, notificationOccurrence, notificationIntent);
         }
 
-        private async Task SetAlarm(String name, String dosage, Notification notification, int id, DateTime occurrenceDate, Intent notificationIntent)
+        private async Task SetAlarm(String name, String dosage, Notification notification, int id, NotificationOccurrence notificationOccurrence, Intent notificationIntent)
         {
 			var firingCal = Java.Util.Calendar.Instance;
 
-            firingCal.Set(CalendarField.Year, occurrenceDate.Year);
-            firingCal.Set(CalendarField.Month, occurrenceDate.Month - 1);
-            firingCal.Set(CalendarField.DayOfMonth, occurrenceDate.Day);
-			firingCal.Set(CalendarField.HourOfDay, occurrenceDate.Hour);
-			firingCal.Set(CalendarField.Minute, occurrenceDate.Minute);
-			firingCal.Set(CalendarField.Second, occurrenceDate.Second);
+            firingCal.Set(CalendarField.Year, notificationOccurrence.OccurrenceDateTime.Year);
+            firingCal.Set(CalendarField.Month, notificationOccurrence.OccurrenceDateTime.Month - 1);
+            firingCal.Set(CalendarField.DayOfMonth, notificationOccurrence.OccurrenceDateTime.Day);
+			firingCal.Set(CalendarField.HourOfDay, notificationOccurrence.OccurrenceDateTime.Hour);
+			firingCal.Set(CalendarField.Minute, notificationOccurrence.OccurrenceDateTime.Minute);
+			firingCal.Set(CalendarField.Second, notificationOccurrence.OccurrenceDateTime.Second);
 
 			var triggerTime = firingCal.TimeInMillis;
 
             // for test purposes only
 			var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
 			var cal = dateFormat.Format(triggerTime);
-            System.Diagnostics.Debug.WriteLine(cal);
-            var notificationOccurrence = new NotificationOccurrence(name, dosage, id, occurrenceDate, triggerTime);
-            await this.storage.SaveAsync(notificationOccurrence);
 
             notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationOccurrence.Id.Value);
 			notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, id);
@@ -166,7 +162,7 @@ namespace Piller.Droid.Services
             System.Diagnostics.Debug.WriteLine("time " + triggerTime);
             System.Diagnostics.Debug.WriteLine("id " + id);
             System.Diagnostics.Debug.WriteLine("not_id " + notificationOccurrence.Id.Value);
-            var requestId = DateTime.Now.Millisecond;
+            var requestId = notificationOccurrence.Id.Value;
 			PendingIntent pendingIntent = PendingIntent.GetBroadcast(this.ctx, requestId, notificationIntent, PendingIntentFlags.CancelCurrent);
 
 			AlarmManager alarmManager = (AlarmManager)this.ctx.GetSystemService(Context.AlarmService);
