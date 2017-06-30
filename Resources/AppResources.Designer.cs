@@ -80,11 +80,29 @@ namespace Piller.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to W wybrane dni.
+        /// </summary>
+        public static string CustomDayLabel {
+            get {
+                return ResourceManager.GetString("CustomDayLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to wieczorem.
         /// </summary>
         public static string EveningLabel {
             get {
                 return ResourceManager.GetString("EveningLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codziennie.
+        /// </summary>
+        public static string EveryDayLabel {
+            get {
+                return ResourceManager.GetString("EveryDayLabel", resourceCulture);
             }
         }
         
@@ -107,7 +125,7 @@ namespace Piller.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nowy.
+        ///   Looks up a localized string similar to Nowy lek.
         /// </summary>
         public static string MedicationDosageViewModel_Title {
             get {

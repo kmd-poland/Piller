@@ -124,7 +124,7 @@
     <value>Weź pigułkę</value>
   </data>
   <data name="MedicationDosageViewModel_Title" xml:space="preserve">
-    <value>Nowy</value>
+    <value>Nowy lek</value>
   </data>
   <data name="MedicationDosageView_SaveError" xml:space="preserve">
     <value>Błąd zapisu</value>
@@ -146,5 +146,11 @@
   </data>
   <data name="SaveText" xml:space="preserve">
     <value>Zapisz</value>
+  </data>
+  <data name="CustomDayLabel" xml:space="preserve">
+    <value>W wybrane dni</value>
+  </data>
+  <data name="EveryDayLabel" xml:space="preserve">
+    <value>Codziennie</value>
   </data>
 </root>

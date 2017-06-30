@@ -151,7 +151,7 @@ namespace Piller.ViewModels
         public bool Sunday
         {
             get { return sunday; }
-            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); }
+            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(DaysLabel)); }
         }
         private bool everyday;
         public bool Everyday
@@ -190,6 +190,17 @@ namespace Piller.ViewModels
             private set { SetProperty(ref hoursLabel, value); }
         }
 
+        private string daysLabel;
+        public string DaysLabel
+        {
+            get
+            {
+                if (Everyday)
+                    return Resources.AppResources.EveryDayLabel;
+                return Resources.AppResources.CustomDayLabel;
+            }
+        }
+
         private ReactiveList<TimeItem> timeItems;
         public ReactiveList<TimeItem> TimeItems
         {
@@ -197,6 +208,17 @@ namespace Piller.ViewModels
             set { SetProperty(ref timeItems, value); }
         }
 
+        private void selectAllDays()
+        {
+            Monday = true;
+            Tuesday = true;
+            Wednesday = true;
+            Thursday = true;
+            Friday = true;
+            Saturday = true;
+            Sunday = true;
+           
+        }
 
         public ReactiveCommand<Unit, bool> Save { get; private set; }
         public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
@@ -297,14 +319,7 @@ namespace Piller.ViewModels
 
             this.SelectAllDays = ReactiveCommand.Create(() => 
             {
-                Monday = true;
-                Tuesday = true;
-                Wednesday = true;
-                Thursday = true;
-                Friday = true;
-                Saturday = true;
-                Sunday = true;
-
+                selectAllDays();
             });
 
             //save sie udal, albo nie - tu dosatniemy rezultat komendy. Jak sie udal, to zamykamy ViewModel
@@ -363,12 +378,15 @@ namespace Piller.ViewModels
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
             TimeItems = new ReactiveList<TimeItem>( data.HoursList);
+            string[] hoursNames;
             if (HoursLabel == null)
-                return;
-
-            var hours = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.None);
+                hoursNames = new string[1] { TimeItems[0].Name };
+            else
+            {
+                hoursNames = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.None);
+            }
             CheckedHours = TimeItems
-                .Where(h => hours.Contains(h.Name))
+                .Where(h => hoursNames.Contains(h.Name))
                 .Select(h => { h.Checked = true; return h; })
                 .ToList();
             setHours();
@@ -418,6 +436,7 @@ namespace Piller.ViewModels
             else
             {
                 isNew = true;
+                selectAllDays();
             }
             loadSettings();
         }

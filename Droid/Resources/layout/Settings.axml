@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Godziny przyjmowania"
+        android:text="Ustawienia godzin"
         android:textSize="18sp"
         android:textColor="@color/md_black_1000"
         android:padding="8dp" />
