@@ -17,6 +17,7 @@ public class DatePickerFragment : DialogFragment,
 								DatePickerDialog.IOnDateSetListener
 {
 	// TAG can be any string of your choice.
+		public DateTime minDate;
 	public static readonly string TAG = "X:" + typeof(DatePickerFragment).Name.ToUpper();
 
 	// Initialize this value to prevent NullReferenceExceptions.
@@ -35,8 +36,9 @@ public class DatePickerFragment : DialogFragment,
 		DatePickerDialog dialog = new DatePickerDialog(Activity,
 													   this,
 													   currently.Year,
-													   currently.Month,
+													   currently.Month-1,
 													   currently.Day);
+			dialog.DatePicker.MinDate = (long)(minDate - new DateTime(1970, 1, 1)).TotalMilliseconds;
 		return dialog;
 	}
 
