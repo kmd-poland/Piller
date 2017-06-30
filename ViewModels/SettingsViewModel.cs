@@ -122,9 +122,12 @@ namespace Piller.ViewModels
                     .Select(i => i.Hour)
                     .ToList();
 
-                item.DosageHours = dosageHours;
-                await storage.SaveAsync<MedicationDosage>(item);
-                await notifications.ScheduleNotification(item);
+                if(dosageHours.Count>0)
+                {
+                    item.DosageHours = dosageHours;
+                    await storage.SaveAsync<MedicationDosage>(item);
+                    await notifications.ScheduleNotification(item);
+                }
             }
         }
 
