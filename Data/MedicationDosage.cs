@@ -25,10 +25,7 @@ namespace Piller.Data
         public string ThumbnailName { get; set; }
 
         public DaysOfWeek Days { get; set; }
-
-        public bool Morning { get; set; }
-
-        public bool Evening { get; set; }
+        public string Hours { get; set; }
 
         //lista godzin w postaci hh:mm;hh:mm...
         public string HoursEncoded { get; set; }

@@ -6,6 +6,7 @@ using ReactiveUI;
 using Piller.Data;
 using Android.Content;
 using MvvmCross.Binding.Droid.BindingContext;
+using Android.Views;
 
 namespace Piller.Droid.Views
 {
@@ -14,18 +15,15 @@ namespace Piller.Droid.Views
         private IMvxAndroidBindingContext bindingContext;
 
         public ReactiveCommand<TimeItem, TimeItem> CLickItem { get;  }
-       
+        public ReactiveCommand<TimeItem, TimeItem> DeleteRequested { get; }
+
         public MedicationDosageTimeListAdapter(Context context) : base(context)
         {
             this.CLickItem = ReactiveCommand.Create<TimeItem, TimeItem>(input => input);
+            this.DeleteRequested = ReactiveCommand.Create<TimeItem, TimeItem>(input => input);
         }
-        /*
-        public MedicationDosageTimeListAdapter(Context context, IMvxAndroidBindingContext bindingContext) : base(context,bindingContext)
-        {
-            this.bindingContext = bindingContext;
-            this.CLickItem = ReactiveCommand.Create<TimeItem, TimeItem>(input => input);
-        }
-        */
+        
+        
         protected override IMvxListItemView CreateBindableView(object dataContext, int templateId)
 		{
             
@@ -34,14 +32,22 @@ namespace Piller.Droid.Views
 
 			var hour = view.FindViewById<TextView>(Resource.Id.hourLabel);
             var name = view.FindViewById<TextView>(Resource.Id.hourName);
-          
+
+            var deleteButton = view.FindViewById<ImageView>(Resource.Id.button_delete_dosage_hour);
+            deleteButton.Click += (sender, e) => DeleteRequested.Execute((TimeItem)dataContext).Subscribe();
+
             bset.Bind(hour)
                 .To(x => x.Hour)
                  .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
             bset.Bind(name)
                 .To(x => x.Name);
-            view.Click += (o, e) => CLickItem.Execute((TimeItem)dataContext).Subscribe();
+            bset.Bind(deleteButton)
+                .For(v=>v.Visibility)
+                .To(x=>x.Name)
+                .WithConversion(new InlineValueConverter<string, ViewStates>(n => n.Equals(Resources.AppResources.MorningLabel) || n.Equals(Resources.AppResources.EveningLabel) ? ViewStates.Invisible : ViewStates.Visible));
 			bset.Apply();
+
+            view.Click += (o, e) => CLickItem.Execute((TimeItem)dataContext).Subscribe();
 
 			return view;
 		}

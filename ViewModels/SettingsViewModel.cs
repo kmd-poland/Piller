@@ -13,6 +13,7 @@ using Piller.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Acr.UserDialogs;
+using System.Linq;
 
 namespace Piller.ViewModels
 {
@@ -50,6 +51,7 @@ namespace Piller.ViewModels
         private SettingsData settingsData;
         private ISettings settings = Mvx.Resolve<ISettings>();
         private readonly string key = SettingsData.Key;
+        private const int maxItems=6;
 
         public SettingsViewModel()
         {
@@ -59,8 +61,8 @@ namespace Piller.ViewModels
             {
                 HoursList = new ObservableCollection<TimeItem>()
                 {
-                    new TimeItem("Rano") {Hour = TimeSpan.Parse("08:00:00") },
-                    new TimeItem("Wieczorem"){Hour=TimeSpan.Parse("20:00:00")}
+                    new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
+                    new TimeItem(Resources.AppResources.EveningLabel){Hour=TimeSpan.Parse("20:00:00")}
                 };
             }
             else
@@ -70,7 +72,7 @@ namespace Piller.ViewModels
                 MorningHour = hour;
             });
             SetEvening = ReactiveCommand.Create<TimeSpan>(hour => EveningHour = hour);
-            var canAdd = this.WhenAnyValue(vm => vm.HoursList.Count, c => c <= 6);
+            var canAdd = this.WhenAnyValue(vm => vm.HoursList.Count, c => c < maxItems);
             AddHour = ReactiveCommand.Create(() =>
             {
                 var result = UserDialogs.Instance.Prompt(new PromptConfig()
@@ -81,10 +83,9 @@ namespace Piller.ViewModels
                     .SetCancelText(Resources.AppResources.CancelText)
                     .SetAction(o => {
                     HoursList.Add(new TimeItem(o.Text));
-                    }));
-               
-            }
-            , canAdd);
+                    }));             
+            }, 
+            canAdd);
 
             Save = ReactiveCommand.Create(() =>
             {
@@ -113,10 +114,13 @@ namespace Piller.ViewModels
             foreach(var item in medicationList)
             {
                 var dosageHours = new List<TimeSpan>();
-                if (item.Morning)
-                    dosageHours.Add(MorningHour);
-                if (item.Evening)
-                    dosageHours.Add(EveningHour);
+                var hours = item.Hours.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                dosageHours = HoursList
+                    .Where(h => hours.Contains(h.Name))
+                    .Select(i => i.Hour)
+                    .ToList();
+
                 item.DosageHours = dosageHours;
                 await storage.SaveAsync<MedicationDosage>(item);
                 await notifications.ScheduleNotification(item);

@@ -260,6 +260,7 @@
     <Compile Include="Views\MedicalCardView.cs" />
     <Compile Include="Views\HolidayView.cs" />
     <Compile Include="Views\DatePickerFragment.cs" />
+    <Compile Include="Views\SelectTimeAdapter.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Services\DroidMedicinesDatabaseService.cs" />
     <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
@@ -273,6 +274,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\customNotification.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\selectTimeItem.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />

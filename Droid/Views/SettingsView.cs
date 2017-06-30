@@ -43,7 +43,6 @@ namespace Piller.Droid.Views
             SupportActionBar.Title = "Ustawienia";
 
             HoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.hoursList);
-            //HoursList.Adapter = new MedicationDosageTimeListAdapter(this);
             HoursList.ItemTemplateId = Resource.Layout.time_item;
 
             addHour = FindViewById<Button>(Resource.Id.addHourBtn);
@@ -65,60 +64,15 @@ namespace Piller.Droid.Views
                                 this.ViewModel.HoursList.Insert(id,newItem);
                             }
                         }
-                               // this.ViewModel.HoursList.First(o => o.Name == item.Name).Hour = new TimeSpan(args.HourOfDay,args.Minute,0);
                     },
                      12,
                      00,
                      true);
                 timePicker.Show();
             });
+
+            hoursAdapter.DeleteRequested.Subscribe(time => this.ViewModel.HoursList.Remove(time));
             SetBinding();
-            
-          
-            /*
-            morning.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetMorning.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
-            afternoon.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetAfternoon.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
-            evening.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetEvening.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
-            */
         }
 
         private void SetBinding()

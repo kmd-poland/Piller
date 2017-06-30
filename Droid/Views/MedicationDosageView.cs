@@ -14,6 +14,8 @@ using System.Reactive.Linq;
 using MvvmCross.Plugins.PictureChooser.Droid;
 using Android.Support.Design.Widget;
 using ZXing.Mobile;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Piller.Droid.Views
 {
@@ -70,7 +72,7 @@ namespace Piller.Droid.Views
             everyday = FindViewById<RadioButton>(Resource.Id.everyday);
             custom = FindViewById<RadioButton>(Resource.Id.custom);
 
-            FirstBottomSheet firsDialog = new FirstBottomSheet(this);
+            FirstBottomSheet firsDialog = new FirstBottomSheet();
 
           
             barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
@@ -102,14 +104,14 @@ namespace Piller.Droid.Views
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-            timeSelector.Click += (o, e) => firsDialog.Show(ViewModel.MorningHour,ViewModel.EveningHour);
+            timeSelector.Click += (o, e) => firsDialog.Show(this.SupportFragmentManager,ViewModel.TimeItems);
             deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
             custom.Click += (o, e) =>
             {
                 secondDialog.Show(ViewModel.Monday, ViewModel.Tuesday, ViewModel.Wednesday, ViewModel.Thursday, ViewModel.Friday, ViewModel.Saturday, ViewModel.Sunday);
             };
-            firsDialog.Accept.Subscribe<HoursPattern>(p =>
+            firsDialog.Accept.Subscribe<IList<Data.TimeItem>>(p =>
             {
                 ViewModel.SetRepeatTime.Execute(p).Subscribe();
                 firsDialog.Dismiss();
