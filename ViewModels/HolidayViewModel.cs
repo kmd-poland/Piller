@@ -12,9 +12,11 @@ using System.Linq;
 
 namespace Piller.ViewModels
 {
-    public class HolidayViewModel : MvxViewModel
-    {
+	public class HolidayViewModel : MvxViewModel
+	{
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+		MvxSubscriptionToken dataChangedSubscriptionToken;
+		MvxSubscriptionToken settingsChangedSubscriptionToken;
 		private List<MedicationDosage> medicationList;
 
 		public List<MedicationDosage> MedicationList
@@ -25,6 +27,12 @@ namespace Piller.ViewModels
 		public bool IsEmpty
 		{
 			get { return !medicationList.Any(); }
+		}
+
+		public HolidayViewModel()
+		{
+			dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<DataChangedMessage>(async mesg => await Init());
+			settingsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(async mesg => await Init());
 		}
 
 		public async Task Init()
