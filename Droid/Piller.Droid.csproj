@@ -267,6 +267,7 @@
     <Compile Include="Services\DroidMedicinesDatabaseService.cs" />
     <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
+    <Compile Include="Views\HolidayAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -298,6 +299,7 @@
     <AndroidResource Include="Resources\menu\main_menu.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\icons8_Barcode_26.png" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
+    <AndroidResource Include="Resources\layout\holiday_item.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
