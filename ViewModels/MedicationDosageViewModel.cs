@@ -80,6 +80,7 @@ namespace Piller.ViewModels
             if(medicine != null)
             {
                 MedicationName = medicine.NazwaProduktu;
+                MedicationDosage = medicine.Dosage;
             }
             else
             {
@@ -87,6 +88,7 @@ namespace Piller.ViewModels
                 UserDialogs.Instance.Toast("Nie znaleziono w bazie leków");
             }
         }
+       
 
         long ean;
         public long EAN
@@ -190,14 +192,13 @@ namespace Piller.ViewModels
             private set { SetProperty(ref hoursLabel, value); }
         }
 
-        private string daysLabel;
         public string DaysLabel
         {
             get
             {
                 if (Everyday)
-                    return Resources.AppResources.EveryDayLabel;
-                return Resources.AppResources.CustomDayLabel;
+                    return AppResources.EveryDayLabel;
+                return AppResources.CustomDayLabel;
             }
         }
 

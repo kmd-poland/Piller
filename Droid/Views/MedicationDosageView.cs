@@ -289,12 +289,7 @@ namespace Piller.Droid.Views
                 .To(vm => vm.MedicationDosage);
             bindingSet.Bind(daysSelector)
                 .To(vm => vm.DaysLabel);
-            //bindingSet.Bind(everyday)
-            //    .For(v => v.Checked)
-            //    .To(vm => vm.Everyday);
-            //bindingSet.Bind(custom)
-            //    .For(v => v.Checked)
-            //    .To(vm => vm.Custom);
+
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
 

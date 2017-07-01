@@ -44,9 +44,7 @@ namespace Piller.ViewModels
             set { SetProperty(ref hoursList, value); }
         }
         public ReactiveCommand<Unit,Unit> AddHour { get; }
-        public ReactiveCommand<TimeSpan, Unit> SetMorning { get; }
-        public ReactiveCommand<TimeSpan, Unit> SetAfternoon { get; }
-        public ReactiveCommand<TimeSpan, Unit> SetEvening { get; }
+
         public ReactiveCommand<Unit, bool> Save { get; }
         private SettingsData settingsData;
         private ISettings settings = Mvx.Resolve<ISettings>();
@@ -67,23 +65,22 @@ namespace Piller.ViewModels
             }
             else
                 HoursList = new ObservableCollection<TimeItem>(settingsData.HoursList);
-            SetMorning = ReactiveCommand.Create<TimeSpan>(hour =>
-            {
-                MorningHour = hour;
-            });
-            SetEvening = ReactiveCommand.Create<TimeSpan>(hour => EveningHour = hour);
+           
             var canAdd = this.WhenAnyValue(vm => vm.HoursList.Count, c => c < maxItems);
             AddHour = ReactiveCommand.Create(() =>
             {
                 var result = UserDialogs.Instance.Prompt(new PromptConfig()
                     .SetInputMode(InputType.Name)
                     .SetTitle(Resources.AppResources.AddHourMessage)
-                    .SetPlaceholder(Resources.AppResources.NewHourLabel)
+                    .SetPlaceholder(Resources.AppResources.NewHourPlaceHolder)
                     .SetOkText(Resources.AppResources.SaveText)
                     .SetCancelText(Resources.AppResources.CancelText)     
                     .SetAction(o => {
                     if(o.Ok)
-                        HoursList.Add(new TimeItem(o.Text));
+                        {
+                            string newName=string.IsNullOrWhiteSpace(o.Text) ? Resources.AppResources.NewHourPlaceHolder : o.Text; 
+                            HoursList.Add(new TimeItem(newName));
+                        }
                     }));
             }, 
             canAdd);

@@ -50,6 +50,14 @@ namespace Piller.Data
             }
 
         }
-        
+        [Ignore]
+        public string NameLabel
+        {
+            get
+            {
+                return $"{this.Name} ({this.Dosage})";
+            }
+        }
+
     }
 }

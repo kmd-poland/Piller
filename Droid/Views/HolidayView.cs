@@ -15,6 +15,8 @@ using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Droid.Shared.Attributes;
 using MvvmCross.Droid.Support.V4;
 using Piller.ViewModels;
+using MvvmCross.Droid.Support.V7.AppCompat;
+using Piller.Resources;
 
 namespace Piller.Droid.Views
 {
@@ -25,7 +27,8 @@ namespace Piller.Droid.Views
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
 		{
 			var ignore = base.OnCreateView(inflater, container, bundle);
-
+            // ((MvxCachingFragmentCompatActivity)Activity).SetSupportActionBar(toolbar);
+            ((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.HolidayTitle;
             return this.BindingInflate(Resource.Layout.HolidayView, null);
 		}
     }

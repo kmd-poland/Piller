@@ -107,6 +107,24 @@ namespace Piller.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Planer wakacyjny.
+        /// </summary>
+        public static string HolidayTitle {
+            get {
+                return ResourceManager.GetString("HolidayTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twoje leki.
+        /// </summary>
+        public static string MedicationCardTitle {
+            get {
+                return ResourceManager.GetString("MedicationCardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nazwa.
         /// </summary>
         public static string MedicationDosageView_MedicationName {
@@ -134,7 +152,7 @@ namespace Piller.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weź pigułkę.
+        ///   Looks up a localized string similar to Najbliższe.
         /// </summary>
         public static string MedicationSummaryListViewModel_Title {
             get {
@@ -154,9 +172,9 @@ namespace Piller.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Nowa godzina.
         /// </summary>
-        public static string NewHourLabel {
+        public static string NewHourPlaceHolder {
             get {
-                return ResourceManager.GetString("NewHourLabel", resourceCulture);
+                return ResourceManager.GetString("NewHourPlaceHolder", resourceCulture);
             }
         }
         

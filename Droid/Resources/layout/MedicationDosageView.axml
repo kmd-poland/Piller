@@ -218,7 +218,7 @@
   </ScrollView>
   <TextView
       android:id="@+id/deleteBtn"
-      android:text="usun"
+      android:text="usuń"
       android:clickable="true"
       android:textAllCaps="true"
       android:layout_width="match_parent"

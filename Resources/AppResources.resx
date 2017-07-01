@@ -121,7 +121,7 @@
     <value>Nazwa</value>
   </data>
   <data name="MedicationSummaryListViewModel_Title" xml:space="preserve">
-    <value>Weź pigułkę</value>
+    <value>Najbliższe</value>
   </data>
   <data name="MedicationDosageViewModel_Title" xml:space="preserve">
     <value>Nowy lek</value>
@@ -141,7 +141,7 @@
   <data name="CancelText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="NewHourLabel" xml:space="preserve">
+  <data name="NewHourPlaceHolder" xml:space="preserve">
     <value>Nowa godzina</value>
   </data>
   <data name="SaveText" xml:space="preserve">
@@ -152,5 +152,11 @@
   </data>
   <data name="EveryDayLabel" xml:space="preserve">
     <value>Codziennie</value>
+  </data>
+  <data name="HolidayTitle" xml:space="preserve">
+    <value>Planer wakacyjny</value>
+  </data>
+  <data name="MedicationCardTitle" xml:space="preserve">
+    <value>Twoje leki</value>
   </data>
 </root>

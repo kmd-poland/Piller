@@ -14,6 +14,7 @@ using MvvmCross.Plugins.File;
 using MvvmCross.Platform;
 using Android.Graphics;
 using Services;
+using ReactiveUI;
 
 namespace Piller.Droid.Views
 {
@@ -33,34 +34,35 @@ namespace Piller.Droid.Views
 		public MedicationSummaryAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
 		}
-
+        IObservable<string> nameLabel;
         protected override IMvxListItemView CreateBindableView(object dataContext, int templateId)
         {
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
 
             var name = view.FindViewById<TextView>(Resource.Id.label_medication_name);
-			var date1 = view.FindViewById<TextView>(Resource.Id.label_medication_date);
-			var date2 = view.FindViewById<TextView>(Resource.Id.label_medication_date2);
+			
             var time = view.FindViewById<TextView>(Resource.Id.label_medication_time);
             var daysOfWeek = view.FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
             var bset = view.CreateBindingSet<MvxListItemView, MedicationDosage>();
 
+            var medication = dataContext as MedicationDosage;
+
+            // nameLabel=this.WhenAny(vm => medication.Name, vm => medication.Dosage,(n,d) => $"{n.Value} ({d.Value})");
+            // nameLabel.Subscribe(label => name.Text = label);
             bset.Bind(name)
-                .To(x => x.Name);
+              .To(x => x)
+              .WithConversion(new InlineValueConverter<MedicationDosage, string>(m => $"{m.Name} ({m.Dosage})"));
+            //name.Text = medication.Name;
 
-			// Konwertery to specyficzny dla MvvmCross'a sposób translacji danych z view modelu do danych z których potrafi skorzystać widok.
-			// Zazwyczaj nie są one potrzebne, np. kiedy pokazujemy tekst, ale jeśli zachodzi potrzeba pokazania np. listy w jednej linii musimy użyć konwertera.
+            // Konwertery to specyficzny dla MvvmCross'a sposób translacji danych z view modelu do danych z których potrafi skorzystać widok.
+            // Zazwyczaj nie są one potrzebne, np. kiedy pokazujemy tekst, ale jeśli zachodzi potrzeba pokazania np. listy w jednej linii musimy użyć konwertera.
 
-			// TextView jest domyślnie bindowane do property Text, więc nie trzeba jej wprost wskazywać 
-			bset.Bind(date1)
-			    .To(x => x.From);
-			bset.Bind(date2)
-			    .To(x => x.To);
-			
+            // TextView jest domyślnie bindowane do property Text, więc nie trzeba jej wprost wskazywać 		
+
             bset.Bind(time)
-                .To(x => x.DosageHours)
-                .WithConversion(new DosageHoursConverter());
+                .To(x => x.Hours);
+               // .WithConversion(new DosageHoursConverter());
 
             // jeśli bind ma być do innej property to wskazuje się tak jak poniżej (metoda .For)
             bset.Bind(time)
@@ -80,7 +82,6 @@ namespace Piller.Droid.Views
 			bset.Apply();
 
 
-            var medication = dataContext as MedicationDosage;
             if (medication?.ThumbnailName != null)
             {
 				var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
