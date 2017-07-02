@@ -57,6 +57,18 @@ namespace Piller.Droid.Views
                 .To(x => x.OccurrenceDateTime);
 
             bset.Apply();
+            var medication = dataContext as MedicationDosage;
+            if (medication?.ThumbnailName != null)
+            {
+                var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
+                byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
+                thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0, array.Length));
+            }
+            else
+            {
+                var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
+                thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill64x64));
+            }
 
             return view;
         }

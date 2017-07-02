@@ -50,7 +50,7 @@ namespace Piller.Droid.Views
 
             bset.Bind(time)
                 .To(x => x.OccurrenceDateTime);
-                //.WithConversion(new LaterHoursConverter());
+                .WithConversion(new LaterHoursConverter());
 
             bset.Apply();
             return view;

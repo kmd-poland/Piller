@@ -9,5 +9,25 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionModeOverlay">false</item>
     </style>
+  
+    <style name="NotificationActionText">
+      <item name="android:textColor">@color/md_blue_500</item>
+      <item name="android:textSize">17sp</item>
+    </style>
 
+  <style name="NotificationTextMedium" parent="@android:style/TextAppearance.Medium">
+    <item name="android:textColor">@android:color/primary_text_light</item>
+  </style>
+
+  <style name="NotificationTextSmall" parent="@android:style/TextAppearance.Small">
+    <item name="android:textColor">@android:color/primary_text_light</item>
+  </style>
+
+  <style name="NotificationTitle" parent="@android:style/TextAppearance.Small">
+    <item name="android:textColor">@color/md_blue_500</item>
+  </style>
+
+  <style name="NotificationDesc" parent="@android:style/TextAppearance.Small">
+    <item name="android:textColor">@color/md_grey_500</item>
+  </style>
 </resources>
