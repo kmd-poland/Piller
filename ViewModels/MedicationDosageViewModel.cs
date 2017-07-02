@@ -28,7 +28,6 @@ namespace Piller.ViewModels
         private ISettings settings = Mvx.Resolve<ISettings>();
 		private IMedicineDatabaseService medicinesDatabase = Mvx.Resolve<IMedicineDatabaseService>();
 
-        MvxSubscriptionToken dataChangedSubscriptionToken;
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
 		private byte[] _bytes;
@@ -253,7 +252,8 @@ namespace Piller.ViewModels
 			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
 			this.TakePhotoCommand.Subscribe(x =>
 			{
-				this.OnPicture(x);
+                if(x!=null)
+				    this.OnPicture(x);
 			});
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
@@ -356,13 +356,7 @@ namespace Piller.ViewModels
                 CheckedHours = p as List<TimeItem>;
                 setHours();
 
-            });
-
-            dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(mesg => 
-            {
-                setHours();
-                Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
-            });
+            });          
         }
     
         private void loadSettings()

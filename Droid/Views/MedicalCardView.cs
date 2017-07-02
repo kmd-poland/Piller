@@ -30,10 +30,14 @@ namespace Piller.Droid.Views
             emptyLabel = view.FindViewById<TextView>(Resource.Id.empty);
 
             medicationList = view.FindViewById<MvxListView>(Resource.Id.medicationList);
-            medicationList.Adapter = new MedicationSummaryAdapter(this.Activity, (IMvxAndroidBindingContext)this.BindingContext);
             medicationList.ItemTemplateId = Resource.Layout.medication_summary_item;
             SetBinding();
             return view;
+        }
+        public override void OnResume()
+        {
+            base.OnResume();
+            medicationList.Adapter = new MedicationSummaryAdapter(this.Activity, (IMvxAndroidBindingContext)this.BindingContext);
         }
 
         private void SetBinding()
