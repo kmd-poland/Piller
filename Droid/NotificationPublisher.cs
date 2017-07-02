@@ -16,6 +16,8 @@ using Piller.Data;
 using Piller.Droid.Services;
 using Piller.Services;
 using Piller.ViewModels;
+using Piller.MixIns.DaysOfWeekMixIns;
+using MvvmCross.Plugins.Messenger;
 
 namespace Piller.Droid
 {
@@ -38,7 +40,7 @@ namespace Piller.Droid
 
 			var notification = intent.GetParcelableExtra(NOTIFICATION) as Notification;
             var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
-
+            
             if (notification != null)
 			{
                 var notificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
@@ -53,10 +55,44 @@ namespace Piller.Droid
                 {
                     var notifications = await this.storage.List<NotificationOccurrence>();
                     var currentNotification = notifications.FirstOrDefault(n => n.Id == notificationId);
-                    if (currentNotification != null)
-                        await this.storage.DeleteAsync(currentNotification);
+                    var medications = await this.storage.List<MedicationDosage>();
+                    var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
+                    //check if current notification is an overdue notification (if it should be sheduled again)
+                    TimeSpan currentTimeSpan = currentNotification.OccurrenceDateTime.TimeOfDay;
+                    DateTime newOccurrenceDateTime;
+
+                    if (medicationDosage.DosageHours.Contains(currentTimeSpan))
+                    {
+                        if (medicationDosage.Days.AllSelected())
+                            newOccurrenceDateTime = currentNotification.OccurrenceDateTime.AddDays(1);
+                        else
+                            newOccurrenceDateTime = currentNotification.OccurrenceDateTime.AddDays(7);
+
+                        var occurrence = new NotificationOccurrence()
+                        {
+                            Name = currentNotification.Name,
+                            Dosage = currentNotification.Dosage,
+                            MedicationDosageId = currentNotification.MedicationDosageId,
+                            OccurrenceDateTime = newOccurrenceDateTime
+                        };
+
+                        if (currentNotification != null)
+                            await this.storage.DeleteAsync(currentNotification);
+                        else
+                            System.Diagnostics.Debug.Write($"Notification with id {notificationId} could not be found in database.");
+
+                        await this.notificationService.CancelNotification(medicationId);
+                        await this.storage.SaveAsync(occurrence);
+                        await this.notificationService.ScheduleNotifications(medicationDosage);
+                        Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
+                    }
                     else
-                        System.Diagnostics.Debug.Write($"Notification with id {notificationId} could not be found in database.");
+                    {
+                        if (currentNotification != null)
+                            await this.storage.DeleteAsync(currentNotification);
+                        else
+                            System.Diagnostics.Debug.Write($"Notification with id {notificationId} could not be found in database.");
+                    }
 
                     // find overdue notifications
                     var nowCalendar = Calendar.Instance;
@@ -108,18 +144,14 @@ namespace Piller.Droid
                         var name = intent.GetStringExtra(MEDICATION_NAME);
                         var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
                         DateTime now = DateTime.Now;
-                        DateTime occurrenceDate = now.AddMinutes(15);
-
-                        Intent notificationIntent = new Intent(context, typeof(NotificationPublisher));
-                        notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+                        DateTime occurrenceDate = now.AddSeconds(15);
 
                         var medications = await this.storage.List<MedicationDosage>();
                         var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
 						var newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000);
 
-                        var not = NotificationHelper.GetNotification(context, medicationDosage, newNotification, notificationIntent);
-
                         await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
+                        Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
                         await notificationService.OverdueNotification(newNotification, medicationDosage);
                     });
 

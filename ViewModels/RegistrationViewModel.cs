@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Piller.Services;
 using MvvmCross.Platform;
+using System.Collections.ObjectModel;
+using Piller.MixIns.DaysOfWeekMixIns;
+using MvvmCross.Plugins.Messenger;
 
 namespace Piller.ViewModels
 {
@@ -14,6 +17,7 @@ namespace Piller.ViewModels
     {
         private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
+        MvxSubscriptionToken notificationsChangedSubscriptionToken;
 
         private List<NotificationOccurrence> nearestList;
         public List<NotificationOccurrence> NearestList
@@ -50,15 +54,47 @@ namespace Piller.ViewModels
         public async Task DeleteOverdue(NotificationOccurrence notification)
         {
             await this.notifications.CancelNotification(notification);
-            await storage.DeleteAsync<NotificationOccurrence>(notification);
-            this.OverdueList.Remove(notification);
+            await ScheduleNext(notification);
+            //this.OverdueList.Remove(notification);
         }
 
         public async Task DeleteNearest(NotificationOccurrence notification)
         {
             await this.notifications.CancelNotification(notification);
-            await storage.DeleteAsync<NotificationOccurrence>(notification);
-            this.NearestList.Remove(notification);
+            await ScheduleNext(notification);   
+            //this.NearestList.Remove(notification);
+        }
+
+        public async Task ScheduleNext(NotificationOccurrence notification)
+        {
+            TimeSpan currentTimeSpan = notification.OccurrenceDateTime.TimeOfDay;
+            DateTime newOccurrenceDateTime;
+            int medicationId = notification.MedicationDosageId;
+            var medications = await this.storage.List<MedicationDosage>();
+            var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
+
+            if (medicationDosage.DosageHours.Contains(currentTimeSpan))
+            {
+                if (medicationDosage.Days.AllSelected())
+                    newOccurrenceDateTime = notification.OccurrenceDateTime.AddDays(1);
+                else
+                    newOccurrenceDateTime = notification.OccurrenceDateTime.AddDays(7);
+
+                var occurrence = new NotificationOccurrence()
+                {
+                    Name = notification.Name,
+                    Dosage = notification.Dosage,
+                    MedicationDosageId = notification.MedicationDosageId,
+                    OccurrenceDateTime = newOccurrenceDateTime
+                };
+
+                await storage.DeleteAsync<NotificationOccurrence>(notification);
+                await Init();
+                await this.notifications.CancelNotification(medicationId);
+                await this.storage.SaveAsync(occurrence);
+                await Init();
+                await this.notifications.ScheduleNotifications(medicationDosage);
+            }
         }
 
         /*public async Task OverdueNearest(NotificationOccurrence notification)
@@ -75,16 +111,21 @@ namespace Piller.ViewModels
         {
             var allNotifications = await this.storage.List<NotificationOccurrence>();
 
+            notificationsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<NotificationsChangedMessage>(async mesg => await Init());
+
             DateTime now = DateTime.Now;
             DateTime start = now.AddHours(-2);
             DateTime end = now.AddHours(2);
             var overdueNotifications = allNotifications.Where(n => n.OccurrenceDateTime < start);
-            var nearestNotifications = allNotifications.Where(n => n.OccurrenceDateTime > start && n.OccurrenceDateTime < end);
+            var nearestNotifications = allNotifications.Where(n => n.OccurrenceDateTime >= start && n.OccurrenceDateTime <= end);
             var laterNotifications = allNotifications.Where(n => n.OccurrenceDateTime > end);
 
-            this.OverdueList = overdueNotifications.ToList<NotificationOccurrence>();
-            this.NearestList = nearestNotifications.ToList<NotificationOccurrence>();
-            this.LaterList = laterNotifications.ToList<NotificationOccurrence>();
+            var sortedOverdueList = overdueNotifications.OrderBy(e => e.OccurrenceDateTime);
+            this.OverdueList = sortedOverdueList.ToList();
+            var sortedNearestList = nearestNotifications.OrderBy(e => e.OccurrenceDateTime);
+            this.NearestList = sortedNearestList.ToList();
+            var sortedLaterList = laterNotifications.OrderBy(e => e.OccurrenceDateTime);
+            this.LaterList = sortedLaterList.ToList();
 
             /*var itemsNearest = await this.storage.List<NotificationOccurrence>();
             if (itemsNearest != null)

@@ -11,5 +11,6 @@ namespace Piller.Services
         Task CancelNotification(NotificationOccurrence notification);
         Task CancelNotifications(MedicationDosage medicationDosage);
         Task OverdueNotification(NotificationOccurrence notificationOccurrence, MedicationDosage medicationDosage);
+        Task CancelAndRemove(int id);
     }
 }

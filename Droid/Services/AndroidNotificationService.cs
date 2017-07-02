@@ -126,10 +126,15 @@ namespace Piller.Droid.Services
                 }
             }
 
-            // remove notifications from storage
+		}
+
+        public async Task CancelAndRemove(int medicationDosageId)
+        {
+            var occurrences = await this.storage.List<NotificationOccurrence>(n => n.MedicationDosageId == medicationDosageId);
+            await CancelNotification(medicationDosageId);
             foreach (var notificationId in occurrences.Select(o => o.Id.Value).ToList())
                 await this.storage.DeleteByKeyAsync<NotificationOccurrence>(notificationId);
-		}
+        }
 
         public async Task OverdueNotification(NotificationOccurrence notificationOccurrence, MedicationDosage medicationDosage)
         {
@@ -159,9 +164,7 @@ namespace Piller.Droid.Services
 			notificationIntent.PutExtra(NotificationPublisher.MEDICATION_ID, id);
 			notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION, notification);
 			notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_FIRE_TIME, triggerTime);
-            System.Diagnostics.Debug.WriteLine("time " + triggerTime);
-            System.Diagnostics.Debug.WriteLine("id " + id);
-            System.Diagnostics.Debug.WriteLine("not_id " + notificationOccurrence.Id.Value);
+
             var requestId = notificationOccurrence.Id.Value;
 			PendingIntent pendingIntent = PendingIntent.GetBroadcast(this.ctx, requestId, notificationIntent, PendingIntentFlags.CancelCurrent);
 

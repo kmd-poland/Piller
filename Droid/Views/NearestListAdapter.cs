@@ -21,6 +21,7 @@ namespace Piller.Droid.Views
     public class NearestListAdapter : MvxAdapter
     {
         public ReactiveCommand<NotificationOccurrence, NotificationOccurrence> DeleteRequested { get; }
+        private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
 
         public NearestListAdapter(Context context) : base(context)
         {
@@ -56,6 +57,7 @@ namespace Piller.Droid.Views
                 .To(x => x.OccurrenceDateTime);
 
             bset.Apply();
+
             return view;
         }
     }

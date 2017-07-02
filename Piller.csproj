@@ -44,6 +44,7 @@
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Data\RepeatPattern.cs" />
     <Compile Include="MixIns\DaysOfWeekMixIn.cs" />
+    <Compile Include="ViewModels\NotificationsChangedMessage.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

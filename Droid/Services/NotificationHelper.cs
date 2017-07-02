@@ -27,7 +27,7 @@ namespace Piller.Droid.Services
             RemoteViews contentView = new RemoteViews(context.PackageName, Resource.Layout.customNotification);
             contentView.SetTextViewText(Resource.Id.titleTextView, medication.Name);
             contentView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
-
+            
             if (medication?.ThumbnailName == null)
 				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
             else
@@ -42,7 +42,8 @@ namespace Piller.Droid.Services
             contentBigView.SetTextViewText(Resource.Id.descTextView, medication.Dosage + " - " + FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
 
             var medicationId = medication.Id.Value;
-            System.Diagnostics.Debug.Write(medicationId);
+            var notificationId = notificationOccurrence.Id.Value;
+            System.Diagnostics.Debug.Write(notificationId);
 
             Intent okIntent = new Intent(notificationIntent);
             Intent noIntent = new Intent(notificationIntent);
@@ -52,6 +53,10 @@ namespace Piller.Droid.Services
             okIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
             noIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
             laterIntent.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            notificationIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+            okIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+            noIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+            laterIntent.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
 
             okIntent.SetAction("OK");
             noIntent.SetAction("NO");

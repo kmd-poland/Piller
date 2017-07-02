@@ -212,6 +212,7 @@ namespace Piller.ViewModels
                    if (this.Id.HasValue)
                    {
                        await this.storage.DeleteByKeyAsync<MedicationDosage>(this.Id.Value);
+                       await this.notifications.CancelAndRemove(this.Id.Value);
                        return true;
                    }
                    return false;
@@ -260,7 +261,7 @@ namespace Piller.ViewModels
 				{
                     var occurrence = new NotificationOccurrence()
                     {
-                        Name = "TO BE SET LATER WHEN NOTIFICATION SERVICE TAKES CARE OF SHOWING NOTIFICATION",
+                        Name = medDosage.Name,
                         Dosage = medDosage.Dosage,
                         MedicationDosageId = medDosage.Id.Value,
                         OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
@@ -278,7 +279,7 @@ namespace Piller.ViewModels
 					{
                         var occurrence = new NotificationOccurrence()
                         {
-                            Name = "TO BE SET LATER WHEN NOTIFICATION SERVICE TAKES CARE OF SHOWING NOTIFICATION",
+                            Name = medDosage.Name,
 							Dosage = medDosage.Dosage,
 							MedicationDosageId = medDosage.Id.Value,
 							OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
