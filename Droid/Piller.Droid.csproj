@@ -201,12 +201,6 @@
     <Reference Include="ZXingNetMobile">
       <HintPath>..\packages\ZXing.Net.Mobile.2.2.9\lib\MonoAndroid403\ZXingNetMobile.dll</HintPath>
     </Reference>
-    <Reference Include="Cheesebaron.MvxPlugins.Settings">
-      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.dll</HintPath>
-    </Reference>
-    <Reference Include="Cheesebaron.MvxPlugins.Settings.Droid">
-      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="MvvmCross.Platform">
       <HintPath>..\packages\MvvmCross.Platform.5.0.5\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
       <Private>False</Private>
@@ -223,6 +217,13 @@
       <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.5\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.Droid.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Cheesebaron.MvxPlugins.Settings">
+      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Cheesebaron.MvxPlugins.Settings.Droid">
+      <HintPath>..\packages\Cheesebaron.MvxPlugins.Settings.3.1.0\lib\MonoAndroid10\Cheesebaron.MvxPlugins.Settings.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Java.Interop" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -268,6 +269,8 @@
     <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="Views\HolidayAdapter.cs" />
     <Compile Include="Views\SelectTimeAdapter.cs" />
+    <Compile Include="Views\About.cs" />
+    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -302,6 +305,7 @@
     <AndroidResource Include="Resources\layout\holiday_item.axml" />
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
+    <AndroidResource Include="Resources\layout\About.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

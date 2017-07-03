@@ -175,6 +175,9 @@ namespace Piller.ViewModels
                 SetProperty(ref custom, value);
             }
         }
+
+		public string RingUri { get; private set; }
+
         private bool isNew;
         public List<TimeItem> CheckedHours { get; private set; } = new List<TimeItem>();
 
@@ -259,24 +262,25 @@ namespace Piller.ViewModels
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
 			{
 
-                var dataRecord = new MedicationDosage
-                {
-                    Id = this.Id,
-                    Name = this.MedicationName,
-                    From = this.StartDate,
-                    To = this.EndDate,
-                    Dosage = this.MedicationDosage,
+				var dataRecord = new MedicationDosage
+				{
+					Id = this.Id,
+					Name = this.MedicationName,
+					From = this.StartDate,
+					To = this.EndDate,
+					Dosage = this.MedicationDosage,
 
-                    Days =
-                        (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
-                        | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
-                        | (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
-                        | (this.Thursday ? DaysOfWeek.Thursday : DaysOfWeek.None)
-                        | (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
-                        | (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
-                        | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
-                    DosageHours = this.DosageHours,
-                    Hours=this.HoursLabel
+					Days =
+						(this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
+						| (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
+						| (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
+						| (this.Thursday ? DaysOfWeek.Thursday : DaysOfWeek.None)
+						| (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
+						| (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
+						| (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
+					DosageHours = this.DosageHours,
+					Hours = this.HoursLabel,
+					RingUri = this.RingUri
                     
                 };
 
@@ -385,6 +389,8 @@ namespace Piller.ViewModels
                 .Select(h => { h.Checked = true; return h; })
                 .ToList();
             setHours();
+
+			RingUri = data.RingUri;
         }
 
         private void setHours()
@@ -424,6 +430,7 @@ namespace Piller.ViewModels
                 Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
 				DosageHours = new ReactiveList<TimeSpan>(item.DosageHours);
                 HoursLabel = item.Hours;
+				RingUri = item.RingUri;
 
                 if (!string.IsNullOrEmpty(item.ImageName))
 				    Bytes = imageLoader.LoadImage(item.ImageName);

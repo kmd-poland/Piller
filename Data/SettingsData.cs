@@ -11,12 +11,14 @@ namespace Piller.Data
     {
         public static string Key { get; } = "hours_settings";
         public IEnumerable<TimeItem> HoursList { get; set; }
+		public string RingUri { get; set; } = "content://settings/system/ringtone";
 
     }
     public class TimeItem
     {
         public string Name { get; set; }
         public TimeSpan Hour { get; set; }
+
         [JsonIgnore]
         public string Label
         {

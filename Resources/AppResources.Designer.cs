@@ -136,5 +136,11 @@ namespace Piller.Resources {
                 return ResourceManager.GetString("MedicationCardTitle", resourceCulture);
             }
         }
+        
+        public static string About_Title {
+            get {
+                return ResourceManager.GetString("About_Title", resourceCulture);
+            }
+        }
     }
 }

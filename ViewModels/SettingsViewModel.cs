@@ -37,6 +37,14 @@ namespace Piller.ViewModels
             get { return eveningHour; }
             set { SetProperty(ref eveningHour, value); }
         }
+
+		private string ringUri;
+		public string RingUri
+		{
+			get { return ringUri; }
+			set { SetProperty(ref ringUri, value); }
+		}
+
         private ObservableCollection<TimeItem> hoursList;
         public ObservableCollection<TimeItem> HoursList
         {
@@ -44,6 +52,7 @@ namespace Piller.ViewModels
             set { SetProperty(ref hoursList, value); }
         }
         public ReactiveCommand<Unit,Unit> AddHour { get; }
+		public ReactiveCommand<String, Unit> SetRingUri { get; }
 
         public ReactiveCommand<Unit, bool> Save { get; }
         private SettingsData settingsData;
@@ -85,9 +94,13 @@ namespace Piller.ViewModels
             }, 
             canAdd);
 
+            RingUri = settingsData.RingUri;
+            SetRingUri = ReactiveCommand.Create<String>(uri => RingUri = uri);
+
+
             Save = ReactiveCommand.Create(() =>
             {
-                var data = JsonConvert.SerializeObject(new SettingsData() {HoursList=this.HoursList });
+				var data = JsonConvert.SerializeObject(new SettingsData() {HoursList=this.HoursList, RingUri = this.ringUri });
                 settings.AddOrUpdateValue<string>(key, data);
                 return true;
             });
@@ -96,7 +109,7 @@ namespace Piller.ViewModels
                 if (x)
                 {
                     await reloadDataBase();
-                    Mvx.Resolve<IMvxMessenger>().Publish(new SettingsChangeMessage(this,MorningHour,EveningHour));
+					Mvx.Resolve<IMvxMessenger>().Publish(new SettingsChangeMessage(this,MorningHour,EveningHour,ringUri));
                     Close(this);
                 }
             });
@@ -122,6 +135,8 @@ namespace Piller.ViewModels
                 if(dosageHours.Count>0)
                 {
                     item.DosageHours = dosageHours;
+					item.RingUri = ringUri;
+
                     await storage.SaveAsync<MedicationDosage>(item);
                     await notifications.ScheduleNotification(item);
                 }

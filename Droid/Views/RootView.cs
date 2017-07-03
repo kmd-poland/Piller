@@ -57,6 +57,15 @@ namespace Piller.Droid.Views
             if (item.ItemId == Resource.Id.action_settings)
                 ViewModel.GoSettings.Execute().Subscribe();
 
+            if (item.ItemId == Resource.Id.action_About)
+            {
+                var intent = new Intent(this, typeof(About));
+				StartActivity(intent);
+
+                return true;
+            }
+
+
             return base.OnOptionsItemSelected(item);
         }
     }

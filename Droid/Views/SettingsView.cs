@@ -16,6 +16,7 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using Piller.Data;
+using Android.Media;
 
 namespace Piller.Droid.Views
 {
@@ -23,7 +24,7 @@ namespace Piller.Droid.Views
     public class SettingsView : MvxAppCompatActivity<SettingsViewModel>
     {
         MedicationDosageTimeLayout HoursList;
-        TextView addHour;
+        TextView addHour, soundLabel;
         TimeItem newItem;
 
         protected override void OnCreate(Bundle bundle)
@@ -66,6 +67,23 @@ namespace Piller.Droid.Views
             });
 
             hoursAdapter.DeleteRequested.Subscribe(time => this.ViewModel.HoursList.Remove(time));
+
+			soundLabel = FindViewById<TextView>(Resource.Id.soundLabel);
+            soundLabel.Click += (o, e) =>
+            {
+                Intent intent = new Intent(RingtoneManager.ActionRingtonePicker);
+				intent.PutExtra(RingtoneManager.ExtraRingtoneTitle, true);
+                intent.PutExtra(RingtoneManager.ExtraRingtoneShowSilent, false);
+                intent.PutExtra(RingtoneManager.ExtraRingtoneShowDefault, true);
+                intent.PutExtra(RingtoneManager.ExtraRingtoneExistingUri, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+
+				StartActivityForResult(Intent.CreateChooser(intent, "Wybierz dzwonek"), 0);
+
+                //Android.Net.Uri ring = (Android.Net.Uri)intent.GetParcelableExtra(RingtoneManager.ExtraRingtonePickedUri);
+            };
+
+
+
             SetBinding();
         }
 
@@ -80,6 +98,24 @@ namespace Piller.Droid.Views
                 .To(vm => vm.AddHour);
             bindingSet.Apply();
         }
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult(requestCode, resultCode, data);
+			if (resultCode == Result.Ok)
+			{
+				Android.Net.Uri ring = (Android.Net.Uri)data.GetParcelableExtra(RingtoneManager.ExtraRingtonePickedUri);
+				Ringtone ringtone = RingtoneManager.GetRingtone(this, ring);
+				String title = ringtone.GetTitle(this);
+				if (title.Contains("Default ringtone (Flutey Phone)"))
+					soundLabel.Text = "Default";
+				else
+					soundLabel.Text = title;
+
+            	this.ViewModel.SetRingUri.Execute(ring.ToString()).Subscribe();
+
+			}
+		}
 
         public override bool OnSupportNavigateUp()
         {

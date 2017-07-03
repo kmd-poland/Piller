@@ -30,6 +30,8 @@ namespace Piller.Data
         //lista godzin w postaci hh:mm;hh:mm...
         public string HoursEncoded { get; set; }
 
+		public string RingUri { get; set; }
+
         //kodowanie i dekodowanie godzin. Tej wlasciwosci nie zapisujemy do bazy
         [Ignore]
         public IEnumerable<TimeSpan> DosageHours

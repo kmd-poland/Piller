@@ -162,4 +162,8 @@
   <data name="MedicationCardTitle" xml:space="preserve">
     <value>Twoje leki</value>
   </data>  
+  <data name="About_Title" xml:space="preserve">
+    <value>Informacje</value>
+  </data>
+
 </root>
