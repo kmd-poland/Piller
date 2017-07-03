@@ -265,7 +265,6 @@
     <Compile Include="Views\DatePickerFragment.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Services\DroidMedicinesDatabaseService.cs" />
-    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="Views\HolidayAdapter.cs" />
     <Compile Include="Views\SelectTimeAdapter.cs" />
