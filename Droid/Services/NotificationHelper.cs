@@ -27,23 +27,26 @@ namespace Piller.Droid.Services
             RemoteViews contentView = new RemoteViews(context.PackageName, Resource.Layout.customNotification);
             contentView.SetTextViewText(Resource.Id.titleTextView, medication.Name + " " + medication.Dosage);
             contentView.SetTextViewText(Resource.Id.descTextView, FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
-            contentView.SetImageViewBitmap(Resource.Id.iconView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
-
-            if (medication?.ThumbnailName == null)
-				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
-            else
-            {
-                ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
-                byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
-                contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeByteArray(array, 0, array.Length));
-            }
+            //contentView.SetImageViewBitmap(Resource.Id.iconView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
 
             RemoteViews contentBigView = new RemoteViews(context.PackageName, Resource.Layout.customBigNotification);
             contentBigView.SetTextViewText(Resource.Id.titleTextView, medication.Name + " " + medication.Dosage);
             contentBigView.SetTextViewText(Resource.Id.descTextView, FormatOccurrence(notificationOccurrence.OccurrenceDateTime));
-            contentBigView.SetImageViewBitmap(Resource.Id.iconView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
-            
-            var medicationId = medication.Id.Value;
+
+            if (medication?.ThumbnailName == null)
+            {
+                contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
+				contentBigView.SetImageViewBitmap(Resource.Id.iconView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
+			}
+			else
+			{
+				ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+				byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
+				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeByteArray(array, 0, array.Length));
+				contentBigView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeByteArray(array, 0, array.Length));
+			}
+
+			var medicationId = medication.Id.Value;
             var notificationId = notificationOccurrence.Id.Value;
             System.Diagnostics.Debug.Write(notificationId);
 
@@ -85,8 +88,24 @@ namespace Piller.Droid.Services
 
             builder.SetCustomContentView(contentView);
             builder.SetCustomBigContentView(contentBigView);
-           
-            return builder.Build();
+
+            var notification = builder.Build();
+            // action upon notification click
+            var notificationMainAction = new Intent(context, typeof(NotificationPublisher));
+            notificationMainAction.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            notificationMainAction.SetAction("GO_TO_MEDICATION");
+            var flags = (PendingIntentFlags)((int)PendingIntentFlags.CancelCurrent | (int)NotificationFlags.AutoCancel);
+            notification.ContentIntent = PendingIntent.GetBroadcast(context, notificationId, notificationMainAction, flags);
+
+            // action upon notification dismiss
+			var notificationDismissAction = new Intent(context, typeof(NotificationPublisher));
+			notificationDismissAction.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            notificationDismissAction.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
+			notificationDismissAction.SetAction("NOTIFCATION_DISMISS");
+            //var flags = (PendingIntentFlags)((int)PendingIntentFlags.CancelCurrent | (int)NotificationFlags.AutoCancel);
+            notification.DeleteIntent = PendingIntent.GetBroadcast(context, notificationId, notificationDismissAction, flags);
+
+			return notification;
         }
 
         private static string FormatOccurrence(DateTime nearestOccurrence)

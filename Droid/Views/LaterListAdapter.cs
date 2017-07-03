@@ -49,7 +49,7 @@ namespace Piller.Droid.Views
                 .To(x => x.Dosage);
 
             bset.Bind(time)
-                .To(x => x.OccurrenceDateTime);
+                .To(x => x.OccurrenceDateTime)
                 .WithConversion(new LaterHoursConverter());
 
             bset.Apply();

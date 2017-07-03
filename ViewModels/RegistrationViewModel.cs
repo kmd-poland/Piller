@@ -54,47 +54,13 @@ namespace Piller.ViewModels
         public async Task DeleteOverdue(NotificationOccurrence notification)
         {
             await this.notifications.CancelNotification(notification);
-            await ScheduleNext(notification);
-            //this.OverdueList.Remove(notification);
+            //await this.notifications.ScheduleNotification(notification);
         }
 
         public async Task DeleteNearest(NotificationOccurrence notification)
         {
             await this.notifications.CancelNotification(notification);
-            await ScheduleNext(notification);   
-            //this.NearestList.Remove(notification);
-        }
-
-        public async Task ScheduleNext(NotificationOccurrence notification)
-        {
-            TimeSpan currentTimeSpan = notification.OccurrenceDateTime.TimeOfDay;
-            DateTime newOccurrenceDateTime;
-            int medicationId = notification.MedicationDosageId;
-            var medications = await this.storage.List<MedicationDosage>();
-            var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
-
-            if (medicationDosage.DosageHours.Contains(currentTimeSpan))
-            {
-                if (medicationDosage.Days.AllSelected())
-                    newOccurrenceDateTime = notification.OccurrenceDateTime.AddDays(1);
-                else
-                    newOccurrenceDateTime = notification.OccurrenceDateTime.AddDays(7);
-
-                var occurrence = new NotificationOccurrence()
-                {
-                    Name = notification.Name,
-                    Dosage = notification.Dosage,
-                    MedicationDosageId = notification.MedicationDosageId,
-                    OccurrenceDateTime = newOccurrenceDateTime
-                };
-
-                await storage.DeleteAsync<NotificationOccurrence>(notification);
-                await Init();
-                await this.notifications.CancelNotification(medicationId);
-                await this.storage.SaveAsync(occurrence);
-                await Init();
-                await this.notifications.ScheduleNotifications(medicationDosage);
-            }
+            //await this.notifications.ScheduleNotification(notification);
         }
 
         /*public async Task OverdueNearest(NotificationOccurrence notification)

@@ -43,8 +43,14 @@ namespace Piller.Services
 
 		public async Task DeleteByKeyAsync<T>(int primaryKey) where T : new()
 		{
-            var record = await this.connection.GetAsync<T>(primaryKey);
-            await this.connection.DeleteAsync(record);
+            try
+            {
+                var record = await this.connection.GetAsync<T>(primaryKey);
+                await this.connection.DeleteAsync(record);
+            } catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
         public async Task<List<T>> List<T> (Expression<Func<T, bool>> predicate = null) where T : new()
         {

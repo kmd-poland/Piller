@@ -18,6 +18,7 @@ using Piller.Services;
 using Piller.ViewModels;
 using Piller.MixIns.DaysOfWeekMixIns;
 using MvvmCross.Plugins.Messenger;
+using MvvmCross.Platform.Platform;
 
 namespace Piller.Droid
 {
@@ -40,7 +41,8 @@ namespace Piller.Droid
 
 			var notification = intent.GetParcelableExtra(NOTIFICATION) as Notification;
             var medicationId = intent.GetIntExtra(MEDICATION_ID, 0);
-            
+
+            // notification itself
             if (notification != null)
 			{
                 var notificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
@@ -53,12 +55,12 @@ namespace Piller.Droid
 
                 Task.Run(async () =>
                 {
-                    var notifications = await this.storage.List<NotificationOccurrence>();
-                    var currentNotification = notifications.FirstOrDefault(n => n.Id == notificationId);
-                    var medications = await this.storage.List<MedicationDosage>();
-                    var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
+                    var notifications = await this.storage.List<NotificationOccurrence>(n => n.Id == notificationId);
+                    var currentNotification = notifications.FirstOrDefault();
+                    var medications = await this.storage.List<MedicationDosage>(n => n.Id == medicationId);
+                    var medicationDosage = medications.FirstOrDefault();
                     //check if current notification is an overdue notification (if it should be sheduled again)
-                    TimeSpan currentTimeSpan = currentNotification.OccurrenceDateTime.TimeOfDay;
+                    var currentTimeSpan = currentNotification.OccurrenceDateTime.TimeOfDay;
                     DateTime newOccurrenceDateTime;
 
                     if (medicationDosage.DosageHours.Contains(currentTimeSpan))
@@ -77,13 +79,15 @@ namespace Piller.Droid
                         };
 
                         if (currentNotification != null)
+                        {
+                            await this.notificationService.CancelNotification(currentNotification);
                             await this.storage.DeleteAsync(currentNotification);
+                        }
                         else
                             System.Diagnostics.Debug.Write($"Notification with id {notificationId} could not be found in database.");
-
-                        await this.notificationService.CancelNotification(medicationId);
+                        
                         await this.storage.SaveAsync(occurrence);
-                        await this.notificationService.ScheduleNotifications(medicationDosage);
+                        await this.notificationService.ScheduleNotification(occurrence, medicationDosage);
                         Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
                     }
                     else
@@ -118,8 +122,43 @@ namespace Piller.Droid
 
                 var notificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
 
+                if (intent.Action == "GO_TO_MEDICATION")
+                {
+                    // open medication screen
+
+                    var navigation = new MedicationDosageNavigation();
+                    navigation.MedicationDosageId = medicationId;
+
+                    var bundle = new MvxBundle();
+                    bundle.Write(navigation);
+                    var request = new MvxViewModelRequest<MedicationDosageViewModel>(bundle, null, MvxRequestedBy.UserAction);
+                    //var request = new MvxViewModelRequest();
+					//request.ParameterValues = new System.Collections.Generic.Dictionary<string, string>();
+                    //request.ParameterValues.Add("nav", Mvx.Resolve<IMvxJsonConverter>().SerializeObject(navigation));
+                    request.ViewModelType = typeof(MedicationDosageViewModel);
+					var requestTranslator = Mvx.Resolve<IMvxAndroidViewModelRequestTranslator>();
+					var newActivity = requestTranslator.GetIntentFor(request);
+					newActivity.SetFlags(ActivityFlags.NewTask);
+					context.StartActivity(newActivity);
+                }
+
+                if (intent.Action == "NOTIFCATION_DISMISS")
+                {
+                    // todo remove notification totally or rather reschedule ? 
+                    // maybe this action should be from settings (user decides in settings what happens if she/he dismisses notification)?
+                    var dismissedNotificationId = intent.GetIntExtra(NOTIFICATION_ID, 0);
+                    Task.Run(async () =>
+                    {
+						var dismissedNotification = await this.storage.GetAsync<NotificationOccurrence>(dismissedNotificationId);
+                        await this.notificationService.CancelNotification(dismissedNotification);
+                    });
+                }
+
                 if (intent.Action == "OK")
                 {
+                    Task.Run(async () => 
+                                await this.notificationService.CancelAndRemove(notificationId)
+                            );
                     notificationManager.Cancel(notificationId);
                 }
 
@@ -152,6 +191,7 @@ namespace Piller.Droid
 
                         await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
                         Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
+                        await this.notificationService.CancelAndRemove(notificationId);
                         await notificationService.OverdueNotification(newNotification, medicationDosage);
                     });
 

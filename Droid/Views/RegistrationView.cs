@@ -15,6 +15,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Droid.BindingContext;
+using System.Reactive.Linq;
 
 namespace Piller.Droid.Views
 {
@@ -35,13 +36,13 @@ namespace Piller.Droid.Views
             nearestList.Adapter = new NearestListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
             nearestList.ItemTemplateId = Resource.Layout.nearest_item;
             var nearestAdapter = (NearestListAdapter)nearestList.Adapter;
-            nearestAdapter.DeleteRequested.Subscribe(async notification => await this.ViewModel.DeleteNearest(notification));
+            nearestAdapter.DeleteRequested.Select(async notification => await this.ViewModel.DeleteNearest(notification)).Subscribe();
 
             overdueList = FindViewById<MvxListView>(Resource.Id.overdueList);
             overdueList.Adapter = new OverdueListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
             overdueList.ItemTemplateId = Resource.Layout.overdue_item;
             var overdueAdapter = (OverdueListAdapter)overdueList.Adapter;
-            overdueAdapter.DeleteRequested.Subscribe(async medication => await this.ViewModel.DeleteOverdue(medication));
+            overdueAdapter.DeleteRequested.Select(async medication => await this.ViewModel.DeleteOverdue(medication)).Subscribe();
 
             laterList = FindViewById<MvxListView>(Resource.Id.laterList);
             laterList.Adapter = new LaterListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);

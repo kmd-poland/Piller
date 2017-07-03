@@ -196,7 +196,7 @@ namespace Piller.ViewModels
 
 				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
                 // usuwam poprzednie notyfikacje
-                await this.notifications.CancelNotifications(dataRecord);
+                await this.notifications.CancelAllNotificationsForMedication(dataRecord);
                 // dodaję najbliższe wystąpienia do tabeli NotificationOccurrence
                 await this.AddNotificationOccurrences(dataRecord);
                 // dodaję notyfikacje - w środku czytam NotificationOccurrence
