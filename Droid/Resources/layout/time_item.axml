@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
-    <TextView xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:background="?attr/selectableItemBackground">
+    <TextView
+        android:id="@+id/hourName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/label_medication_hour"
-        tools:text="12:34"
-       />
-  <View
-      android:layout_width="1dp"
-      android:layout_height="match_parent"
-      android:background="@color/md_grey_400" 
-      android:layout_marginLeft="8dp"/>
- 
-    <ImageView
+        android:text="Wieczorem"
+        android:gravity="left" />
+    <TextView
+        android:id="@+id/hourLabel"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20:00"
+        android:layout_toLeftOf="@+id/button_delete_dosage_hour" />
+    <ImageView
         android:id="@+id/button_delete_dosage_hour"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_close_black_24dp"
         android:clickable="true"
-        android:background="?attr/selectableItemBackground"/>
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:background="?attr/selectableItemBackground" />
+    <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="@color/md_grey_200" 
+       android:layout_below="@+id/hourName"/>
+</RelativeLayout>

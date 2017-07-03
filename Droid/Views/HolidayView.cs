@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,10 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Droid.Shared.Attributes;
 using MvvmCross.Droid.Support.V4;
 using Piller.ViewModels;
-using MvvmCross.Droid.Support.V7.AppCompat;
-using Piller.Resources;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.Droid.Views;
-
+using Piller.Resources;
+using MvvmCross.Droid.Support.V7.AppCompat;
 
 namespace Piller.Droid.Views
 {
@@ -37,13 +36,10 @@ namespace Piller.Droid.Views
 			var ignore = base.OnCreateView(inflater, container, bundle);
 			var view = this.BindingInflate(Resource.Layout.HolidayView, null);
 
-			var toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
 			TextView fromDate;
 			TextView toDate;
 
-			((MvxCachingFragmentCompatActivity)Activity).SetSupportActionBar(toolbar);
-			((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.HolidayViewModel_Title;
-
+			((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.HolidayTitle;
 
 
 			fromDate = view.FindViewById<TextView>(Resource.Id.oddKiedy);
@@ -111,7 +107,6 @@ namespace Piller.Droid.Views
 
 			return view;
 		}
-
 		private void SetBinding()
 		{
 			var bindingSet = this.CreateBindingSet<HolidayView, HolidayViewModel>();

@@ -1,79 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/bottom_sheet_behavior"
-    app:behavior_peekHeight="300dp">
+    local:layout_behavior="@string/bottom_sheet_behavior"
+    local:behavior_peekHeight="300dp">
   <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Pasek"/>
-
-  <CheckBox
-      android:id="@+id/mondayCheckBox"
-      android:text="Poniedziałek"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/tuesdayCheckBox"
-      android:text="Wtorek"
+      android:textSize="17sp"
+      android:textStyle="bold"
+      android:gravity="center"
+      android:text="Powtarzaj" />
+  <RadioGroup
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/wednesdayCheckBox"
-      android:text="Środa"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/thursdayCheckBox"
-      android:text="Czwartek"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/fridayCheckBox"
-      android:text="Piątek"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/saturdayCheckBox"
-      android:text="Sobota"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-  <CheckBox
-      android:id="@+id/sundayCheckBox"
-      android:text="Niedziela"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:button="@null"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp"
-      android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
-
+      android:orientation="vertical">
+    <RadioButton
+        android:id="@+id/everyday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Codziennie"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:button="@null"
+        android:drawableLeft="@drawable/radio_selector"
+        android:checked="false"
+        android:padding="8dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_grey_400"
+        android:padding="5dp" />
+    <RadioButton
+        android:id="@+id/custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Wybrane dni"
+        android:clickable="true"
+        android:button="@null"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/radio_selector"
+        android:checked="false"
+        android:padding="8dp" />
+  </RadioGroup>
 </LinearLayout>

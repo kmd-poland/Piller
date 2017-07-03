@@ -14,6 +14,8 @@ using System.Reactive.Linq;
 using MvvmCross.Plugins.PictureChooser.Droid;
 using Android.Support.Design.Widget;
 using ZXing.Mobile;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Piller.Droid.Views
 {
@@ -24,9 +26,8 @@ namespace Piller.Droid.Views
         EditText dosageText;
         LinearLayout takePicutre;
         ImageView picture;
-        Button deleteBtn;
-        RadioButton everyday;
-        RadioButton custom;
+        TextView deleteBtn;
+        TextView daysSelector;
         TextView daysOfWeek;
         TextView timeSelector;
 		TextView fromDate;
@@ -36,7 +37,7 @@ namespace Piller.Droid.Views
 		ImageButton clearFrom;
 		ImageButton clearTo;
 
-        MedicationDosageTimeLayout hoursList;
+        //MedicationDosageTimeLayout hoursList;
 
         FloatingActionButton barScan;
 
@@ -55,7 +56,7 @@ namespace Piller.Droid.Views
 			nameText = FindViewById<EditText>(Resource.Id.NameEditText);
 			fromDate = FindViewById<TextView>(Resource.Id.odKiedy);
 			toDate = FindViewById<TextView>(Resource.Id.doKiedy);
-			clearFrom = FindViewById<ImageButton>(Resource.Id.clearFrom);
+		    clearFrom = FindViewById<ImageButton>(Resource.Id.clearFrom);
 			clearTo = FindViewById<ImageButton>(Resource.Id.clearTo);
             dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
@@ -64,13 +65,12 @@ namespace Piller.Droid.Views
 
             daysOfWeek = FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
-            deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
+            deleteBtn = FindViewById<TextView>(Resource.Id.deleteBtn);
 
             timeSelector = FindViewById<TextView>(Resource.Id.timeSelector);
-            everyday = FindViewById<RadioButton>(Resource.Id.everyday);
-            custom = FindViewById<RadioButton>(Resource.Id.custom);
+            daysSelector = FindViewById<TextView>(Resource.Id.daySelector);
 
-            FirstBottomSheet firsDialog = new FirstBottomSheet(this);
+            FirstBottomSheet firsDialog = new FirstBottomSheet();
 
           
             barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
@@ -98,18 +98,28 @@ namespace Piller.Droid.Views
             };
          
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
+            BottomSheet daysDialog = new BottomSheet();
+
             DeleteDialog deleteDialog = new DeleteDialog(this);
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-            timeSelector.Click += (o, e) => firsDialog.Show(ViewModel.MorningHour,ViewModel.EveningHour);
+            daysSelector.Click += (o, e) => daysDialog.Show(this.SupportFragmentManager, this.ViewModel.Everyday);
+            daysDialog.ChoseEveryday.Subscribe(everyday =>
+            {
+                this.ViewModel.SelectAllDays.Execute().Subscribe();
+                daysDialog.Dismiss();
+            });
+
+            timeSelector.Click += (o, e) => firsDialog.Show(this.SupportFragmentManager,ViewModel.TimeItems);
             deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
-            custom.Click += (o, e) =>
+            daysDialog.ChoseCustom.Subscribe(_=>
             {
+                daysDialog.Dismiss();
                 secondDialog.Show(ViewModel.Monday, ViewModel.Tuesday, ViewModel.Wednesday, ViewModel.Thursday, ViewModel.Friday, ViewModel.Saturday, ViewModel.Sunday);
-            };
-            firsDialog.Accept.Subscribe<HoursPattern>(p =>
+            });
+            firsDialog.Accept.Subscribe<IList<Data.TimeItem>>(p =>
             {
                 ViewModel.SetRepeatTime.Execute(p).Subscribe();
                 firsDialog.Dismiss();
@@ -277,12 +287,9 @@ namespace Piller.Droid.Views
                 .To(vm => vm.TakePhotoCommand);
             bindingSet.Bind(dosageText)
                 .To(vm => vm.MedicationDosage);
-            bindingSet.Bind(everyday)
-                .For(v => v.Checked)
-                .To(vm => vm.Everyday);
-            bindingSet.Bind(custom)
-                .For(v => v.Checked)
-                .To(vm => vm.Custom);
+            bindingSet.Bind(daysSelector)
+                .To(vm => vm.DaysLabel);
+
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
 

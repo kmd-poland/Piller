@@ -13,18 +13,18 @@ using Piller.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Binding.Droid.Views;
+using MvvmCross.Binding.Droid.BindingContext;
+using Piller.Data;
 
 namespace Piller.Droid.Views
 {
     [Activity]
     public class SettingsView : MvxAppCompatActivity<SettingsViewModel>
     {
-        RelativeLayout morning;
-        RelativeLayout afternoon;
-        RelativeLayout evening;
-        TextView morningHour;
-        TextView afternoonHour;
-        TextView eveningHour;
+        MedicationDosageTimeLayout HoursList;
+        TextView addHour;
+        TimeItem newItem;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -36,74 +36,49 @@ namespace Piller.Droid.Views
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.Title = "Ustawienia";
 
-            morning = FindViewById<RelativeLayout>(Resource.Id.morning);
-            afternoon = FindViewById<RelativeLayout>(Resource.Id.afternoon);
-            evening = FindViewById<RelativeLayout>(Resource.Id.evening);
+            HoursList = FindViewById<MedicationDosageTimeLayout>(Resource.Id.hoursList);
+            HoursList.ItemTemplateId = Resource.Layout.time_item;
 
-            morningHour = FindViewById<TextView>(Resource.Id.morningHour);
-            afternoonHour = FindViewById<TextView>(Resource.Id.afternoonHour);
-            eveningHour = FindViewById<TextView>(Resource.Id.eveningHour);
+            addHour = FindViewById<TextView>(Resource.Id.addHourBtn);
+            var hoursAdapter = (MedicationDosageTimeListAdapter) HoursList.Adapter;
+            hoursAdapter.CLickItem.Subscribe(item =>
+            {
+                TimePickerDialog timePicker = new TimePickerDialog(
+                    this,
+                    (s, args) =>
+                    {
+                        if (((TimePicker)s).IsShown)
+                        {
+                            newItem = new TimeItem(item.Name);
+                            newItem.Hour= new TimeSpan(args.HourOfDay, args.Minute, 0);
+                            var id = this.ViewModel.HoursList.IndexOf(item);
+                            if(id>=0)
+                            {
+                                this.ViewModel.HoursList.RemoveAt(id);
+                                this.ViewModel.HoursList.Insert(id,newItem);
+                            }
+                        }
+                    },
+                     12,
+                     00,
+                     true);
+                timePicker.Show();
+            });
+
+            hoursAdapter.DeleteRequested.Subscribe(time => this.ViewModel.HoursList.Remove(time));
             SetBinding();
-
-            morning.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetMorning.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
-            afternoon.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetAfternoon.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
-            evening.Click += (o, e) =>
-            {
-                TimePickerDialog timePicker = new TimePickerDialog(
-                    this,
-                    (s, args) =>
-                    {
-                        if (((TimePicker)s).IsShown)
-                            this.ViewModel.SetEvening.Execute(new TimeSpan(args.HourOfDay, args.Minute, 0)).Subscribe();
-                    },
-                     12,
-                     00,
-                     true);
-                timePicker.Show();
-            };
         }
 
         private void SetBinding()
         {
-            var bindingSet = this.CreateBindingSet<SettingsView, SettingsViewModel>();
-            bindingSet.Bind(morningHour)
-                .For(v => v.Text)
-                .To(vm => vm.MorningHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
-            bindingSet.Bind(afternoonHour)
-               .To(vm => vm.AfternoonHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
-            bindingSet.Bind(eveningHour)
-               .To(vm => vm.EveningHour)
-                .WithConversion(new InlineValueConverter<TimeSpan, string>(t => $"{t:hh\\:mm}"));
+            var bindingSet = this.CreateBindingSet<SettingsView, SettingsViewModel>();          
+            bindingSet.Bind(HoursList)
+                .For(v => v.ItemsSource)
+                .To(vm => vm.HoursList);
+            bindingSet.Bind(addHour)
+                .For(nameof(View.Click))
+                .To(vm => vm.AddHour);
             bindingSet.Apply();
-
         }
 
         public override bool OnSupportNavigateUp()

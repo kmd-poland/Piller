@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reactive;
+﻿using System.Reactive;
 using MvvmCross.Core.ViewModels;
 using ReactiveUI;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace Piller.ViewModels
 {
-	public class MedicationSummaryListViewModel : MvxViewModel
+    public class MedicationSummaryListViewModel : MvxViewModel
 	{
 		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
         MvxSubscriptionToken dataChangedSubscriptionToken;
@@ -42,8 +41,8 @@ namespace Piller.ViewModels
                  this.ShowViewModel<MedicationDosageViewModel>(new MedicationDosageNavigation { MedicationDosageId = item.Id.Value });
              });
 
-            dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<DataChangedMessage>(async mesg => await Init());
-            settingsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(async mesg => await Init());
+            //dataChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<DataChangedMessage>(async mesg => await Init());
+           // settingsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<SettingsChangeMessage>(async mesg => await Init());
         }
         public async Task Init()
         {

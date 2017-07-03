@@ -19,21 +19,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <LinearLayout
-                    android:id="@+id/toolbars"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <include
-                        layout="@layout/toolbar" />
-                </LinearLayout>
-                <LinearLayout
                     android:id="@+id/input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_below="@id/toolbars"
                     android:orientation="horizontal"
                     android:padding="15dp">
                     <LinearLayout

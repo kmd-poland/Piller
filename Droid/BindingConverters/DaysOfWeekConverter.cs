@@ -34,7 +34,8 @@ namespace Piller.Droid.BindingConverters
                 var index = Array.IndexOf(Enum.GetValues(typeof(DaysOfWeek)), dayNumber);
                 result.Add(days[index]);
             }
-
+            if (result.Count == 7)
+                return Resources.AppResources.EveryDayLabel;
             return $"({string.Join(", ", result.ToArray())})";
         }
 

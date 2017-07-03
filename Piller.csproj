@@ -29,6 +29,7 @@
     <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\MedicationDosage.cs" />
+    <Compile Include="ViewModels\BottomDialogViewModel.cs" />
     <Compile Include="ViewModels\HolidayViewModel.cs" />
     <Compile Include="ViewModels\HoursPattern.cs" />
     <Compile Include="ViewModels\MedicalCardViewModel.cs" />

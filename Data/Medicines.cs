@@ -11,8 +11,9 @@ namespace Piller.Data
 	public class Medicines
 	{
 		public string NazwaProduktu { get; set; }
+        public string Dosage { get; set; }
 
-		[PrimaryKey]
+        [PrimaryKey]
 		public string KodEAN { get; set; }
 	}
 }
