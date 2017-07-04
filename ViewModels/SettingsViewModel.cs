@@ -1,4 +1,4 @@
-﻿using Cheesebaron.MvxPlugins.Settings.Interfaces;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Piller.Data;

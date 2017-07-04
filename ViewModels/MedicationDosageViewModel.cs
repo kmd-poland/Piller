@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Piller.MixIns.DaysOfWeekMixIns;
+using System.Reactive.Linq;
 
 namespace Piller.ViewModels
 {
@@ -40,12 +41,13 @@ namespace Piller.ViewModels
             set { _bytes = value; RaisePropertyChanged(() => Bytes); }
         }
 
-        private void OnPicture(Stream pictureStream)
-        {
-            var memoryStream = new MemoryStream();
-            pictureStream.CopyTo(memoryStream);
-            Bytes = memoryStream.ToArray();
-        }
+		private async Task OnPicture(Stream pictureStream)
+		{
+            
+			var memoryStream = new MemoryStream();
+            await pictureStream.CopyToAsync(memoryStream);
+			Bytes = memoryStream.ToArray();
+		}
 
         //identyfikator rekordu, uzywany w trybie edycji
         private int? id;
@@ -58,31 +60,31 @@ namespace Piller.ViewModels
         string medicationName;
         public string MedicationName
         {
-            get { return medicationName; }
+			get { return medicationName; }
             set { this.SetProperty(ref medicationName, value); }
         }
 
-        string startDate;
-        public string StartDate
-        {
-            get { return startDate; }
-            set { this.SetProperty(ref startDate, value); }
-        }
+		string startDate;
+		public string StartDate
+		{
+			get { return startDate; }
+			set { this.SetProperty(ref startDate, value); }
+		}
 
-        string endDate;
-        public string EndDate
-        {
-            get { return endDate; }
-            set { this.SetProperty(ref endDate, value); }
-        }
+		string endDate;
+		public string EndDate
+		{
+			get { return endDate; }
+			set	{ this.SetProperty(ref endDate, value); }
+		}
 
         public async void SetMedicinesName(string kodEAN)
         {
-            Data.Medicines medicine = await this.medicinesDatabase.GetAsync(kodEAN);
+            Data.Medicines medicine =  await this.medicinesDatabase.GetAsync(kodEAN);
 
             if (medicine != null)
             {
-                MedicationName = $"{medicine.NazwaProduktu} ({medicine.Moc})";
+                MedicationName = $"{medicine.NazwaProduktu} ({medicine.Moc})" ;
             }
             else
             {
@@ -90,6 +92,7 @@ namespace Piller.ViewModels
                 UserDialogs.Instance.Toast("Nie znaleziono w bazie leków");
             }
         }
+       
 
 
         long ean;
@@ -182,7 +185,7 @@ namespace Piller.ViewModels
             }
         }
 
-        public string RingUri { get; private set; }
+		public string RingUri { get; private set; }
 
         private bool isNew;
         public List<TimeItem> CheckedHours { get; private set; } = new List<TimeItem>();
@@ -195,7 +198,7 @@ namespace Piller.ViewModels
         private string hoursLabel;
         public string HoursLabel
         {
-            get { return hoursLabel; }
+            get {return hoursLabel; }
             private set { SetProperty(ref hoursLabel, value); }
         }
 
@@ -225,7 +228,7 @@ namespace Piller.ViewModels
             Friday = true;
             Saturday = true;
             Sunday = true;
-
+           
         }
 
         public ReactiveCommand<Unit, bool> Save { get; private set; }
@@ -237,7 +240,7 @@ namespace Piller.ViewModels
 
         public MedicationDosageViewModel()
         {
-            ShowDialog = ReactiveCommand.Create(() => this.ShowViewModel<BottomDialogViewModel>());
+        ShowDialog = ReactiveCommand.Create(() => this.ShowViewModel<BottomDialogViewModel>());
             this.DosageHours = new ReactiveList<TimeSpan>();
             var canSave = this.WhenAny(
                 vm => vm.MedicationName,
@@ -252,61 +255,61 @@ namespace Piller.ViewModels
                 vm => vm.DosageHours.Count,
                 (n, d, m, t, w, th, f, sa, su, h) =>
 
-                !String.IsNullOrWhiteSpace(n.Value) &&
-                !String.IsNullOrWhiteSpace(d.Value) &&
-                (m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
-                h.Value > 0);
-
-            this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
-            this.TakePhotoCommand.Subscribe(x =>
-            {
-                if (x != null)
-                    this.OnPicture(x);
-            });
+				!String.IsNullOrWhiteSpace(n.Value) &&
+				!String.IsNullOrWhiteSpace(d.Value) &&
+				(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
+				h.Value > 0);
+            
+			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(1920, 75));
+			this.TakePhotoCommand
+                .Where(x=>x!=null)
+                .Select(x =>this.OnPicture(x))
+                .Subscribe();
+			
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
-            {
+			{
 
-                var dataRecord = new MedicationDosage
-                {
-                    Id = this.Id,
-                    Name = this.MedicationName,
-                    From = this.StartDate,
-                    To = this.EndDate,
-                    Dosage = this.MedicationDosage,
+				var dataRecord = new MedicationDosage
+				{
+					Id = this.Id,
+					Name = this.MedicationName,
+					From = this.StartDate,
+					To = this.EndDate,
+					Dosage = this.MedicationDosage,
 
-                    Days =
-                        (this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
-                        | (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
-                        | (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
-                        | (this.Thursday ? DaysOfWeek.Thursday : DaysOfWeek.None)
-                        | (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
-                        | (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
-                        | (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
-                    DosageHours = this.DosageHours,
-                    Hours = this.HoursLabel,
-                    RingUri = this.RingUri
-
+					Days =
+						(this.Monday ? DaysOfWeek.Monday : DaysOfWeek.None)
+						| (this.Tuesday ? DaysOfWeek.Tuesday : DaysOfWeek.None)
+						| (this.Wednesday ? DaysOfWeek.Wednesday : DaysOfWeek.None)
+						| (this.Thursday ? DaysOfWeek.Thursday : DaysOfWeek.None)
+						| (this.Friday ? DaysOfWeek.Friday : DaysOfWeek.None)
+						| (this.Saturday ? DaysOfWeek.Saturday : DaysOfWeek.None)
+						| (this.Sunday ? DaysOfWeek.Sunday : DaysOfWeek.None),
+					DosageHours = this.DosageHours,
+					Hours = this.HoursLabel,
+					RingUri = this.RingUri
+                    
                 };
 
-                if (!string.IsNullOrEmpty(this.StartDate) && !string.IsNullOrEmpty(this.EndDate))
-                {
-                    DateTime start = DateTime.Parse(this.StartDate);
-                    DateTime end = DateTime.Parse(this.EndDate);
-                    if (start > end)
-                    {
-                        UserDialogs.Instance.Toast("Ustaw prawidłowo zakres dat.");
-                        return false;
-                    }
+				if (!string.IsNullOrEmpty(this.StartDate) && !string.IsNullOrEmpty(this.EndDate))
+				{
+					DateTime start = DateTime.Parse(this.StartDate);
+					DateTime end = DateTime.Parse(this.EndDate);
+					if (start > end)
+					{
+						UserDialogs.Instance.Toast("Ustaw prawidłowo zakres dat.");
+						return false;
+					}
 
-                }
+				}
 
                 if (this.Bytes != null)
                 {
                     dataRecord.ImageName = $"image_{medicationName}";
                     dataRecord.ThumbnailName = $"thumbnail_{medicationName}";
                     imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
-                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 120);
                 }
 
                 await this.storage.SaveAsync<MedicationDosage>(dataRecord);
@@ -370,9 +373,8 @@ namespace Piller.ViewModels
                 CheckedHours = p as List<TimeItem>;
                 setHours();
 
-            });
+            });          
         }
-
 
         private async Task AddNotificationOccurrences(MedicationDosage medDosage)
         {
@@ -429,44 +431,42 @@ namespace Piller.ViewModels
                 data = new SettingsData();
                 data.HoursList = new List<TimeItem>()
                 {
-                     new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
+                    new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
                     new TimeItem(Resources.AppResources.EveningLabel){Hour=TimeSpan.Parse("20:00:00")}
-            };
+            	};
+
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
+
             TimeItems = new ReactiveList<TimeItem>(data.HoursList);
             string[] hoursNames;
             if (HoursLabel == null)
                 hoursNames = new string[1] { TimeItems[0].Name };
             else
             {
-                hoursNames = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.None);
+				hoursNames = HoursLabel.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             }
+
             CheckedHours = TimeItems
                 .Where(h => hoursNames.Contains(h.Name))
                 .Select(h => { h.Checked = true; return h; })
                 .ToList();
+			
             setHours();
 
-            RingUri = data.RingUri;
+			RingUri = data.RingUri;
         }
 
         private void setHours()
         {
-            DosageHours.Clear();
-            HoursLabel = String.Empty;
-            foreach (var item in CheckedHours)
-            {
-                DosageHours.Add(item.Hour);
-            }
-            string label = String.Empty;
-            foreach (var item in CheckedHours)
-            {
-                label += $"{item.Name}, ";
-            }
-            HoursLabel = label;
-        }
+			DosageHours.Clear();
+			HoursLabel = String.Join(", ", this.CheckedHours.Select(i => i.Name));
 
+			foreach(var item in CheckedHours)
+			{
+			    DosageHours.Add(item.Hour);
+			}
+        }
 
 		public async void Init(MedicationDosageNavigation nav)
 		{

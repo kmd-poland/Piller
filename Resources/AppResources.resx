@@ -121,19 +121,31 @@
   </data>
   <data name="MedicationSummaryListViewModel_Title" xml:space="preserve">
     <value>Najbliższe</value>
+  </data>
+  <data name="MedicationDosageViewModel_Title" xml:space="preserve">
     <value>Nowy lek</value>
   </data>
   <data name="HolidayViewModel_Title" xml:space="preserve">
     <value>Planer wakacyjny</value>
-    </data>
-
-	<data name="MedicationDosageView_SaveError" xml:space="preserve">
-       <value>Błąd zapisu</value>
-    </data>
-    <data name="MedicationDosageViewModel_Title" xml:space="preserve">
-    <value>Nowy lek</value>
   </data>
-    
+	<data name="MedicationDosageView_SaveError" xml:space="preserve">
+    <value>Błąd zapisu</value>
+  </data>
+  <data name="HolidayTitle" xml:space="preserve">
+    <value>Planer wakacyjny</value>
+  </data>
+  <data name="MedicationCardTitle" xml:space="preserve">
+    <value>Twoje leki</value>
+  </data>  
+  <data name="About_Title" xml:space="preserve">
+    <value>Informacje</value>
+  </data>
+  <data name="EveningLabel" xml:space="preserve">
+    <value>wieczorem</value>
+  </data>
+  <data name="MorningLabel" xml:space="preserve">
+    <value>rano</value>
+  </data>
   <data name="AddHourMessage" xml:space="preserve">
     <value>Dodaj</value>
   </data>
@@ -160,11 +172,5 @@
   </data>  
   <data name="About_Title" xml:space="preserve">
     <value>Informacje</value>
-  </data>
-  <data name="EveningLabel" xml:space="preserve">
-    <value>wieczorem</value>
-  </data>
-  <data name="MorningLabel" xml:space="preserve">
-    <value>rano</value>
   </data>
 </root>

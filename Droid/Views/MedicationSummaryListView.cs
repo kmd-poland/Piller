@@ -30,16 +30,16 @@ namespace Piller.Droid.Views
 		{
 			var ignore = base.OnCreateView(inflater, container, bundle);
 
-			var view = this.BindingInflate(Resource.Layout.MedicationSummaryListView, null);
+            var view = this.BindingInflate(Resource.Layout.MedicationSummaryListView, null);
 			((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.MedicationSummaryListViewModel_Title;
 
 
-			return view;
+            return view;
 		}
 
 		private void SetBinding()
 		{
-
+			
 		}
 	}
 }

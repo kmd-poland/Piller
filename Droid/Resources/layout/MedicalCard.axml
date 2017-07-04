@@ -4,29 +4,29 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_height="match_parent"
-      android:layout_width="match_parent">
-
-    <TextView
-        android:id="@+id/empty"
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/emptyMedicationListLabel"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kliknij + aby dodać lek"
+            android:textSize="17sp" />
+        <MvvmCross.Binding.Droid.Views.MvxListView
+            android:id="@+id/medicationList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/newMedicationDosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kliknij + aby dodać lek"
-        android:textSize="17sp" />
-    <MvvmCross.Binding.Droid.Views.MvxListView
-        android:id="@+id/medicationList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-  </LinearLayout>
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/newMedicationDosage"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom|right"
-      android:layout_margin="16dp"
-      android:src="@drawable/ic_plus"
-      app:layout_anchor="@id/medicationList"
-      app:layout_anchorGravity="bottom|right|end" />
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_plus"
+        app:layout_anchor="@id/medicationList"
+        app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

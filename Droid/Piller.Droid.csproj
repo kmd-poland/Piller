@@ -132,18 +132,6 @@
     <Reference Include="MvvmCross.Plugins.Messenger">
       <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.5.0.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform.Droid">
-      <HintPath>..\packages\MvvmCross.Platform.5.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.PictureChooser">
-      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.0\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.PictureChooser.Droid">
-      <HintPath>..\packages\MvvmCross.Plugin.PictureChooser.5.0.0\lib\MonoAndroid\MvvmCross.Plugins.PictureChooser.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="Acr.Support.Android">
       <HintPath>..\packages\Acr.Support.2.1.0\lib\MonoAndroid10\Acr.Support.Android.dll</HintPath>
     </Reference>
@@ -195,9 +183,6 @@
     <Reference Include="Acr.UserDialogs.Interface">
       <HintPath>..\packages\Acr.UserDialogs.6.4.1\lib\MonoAndroid10\Acr.UserDialogs.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.25.3.1\lib\MonoAndroid70\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="FastAndroidCamera">
       <HintPath>..\packages\FastAndroidCamera.2.0.0\lib\MonoAndroid403\FastAndroidCamera.dll</HintPath>
     </Reference>
@@ -238,6 +223,9 @@
     <Reference Include="Java.Interop" />
     <Reference Include="Refractored.Controls.CircleImageView">
       <HintPath>..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
+    </Reference>
+    <Reference Include="Humanizer">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -303,10 +291,6 @@
     <AndroidResource Include="Resources\layout\customNotification.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Settings.axml" />
-    <AndroidResource Include="Resources\layout\HolidayView.axml" />
-    <AndroidResource Include="Resources\layout\MainLayout.axml" />
-    <AndroidResource Include="Resources\layout\MedicalCard.axml" />
     <AndroidResource Include="Resources\layout\RegistrationView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -334,12 +318,15 @@
     <AndroidResource Include="Resources\menu\menu1.xml" />
     <AndroidResource Include="Resources\menu\settings_menu.xml" />
     <AndroidResource Include="Resources\menu\main_menu.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\icons8_Barcode_26.png" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
     <AndroidResource Include="Resources\layout\holiday_item.axml" />
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
     <AndroidResource Include="Resources\layout\About.axml" />
+    <AndroidResource Include="Resources\drawable\pillThumb.png" />
+    <AndroidResource Include="Resources\drawable\akademia_logo.jpg" />
+    <AndroidResource Include="Resources\drawable\kmd_poland_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\barcode.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -431,7 +418,6 @@
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\main_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -462,6 +448,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_system_update_alt_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\leki.db" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.3\build\Xamarin.Build.Download.targets')" />

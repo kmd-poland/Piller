@@ -21,6 +21,7 @@ using System.Reactive.Linq;
 using Android.Support.Design.Widget;
 using System.Collections;
 using System.Collections.Generic;
+using ZXing.Mobile;
 
 namespace Piller.Droid.Views
 {
@@ -75,7 +76,7 @@ namespace Piller.Droid.Views
 
             FirstBottomSheet firsDialog = new FirstBottomSheet();
 
-          
+            barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
 
             MobileBarcodeScanner.Initialize(Application);
 
@@ -103,6 +104,7 @@ namespace Piller.Droid.Views
 
             DeleteDialog deleteDialog = new DeleteDialog(this);
  
+
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
             daysSelector.Click += (o, e) => daysDialog.Show(this.SupportFragmentManager, this.ViewModel.Everyday);
@@ -126,6 +128,56 @@ namespace Piller.Droid.Views
                 firsDialog.Dismiss();
             });
             firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
+
+			fromDate.Click += (o,e) =>{
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					fromDate.Text = time.ToShortDateString();
+					});
+					frag.minDate = DateTime.Now.Date;
+
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
+			};
+
+			toDate.Click += (o,e) => {
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					toDate.Text = time.ToShortDateString();
+					});
+				if (!string.IsNullOrEmpty(fromDate.Text))
+				{
+					frag.minDate = DateTime.Parse(fromDate.Text);
+				}
+				else
+				{
+					frag.minDate = DateTime.Now.Date;
+				}
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
+			};
+
+			clearFrom.Click += (o,e) => {
+				fromDate.Text = "";
+			};
+
+			clearTo.Click += (o,e) => {
+				toDate.Text = "";
+			};
+
+			fromDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(fromDate.Text))
+					clearFrom.Visibility=ViewStates.Invisible;
+				else
+					clearFrom.Visibility=ViewStates.Visible;
+			};
+
+			toDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(toDate.Text))
+					clearTo.Visibility=ViewStates.Invisible;
+				else
+					clearTo.Visibility=ViewStates.Visible;
+			};
 
             secondDialog.Accept.Subscribe(x  =>
             {
@@ -163,6 +215,10 @@ namespace Piller.Droid.Views
 			this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
 			var saveItem = menu.FindItem(Resource.Id.action_save);
 
+			this.ViewModel.Save.CanExecute.Subscribe(canExecute =>
+			{
+				saveItem.SetEnabled(canExecute);
+			});
 
 			return base.OnCreateOptionsMenu(menu);
 		}
@@ -233,20 +289,12 @@ namespace Piller.Droid.Views
                 .To(vm => vm.MedicationDosage);
             bindingSet.Bind(daysSelector)
                 .To(vm => vm.DaysLabel);
-            bindingSet.Bind(everyday)
-                .For(v => v.Checked)
-                .To(vm => vm.Everyday);
-            bindingSet.Bind(custom)
-                .For(v => v.Checked)
-                .To(vm => vm.Custom);
 
+            bindingSet.Bind(timeSelector)
+                      .WithConversion(new InlineValueConverter<string, string>((arg) => Humanizer.CasingExtensions.ApplyCase(arg, Humanizer.LetterCasing.Sentence)))
+                      .To(vm => vm.HoursLabel);
 
-
-            bindingSet.Bind(hoursList)
-				.For(x => x.ItemsSource)
-					  .To(vm => vm.DosageHours);
-			bindingSet.Apply();
-
+            bindingSet.Apply();
 
             //Bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
 		}

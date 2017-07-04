@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
 
     <style name="PillerTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/md_green_500</item>
         <item name="colorPrimaryDark">@color/md_green_700</item>
-        <item name="colorAccent">@color/md_teal_500</item>
+        <item name="colorAccent">@color/md_blue_700</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionModeOverlay">false</item>
@@ -38,4 +38,13 @@
   <style name="NotificationDesc" parent="@android:style/TextAppearance.Small">
     <item name="android:textColor">@color/md_grey_500</item>
   </style>
+    
+
+	
+    <style name="ListSecondaryText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+
 </resources>
