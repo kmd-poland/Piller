@@ -9,6 +9,7 @@ namespace Services
 {
 	public class AndroidImageLoader : ImageLoaderService
 	{
+        private static string ImagePath = "Piller_";
 		private readonly IMvxFileStore fileStore = Mvx.Resolve<IMvxFileStore>();
 
 		public static byte[] ReadFully(Stream input)
@@ -22,13 +23,13 @@ namespace Services
 
 		public byte[] LoadImage(string name)
 		{
-			var path = this.fileStore.NativePath("Piller") + name;
+			var path = this.fileStore.NativePath(ImagePath) + name;
             return ReadFully(fileStore.OpenRead(path));
 		}
 
 		public void SaveImage(byte[] bytes, string name, int maxDimenSize = -1)
 		{
-			var path = this.fileStore.NativePath("Piller_") + name;
+			var path = this.fileStore.NativePath(ImagePath) + name;
 
             if (maxDimenSize != -1)
 			{
