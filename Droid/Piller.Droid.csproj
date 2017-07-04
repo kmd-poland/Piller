@@ -265,7 +265,6 @@
     <Compile Include="NotificationPublisher.cs" />
     <Compile Include="Views\BottomSheet.cs" />
     <Compile Include="Views\DeleteDialog.cs" />
-    <Compile Include="Views\FirstBottomSheet.cs" />
     <Compile Include="Views\NearestListAdapter.cs" />
     <Compile Include="Views\OverdueListAdapter.cs" />
     <Compile Include="Views\RegistrationView.cs" />
