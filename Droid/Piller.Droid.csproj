@@ -233,6 +233,9 @@
     <Reference Include="Humanizer">
       <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialEditText">
+      <HintPath>..\packages\MaterialEditText.1.0.0\lib\MonoAndroid60\MaterialEditText.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">

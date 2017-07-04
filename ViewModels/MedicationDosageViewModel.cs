@@ -243,13 +243,13 @@ namespace Piller.ViewModels
 				vm => vm.Friday,
 				vm => vm.Saturday,
 				vm => vm.Sunday,
-				vm => vm.DosageHours.Count,
-				(n, d, m, t, w, th, f, sa, su, h) =>
+				vm => vm.DosageHours,
+				(n, d, m, t, w, th, f, sa, su, hours) =>
 
 				!String.IsNullOrWhiteSpace(n.Value) &&
 				!String.IsNullOrWhiteSpace(d.Value) &&
 				(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
-				h.Value > 0);
+                hours.Value.Count > 0);
             
 			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(1920, 75));
 			this.TakePhotoCommand
@@ -396,12 +396,13 @@ namespace Piller.ViewModels
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
             TimeItems = new ReactiveList<TimeItem>( data.HoursList) {ChangeTrackingEnabled = true};
+
             string[] hoursNames;
             if (HoursLabel == null)
                 hoursNames = new string[1] { TimeItems[0].Name };
             else
             {
-				hoursNames = HoursLabel.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+				hoursNames = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             CheckedHours = TimeItems
