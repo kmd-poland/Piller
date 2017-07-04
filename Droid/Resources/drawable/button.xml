@@ -8,7 +8,17 @@
       <solid android:color="?attr/colorAccent"  />
     </shape>
   </item>
+  <item android:state_enabled="true">
+    <shape>
+      <solid android:color="?attr/colorAccent"/>
+    </shape>
+  </item>
 
+  <item android:state_enabled="false">
+    <shape>
+      <solid android:color="@color/md_grey_600" />
+    </shape>
+  </item>
   <item android:state_selected="true" >
     <shape>
       <solid android:color="@color/md_grey_400" />

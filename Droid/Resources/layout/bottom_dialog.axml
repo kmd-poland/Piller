@@ -19,26 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/md_grey_50" />
-    <CheckBox
-        android:id="@+id/morning"
+  <MvvmCross.Binding.Droid.Views.MvxListView
+       android:id="@+id/hoursList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:button="@null"
-        android:padding="@dimen/basic_padding"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Rano" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/md_grey_50" />
-    <CheckBox
-        android:id="@+id/evening"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:button="@null"
-        android:padding="@dimen/basic_padding"
-        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-        android:text="Wieczorem" />
+        android:layout_height="wrap_content"/>
     <include
         layout="@layout/confirmation" />
 </LinearLayout>

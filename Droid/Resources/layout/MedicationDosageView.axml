@@ -6,70 +6,73 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:id="@+id/toolbars">
+    <include
+        layout="@layout/toolbar" />
+  </LinearLayout>
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/toolbars">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/toolbars">
-        <include
-            layout="@layout/toolbar" />
-    </LinearLayout>
-    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbars">
-        <LinearLayout
-            android:orientation="vertical"
+        android:padding="5dp">
+      <EditText
+          android:id="@+id/NameEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Nazwa Leku *" />
+      <EditText
+          android:id="@+id/DosageEditText"
+          android:layout_width="match_parent"
+          android:hint="Dawka Leku *"
+          android:layout_height="wrap_content" />
+      <LinearLayout
+          android:id="@+id/take_photo"
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="100dp"
+          android:clickable="true"
+          android:background="?attr/selectableItemBackground">
+        <ImageView
+            android:id="@+id/photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp">
-            <EditText
-                android:id="@+id/NameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nazwa Leku *" />
-            <EditText
-                android:id="@+id/DosageEditText"
-                android:layout_width="match_parent"
-                android:hint="Dawka Leku *"
-                android:layout_height="wrap_content" />
-            <LinearLayout
-                android:id="@+id/take_photo"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground">
-                <ImageView
-                    android:id="@+id/photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="16dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:padding="24dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Dodaj zdjęcie"
-                        android:layout_gravity="center" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        local:srcCompat="@drawable/ic_add_a_photo_black_48dp"
-                        android:elevation="16dp"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+            android:elevation="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="24dp">
+          <!--
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Dodaj zdjęcie"
+              android:layout_gravity="center" />
+              -->
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              local:srcCompat="@drawable/ic_add_a_photo_black_48dp"
+              android:elevation="16dp"
+              android:layout_gravity="center" />
+        </LinearLayout>
+      </LinearLayout>
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/md_grey_300"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp" />
+      <!--
             <TextView
                 android:text="Powtarzaj *"
                 android:layout_width="match_parent"
@@ -77,6 +80,16 @@
                 android:id="@+id/textView1"
                 android:textStyle="normal"
                 android:layout_marginTop="20px" />
+                -->
+      <TextView
+          android:id="@+id/daySelector"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:clickable="true"
+          android:textColor="@color/md_black_1000"
+          android:background="?attr/selectableItemBackground"
+          android:padding="8dp" />
+      <!--
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -111,53 +124,121 @@
                     android:checked="false"
                     android:padding="8dp" />
             </RadioGroup>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
+            -->
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/md_grey_300"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp" />
+      <!--
             <TextView
                 android:text="Przyjmuję *"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="normal"
                 android:layout_marginTop="20px" />
-            <TextView
-                android:id="@+id/timeSelector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="rano"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
-        </LinearLayout>
-    </ScrollView>
-    <Button
-        android:id="@+id/deleteBtn"
-        android:text="usun lek"
-        android:textAllCaps="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_red_900"
-        android:textColor="@android:color/white"
-        android:paddingRight="8dp"
-        android:layout_alignParentBottom="true"
-        android:drawableRight="@drawable/ic_delete_forever_white_36dp" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/barScan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/icons8_Barcode_26"
-        local:layout_anchorGravity="bottom|right|end"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+                -->
+      <TextView
+          android:id="@+id/timeSelector"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textColor="@color/md_black_1000"
+          android:padding="8dp" />
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/md_grey_300"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp" />
+      <TextView
+          android:id="@+id/textView9"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:gravity="center_vertical"
+          android:text="Przyjmuję od:"
+          android:textStyle="normal" />
+      
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal">
+        <TextView
+            android:id="@+id/odKiedy"
+            style="@android:style/Widget.EditText"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="dzisiaj"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:editable="false"
+            android:focusable="false"
+            android:clickable="true" />
+        <ImageButton
+            android:id="@+id/clearFrom"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            local:srcCompat="@android:drawable/ic_delete" />
+      </LinearLayout>
+           
+      <TextView
+          android:id="@+id/textView10"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Przyjmuję do:"
+          android:textStyle="normal" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="40dp"
+          android:orientation="horizontal">
+        <TextView
+            android:id="@+id/doKiedy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.EditText"
+            android:layout_weight="1"
+            android:hint="bezterminowo"
+            android:textColor="@android:color/black"
+            android:editable="false"
+            android:focusable="false"
+            android:clickable="true" />
+        <ImageButton
+            android:id="@+id/clearTo"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            local:srcCompat="@android:drawable/ic_delete" />
+      </LinearLayout>
+    </LinearLayout>
+  </ScrollView>
+  <TextView
+      android:id="@+id/deleteBtn"
+      android:text="usuń"
+      android:clickable="true"
+      android:textAllCaps="true"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?attr/selectableItemBackground"
+      android:textColor="@color/md_red_900"
+      android:paddingRight="8dp"
+      android:gravity="center"
+      android:textSize="24sp"
+      android:textStyle="bold"
+      android:layout_marginBottom="8dp"
+      android:layout_alignParentBottom="true" />
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/barScan"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|right"
+      android:layout_margin="16dp"
+      android:src="@drawable/icons8_Barcode_26"
+      local:layout_anchorGravity="bottom|right|end"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true" />
 </RelativeLayout>

@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent">
+
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MEDICAL CARD"
-        android:gravity="center"
-        android:layout_centerInParent="true" />
-</RelativeLayout>
+        android:text="Kliknij + aby dodać lek"
+        android:textSize="17sp" />
+    <MvvmCross.Binding.Droid.Views.MvxListView
+        android:id="@+id/medicationList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+  </LinearLayout>
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/newMedicationDosage"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|right"
+      android:layout_margin="16dp"
+      android:src="@drawable/ic_plus"
+      app:layout_anchor="@id/medicationList"
+      app:layout_anchorGravity="bottom|right|end" />
+</android.support.design.widget.CoordinatorLayout>

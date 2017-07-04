@@ -5,18 +5,18 @@
         android:id="@+id/upcoming"
         android:enabled="true"
         android:icon="@drawable/ic_restore_black_24dp"
-        android:title="upcoming"
+        android:title="Najbliższe"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/medical_card"
         android:enabled="true"
         android:icon="@drawable/ic_local_hospital_black_24dp"
-        android:title="medical card"
+        android:title="Karta medyczna"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/holidays"
         android:enabled="true"
         android:icon="@drawable/ic_airplanemode_active_black_24dp"
-        android:title="holidays"
+        android:title="Wakacje"
         app:showAsAction="ifRoom" />
 </menu>

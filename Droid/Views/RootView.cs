@@ -25,10 +25,10 @@ namespace Piller.Droid.Views
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.MainLayout);
-
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
             var bottomNavigation = FindViewById<BottomNavigationView>(Resource.Id.bottom_navigation);
             bottomNavigation.NavigationItemSelected += (object sender, BottomNavigationView.NavigationItemSelectedEventArgs e) => {
-                Toast.MakeText(this, "Navigating to " + e.Item.TitleFormatted, ToastLength.Short).Show();
 
                 switch (e.Item.ItemId)
 				{
@@ -56,6 +56,15 @@ namespace Piller.Droid.Views
         {
             if (item.ItemId == Resource.Id.action_settings)
                 ViewModel.GoSettings.Execute().Subscribe();
+
+            if (item.ItemId == Resource.Id.action_About)
+            {
+                var intent = new Intent(this, typeof(About));
+				StartActivity(intent);
+
+                return true;
+            }
+
 
             return base.OnOptionsItemSelected(item);
         }

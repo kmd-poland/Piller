@@ -3,20 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Piller.Data
 {
     public class SettingsData
     {
         public static string Key { get; } = "hours_settings";
-        public TimeSpan Morning { get; set; }
-        public TimeSpan Afternoon { get; set; }
-        public TimeSpan Evening { get; set; }
-        public SettingsData()
+        public IEnumerable<TimeItem> HoursList { get; set; }
+		public string RingUri { get; set; } = "content://settings/system/ringtone";
+
+    }
+    public class TimeItem
+    {
+        public string Name { get; set; }
+        public TimeSpan Hour { get; set; }
+
+        [JsonIgnore]
+        public string Label
         {
-            Morning = TimeSpan.Parse("09:00:00");
-            Afternoon =TimeSpan.Parse("15:00:00");
-            Evening = TimeSpan.Parse("21:00:00");
+            get
+            {
+                return $"{Name} ({Hour:hh\\:mm})";
+            }
+        } 
+        [JsonIgnore]
+        public bool Checked { get; set; }
+        public TimeItem(string name)
+        {
+            this.Name = name;
         }
+
     }
 }

@@ -14,6 +14,8 @@ using System.Reactive.Linq;
 using MvvmCross.Plugins.PictureChooser.Droid;
 using Android.Support.Design.Widget;
 using ZXing.Mobile;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Piller.Droid.Views
 {
@@ -24,12 +26,18 @@ namespace Piller.Droid.Views
         EditText dosageText;
         LinearLayout takePicutre;
         ImageView picture;
-        Button deleteBtn;
-        RadioButton everyday;
-        RadioButton custom;
+        TextView deleteBtn;
+        TextView daysSelector;
         TextView daysOfWeek;
         TextView timeSelector;
+		TextView fromDate;
+		TextView toDate;
 
+        //TextView daysOfWeek;
+		ImageButton clearFrom;
+		ImageButton clearTo;
+
+        //MedicationDosageTimeLayout hoursList;
 
         FloatingActionButton barScan;
 
@@ -45,7 +53,11 @@ namespace Piller.Droid.Views
             SetSupportActionBar(toolbar);
 
             SupportActionBar.Title = AppResources.MedicationDosageViewModel_Title;
-            nameText = FindViewById<EditText>(Resource.Id.NameEditText);
+			nameText = FindViewById<EditText>(Resource.Id.NameEditText);
+			fromDate = FindViewById<TextView>(Resource.Id.odKiedy);
+			toDate = FindViewById<TextView>(Resource.Id.doKiedy);
+		    clearFrom = FindViewById<ImageButton>(Resource.Id.clearFrom);
+			clearTo = FindViewById<ImageButton>(Resource.Id.clearTo);
             dosageText = FindViewById<EditText>(Resource.Id.DosageEditText);
 
             takePicutre = FindViewById<LinearLayout>(Resource.Id.take_photo);
@@ -53,18 +65,18 @@ namespace Piller.Droid.Views
 
             daysOfWeek = FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
-            deleteBtn = FindViewById<Button>(Resource.Id.deleteBtn);
+            deleteBtn = FindViewById<TextView>(Resource.Id.deleteBtn);
 
             timeSelector = FindViewById<TextView>(Resource.Id.timeSelector);
-            everyday = FindViewById<RadioButton>(Resource.Id.everyday);
-            custom = FindViewById<RadioButton>(Resource.Id.custom);
+            daysSelector = FindViewById<TextView>(Resource.Id.daySelector);
 
-            FirstBottomSheet firsDialog = new FirstBottomSheet(this);
+            FirstBottomSheet firsDialog = new FirstBottomSheet();
 
           
             barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
 
             MobileBarcodeScanner.Initialize(Application);
+
 
             barScan.Click += async (sender, e) =>
             {
@@ -84,28 +96,87 @@ namespace Piller.Droid.Views
                 }
                    
             };
-
          
             SecondBottomSheet secondDialog = new SecondBottomSheet(this);
+            BottomSheet daysDialog = new BottomSheet();
+
             DeleteDialog deleteDialog = new DeleteDialog(this);
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-            timeSelector.Click += (o, e) => firsDialog.Show(ViewModel.MorningHour,ViewModel.EveningHour);
+            daysSelector.Click += (o, e) => daysDialog.Show(this.SupportFragmentManager, this.ViewModel.Everyday);
+            daysDialog.ChoseEveryday.Subscribe(everyday =>
+            {
+                this.ViewModel.SelectAllDays.Execute().Subscribe();
+                daysDialog.Dismiss();
+            });
+
+            timeSelector.Click += (o, e) => firsDialog.Show(this.SupportFragmentManager,ViewModel.TimeItems);
             deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
-            custom.Click += (o, e) =>
+            daysDialog.ChoseCustom.Subscribe(_=>
             {
+                daysDialog.Dismiss();
                 secondDialog.Show(ViewModel.Monday, ViewModel.Tuesday, ViewModel.Wednesday, ViewModel.Thursday, ViewModel.Friday, ViewModel.Saturday, ViewModel.Sunday);
-            };
-            firsDialog.Accept.Subscribe<HoursPattern>(p =>
+            });
+            firsDialog.Accept.Subscribe<IList<Data.TimeItem>>(p =>
             {
                 ViewModel.SetRepeatTime.Execute(p).Subscribe();
                 firsDialog.Dismiss();
             });
             firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
 
-            secondDialog.Accept.Subscribe(x =>
+			fromDate.Click += (o,e) =>{
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					fromDate.Text = time.ToShortDateString();
+					});
+					frag.minDate = DateTime.Now.Date;
+
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
+			};
+
+			toDate.Click += (o,e) => {
+					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+					{
+					toDate.Text = time.ToShortDateString();
+					});
+				if (!string.IsNullOrEmpty(fromDate.Text))
+				{
+					frag.minDate = DateTime.Parse(fromDate.Text);
+				}
+				else
+				{
+					frag.minDate = DateTime.Now.Date;
+				}
+					frag.Show(FragmentManager, DatePickerFragment.TAG);
+
+			};
+
+			clearFrom.Click += (o,e) => {
+				fromDate.Text = "";
+			};
+
+			clearTo.Click += (o,e) => {
+				toDate.Text = "";
+			};
+
+			fromDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(fromDate.Text))
+					clearFrom.Visibility=ViewStates.Invisible;
+				else
+					clearFrom.Visibility=ViewStates.Visible;
+			};
+
+			toDate.TextChanged += (o,e) => {
+				if (string.IsNullOrEmpty(toDate.Text))
+					clearTo.Visibility=ViewStates.Invisible;
+				else
+					clearTo.Visibility=ViewStates.Visible;
+			};
+
+            secondDialog.Accept.Subscribe(x  =>
             {
                 this.ViewModel.Monday = x[0];
                 this.ViewModel.Tuesday = x[1];
@@ -141,7 +212,10 @@ namespace Piller.Droid.Views
             this.MenuInflater.Inflate(Resource.Menu.dosagemenu, menu);
             var saveItem = menu.FindItem(Resource.Id.action_save);
 
-            this.ViewModel.Save.CanExecute.Subscribe(canExecute => saveItem.SetEnabled(canExecute));
+			this.ViewModel.Save.CanExecute.Subscribe(canExecute =>
+			{
+				saveItem.SetEnabled(canExecute);
+			});
 
             return base.OnCreateOptionsMenu(menu);
         }
@@ -189,6 +263,15 @@ namespace Piller.Droid.Views
             bindingSet.Bind(nameText)
                 .To(x => x.MedicationName);
 
+			bindingSet.Bind(fromDate)
+			          .To(x => x.StartDate)
+			          .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay);
+
+
+			bindingSet.Bind(toDate)
+			          .To(x => x.EndDate)
+			          .Mode(MvvmCross.Binding.MvxBindingMode.TwoWay);
+
             bindingSet.Bind(picture)
                 .To(x => x.Bytes)
                 .For("Bitmap")
@@ -204,12 +287,9 @@ namespace Piller.Droid.Views
                 .To(vm => vm.TakePhotoCommand);
             bindingSet.Bind(dosageText)
                 .To(vm => vm.MedicationDosage);
-            bindingSet.Bind(everyday)
-                .For(v => v.Checked)
-                .To(vm => vm.Everyday);
-            bindingSet.Bind(custom)
-                .For(v => v.Checked)
-                .To(vm => vm.Custom);
+            bindingSet.Bind(daysSelector)
+                .To(vm => vm.DaysLabel);
+
             bindingSet.Bind(timeSelector)
                 .To(vm => vm.HoursLabel);
 

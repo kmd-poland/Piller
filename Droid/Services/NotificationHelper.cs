@@ -20,8 +20,9 @@ namespace Piller.Droid.Services
             builder.SetTicker($"[PILLER] {medication.Name}");
 			builder.SetSmallIcon(Resource.Drawable.pill64x64);
 
+			Android.Net.Uri ring = Android.Net.Uri.Parse(medication.RingUri);
+            builder.SetSound(ring);
 
-            builder.SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
             builder.SetPriority((int)NotificationPriority.High);
             builder.SetVisibility((int)NotificationVisibility.Public); // visible on locked screen
 
