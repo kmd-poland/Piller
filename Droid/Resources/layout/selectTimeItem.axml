@@ -3,11 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <CheckBox
-       android:id="@+id/checkBoxItem"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:button="@null"
-       android:padding="@dimen/basic_padding"
-       android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+    <CheckBox
+        android:id="@+id/checkBoxItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/basic_padding" />
 </LinearLayout>

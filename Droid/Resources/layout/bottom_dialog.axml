@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minWidth="25px"
+    android:minHeight="25px"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-    app:behavior_peekHeight="500dp"
-    android:id="@+id/design_bottom_sheet">
-
-    <TextView
-        android:id="@+id/dialog_header"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:text="Czas przyjmowania" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/md_grey_50" />
-  <MvvmCross.Binding.Droid.Views.MvxListView
-       android:id="@+id/hoursList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <include
-        layout="@layout/confirmation" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        app:behavior_peekHeight="500dp"
+        android:id="@+id/design_bottom_sheet">
+        <TextView
+            android:id="@+id/dialog_header"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:text="Czas przyjmowania"
+            style="@style/ListSecondaryText" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_grey_50" />
+        <ListView
+            android:id="@+id/hoursList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</FrameLayout>

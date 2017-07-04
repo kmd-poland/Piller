@@ -74,8 +74,13 @@ namespace Piller.Droid.Views
             timeSelector = FindViewById<TextView>(Resource.Id.timeSelector);
             daysSelector = FindViewById<TextView>(Resource.Id.daySelector);
 
-            FirstBottomSheet firsDialog = new FirstBottomSheet();
 
+            var timeSelectorDialog = new OrdinationTimesSheet(this, this.ViewModel);
+
+			timeSelector.Click += (o, e) => timeSelectorDialog.Show();
+
+
+			
             barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
 
             MobileBarcodeScanner.Initialize(Application);
@@ -83,52 +88,28 @@ namespace Piller.Droid.Views
 
             barScan.Click += async (sender, e) =>
             {
-
-
                 // Initialize the scanner first so it can track the current context
-                
-
-
                 var scanner = new MobileBarcodeScanner();
-
                 var result = await scanner.Scan();
-
                 if (result != null)
                 {
                     ViewModel.SetMedicinesName(result.Text);
                 }
                    
             };
-            SecondBottomSheet secondDialog = new SecondBottomSheet(this);
-            BottomSheet daysDialog = new BottomSheet();
+            OrdiniationSchemeDialog ordinationSchemeDialog = new OrdiniationSchemeDialog(this, this.ViewModel);
+			daysSelector.Click += (o, e) => ordinationSchemeDialog.Show();
 
             DeleteDialog deleteDialog = new DeleteDialog(this);
  
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-            daysSelector.Click += (o, e) => daysDialog.Show(this.SupportFragmentManager, this.ViewModel.Everyday);
-            daysDialog.ChoseEveryday.Subscribe(everyday =>
-            {
-                this.ViewModel.SelectAllDays.Execute().Subscribe();
-                daysDialog.Dismiss();
-            });
 
-            timeSelector.Click += (o, e) => firsDialog.Show(this.SupportFragmentManager,ViewModel.TimeItems);
-            deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
+		  deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
-            daysDialog.ChoseCustom.Subscribe(_=>
-            {
-                daysDialog.Dismiss();
-                secondDialog.Show(ViewModel.Monday, ViewModel.Tuesday, ViewModel.Wednesday, ViewModel.Thursday, ViewModel.Friday, ViewModel.Saturday, ViewModel.Sunday);
-            });
-            firsDialog.Accept.Subscribe<IList<Data.TimeItem>>(p =>
-            {
-                ViewModel.SetRepeatTime.Execute(p).Subscribe();
-                firsDialog.Dismiss();
-            });
-            firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
-
+          
+          
 			fromDate.Click += (o,e) =>{
 					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
 					{
@@ -179,21 +160,7 @@ namespace Piller.Droid.Views
 					clearTo.Visibility=ViewStates.Visible;
 			};
 
-            secondDialog.Accept.Subscribe(x  =>
-            {
-                this.ViewModel.Monday = x[0];
-                this.ViewModel.Tuesday = x[1];
-                this.ViewModel.Wednesday = x[2];
-                this.ViewModel.Thursday = x[3];
-                this.ViewModel.Friday = x[4];
-                this.ViewModel.Saturday = x[5];
-                this.ViewModel.Sunday = x[6];
-                secondDialog.Hide();
-            });
-            secondDialog.Cancel.Subscribe(x =>
-            {
-                secondDialog.Dismiss();
-            });
+          
 
 
             deleteDialog.Create();

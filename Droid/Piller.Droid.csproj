@@ -224,6 +224,9 @@
     <Reference Include="Refractored.Controls.CircleImageView">
       <HintPath>..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
     </Reference>
+    <Reference Include="ReactiveUI.Events">
+      <HintPath>..\packages\reactiveui-events.7.4.0\lib\MonoAndroid403\ReactiveUI.Events.dll</HintPath>
+    </Reference>
     <Reference Include="Humanizer">
       <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
     </Reference>
@@ -266,8 +269,9 @@
     <Compile Include="Views\NearestListAdapter.cs" />
     <Compile Include="Views\OverdueListAdapter.cs" />
     <Compile Include="Views\RegistrationView.cs" />
+    <Compile Include="Views\OrdinationTimesSheet.cs" />
     <Compile Include="Views\RoundedImageView.cs" />
-    <Compile Include="Views\SecondBottomSheet.cs" />
+    <Compile Include="Views\OrdiniationSchemeDialog.cs" />
     <Compile Include="Views\RootView.cs" />
     <Compile Include="Views\MedicalCardView.cs" />
     <Compile Include="Views\HolidayView.cs" />
@@ -323,6 +327,8 @@
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
     <AndroidResource Include="Resources\layout\About.axml" />
+    <AndroidResource Include="Resources\drawable\toggle_selector.xml" />
+    <AndroidResource Include="Resources\drawable\toggle_state_on.xml" />
     <AndroidResource Include="Resources\drawable\pillThumb.png" />
     <AndroidResource Include="Resources\drawable\akademia_logo.jpg" />
     <AndroidResource Include="Resources\drawable\kmd_poland_logo.png" />

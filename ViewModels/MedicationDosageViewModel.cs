@@ -159,7 +159,7 @@ namespace Piller.ViewModels
         public bool Sunday
         {
             get { return sunday; }
-            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(DaysLabel)); }
+            set { this.SetProperty(ref sunday, value); }
         }
 
         public bool everyday;
@@ -189,8 +189,8 @@ namespace Piller.ViewModels
 
         private bool isNew;
         public List<TimeItem> CheckedHours { get; private set; } = new List<TimeItem>();
-        private RxUI.ReactiveList<TimeSpan> dosageHours;
-        public ReactiveList<TimeSpan> DosageHours
+        private List<TimeSpan> dosageHours;
+        public List<TimeSpan> DosageHours
         {
             get { return this.dosageHours; }
             set { SetProperty(ref dosageHours, value); }
@@ -202,14 +202,11 @@ namespace Piller.ViewModels
             private set { SetProperty(ref hoursLabel, value); }
         }
 
+        private string daysLabel;
         public string DaysLabel
         {
-            get
-            {
-                if (Everyday)
-                    return AppResources.EveryDayLabel;
-                return AppResources.CustomDayLabel;
-            }
+            get { return daysLabel; }
+            private set { SetProperty(ref daysLabel, value); }
         }
 
         private ReactiveList<TimeItem> timeItems;
@@ -235,13 +232,13 @@ namespace Piller.ViewModels
         public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }
         public ReactiveCommand<Unit, Unit> SelectAllDays { get; set; }
         public ReactiveCommand<Unit, bool> GoSettings { get; }
-        public ReactiveCommand<IList<TimeItem>, Unit> SetRepeatTime { get; }
+      
         public ReactiveCommand<Unit, bool> ShowDialog { get; }
 
         public MedicationDosageViewModel()
         {
         ShowDialog = ReactiveCommand.Create(() => this.ShowViewModel<BottomDialogViewModel>());
-            this.DosageHours = new ReactiveList<TimeSpan>();
+            this.DosageHours = new List<TimeSpan>();
             var canSave = this.WhenAny(
                 vm => vm.MedicationName,
                 vm => vm.MedicationDosage,
@@ -368,12 +365,21 @@ namespace Piller.ViewModels
                     }
                 });
             GoSettings = ReactiveCommand.Create(() => this.ShowViewModel<SettingsViewModel>());
-            SetRepeatTime = ReactiveCommand.Create<IList<TimeItem>>(p =>
-            {
-                CheckedHours = p as List<TimeItem>;
-                setHours();
 
-            });          
+            this.WhenAnyValue(x => x.TimeItems)
+                .Where(x => x != null)
+                .Select(ti=>ti.ItemChanged)
+                .Switch()
+                .Subscribe(_ =>
+                {
+                      CheckedHours = this.TimeItems.Where(x => x.Checked).ToList();
+                    setHours(); 
+                });
+       
+
+            //Observe days and Humaziner
+            this.WhenAnyValue(x => x.Monday, x => x.Tuesday, x => x.Wednesday, x => x.Thursday, x => x.Friday, x => x.Saturday, x => x.Sunday)
+                .Subscribe(days => DaysLabel = HumanizeOrdinationScheme());
         }
 
         private async Task AddNotificationOccurrences(MedicationDosage medDosage)
@@ -423,6 +429,15 @@ namespace Piller.ViewModels
 			return occurrenceDate;
 		}
 
+        private string HumanizeOrdinationScheme()
+        {
+            if (Everyday)
+                return AppResources.EveryDayLabel;
+            else
+                return "Jakis inny, Maciek B. to zrobi";
+        }
+
+
         private void loadSettings()
         {
             SettingsData data = JsonConvert.DeserializeObject<SettingsData>(settings.GetValue<string>(SettingsData.Key));
@@ -437,8 +452,7 @@ namespace Piller.ViewModels
 
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
-
-            TimeItems = new ReactiveList<TimeItem>(data.HoursList);
+            TimeItems = new ReactiveList<TimeItem>( data.HoursList) {ChangeTrackingEnabled = true};
             string[] hoursNames;
             if (HoursLabel == null)
                 hoursNames = new string[1] { TimeItems[0].Name };
@@ -486,7 +500,7 @@ namespace Piller.ViewModels
 				Friday = item.Days.HasFlag(DaysOfWeek.Friday);
 				Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
 				Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
-				DosageHours = new ReactiveList<TimeSpan>(item.DosageHours);
+				DosageHours = new List<TimeSpan>(item.DosageHours);
 				HoursLabel = item.Hours;
 				RingUri = item.RingUri;
 

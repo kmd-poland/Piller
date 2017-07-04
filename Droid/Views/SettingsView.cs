@@ -75,7 +75,14 @@ namespace Piller.Droid.Views
 				intent.PutExtra(RingtoneManager.ExtraRingtoneTitle, true);
                 intent.PutExtra(RingtoneManager.ExtraRingtoneShowSilent, false);
                 intent.PutExtra(RingtoneManager.ExtraRingtoneShowDefault, true);
-                intent.PutExtra(RingtoneManager.ExtraRingtoneExistingUri, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+
+				Android.Net.Uri uri;
+				if (!String.IsNullOrEmpty(this.ViewModel.RingUri))
+					uri = Android.Net.Uri.Parse(this.ViewModel.RingUri);
+				else
+					uri = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
+				
+                intent.PutExtra(RingtoneManager.ExtraRingtoneExistingUri, uri);
 
 				StartActivityForResult(Intent.CreateChooser(intent, "Wybierz dzwonek"), 0);
 
@@ -93,9 +100,21 @@ namespace Piller.Droid.Views
             bindingSet.Bind(HoursList)
                 .For(v => v.ItemsSource)
                 .To(vm => vm.HoursList);
+			
             bindingSet.Bind(addHour)
                 .For(nameof(View.Click))
                 .To(vm => vm.AddHour);
+
+			bindingSet.Bind(soundLabel)
+					  .For(v => v.Text)
+					  .To(vm => vm.RingUri)
+			          .WithConversion(new InlineValueConverter<string, string>((arg) => 
+						{
+							var uri = Android.Net.Uri.Parse(arg);
+							Ringtone ringtone = RingtoneManager.GetRingtone(this, uri);
+							return RingtoneManager.IsDefault(uri) ? "Default" : ringtone.GetTitle(this);
+						}));
+
             bindingSet.Apply();
         }
 
@@ -105,15 +124,7 @@ namespace Piller.Droid.Views
 			if (resultCode == Result.Ok)
 			{
 				Android.Net.Uri ring = (Android.Net.Uri)data.GetParcelableExtra(RingtoneManager.ExtraRingtonePickedUri);
-				Ringtone ringtone = RingtoneManager.GetRingtone(this, ring);
-				String title = ringtone.GetTitle(this);
-				if (title.Contains("Default ringtone (Flutey Phone)"))
-					soundLabel.Text = "Default";
-				else
-					soundLabel.Text = title;
-
             	this.ViewModel.SetRingUri.Execute(ring.ToString()).Subscribe();
-
 			}
 		}
 
