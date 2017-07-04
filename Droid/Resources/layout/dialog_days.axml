@@ -4,47 +4,46 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    local:layout_behavior="@string/bottom_sheet_behavior"
-    local:behavior_peekHeight="300dp">
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textSize="17sp"
-      android:textStyle="bold"
-      android:gravity="center"
-      android:text="Powtarzaj" />
-  <RadioGroup
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
-    <RadioButton
-        android:id="@+id/everyday"
+    local:layout_behavior="@string/bottom_sheet_behavior">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Codziennie"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground"
-        android:button="@null"
-        android:drawableLeft="@drawable/radio_selector"
-        android:checked="false"
-        android:padding="8dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/md_grey_400"
-        android:padding="5dp" />
-    <RadioButton
-        android:id="@+id/custom"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Powtarzaj" />
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Wybrane dni"
-        android:clickable="true"
-        android:button="@null"
-        android:background="?attr/selectableItemBackground"
-        android:drawableLeft="@drawable/radio_selector"
-        android:checked="false"
-        android:padding="8dp" />
-  </RadioGroup>
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/everyday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Codziennie"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_selector"
+            android:checked="false"
+            android:padding="8dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_grey_400"
+            android:padding="5dp" />
+        <RadioButton
+            android:id="@+id/custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wybrane dni"
+            android:clickable="true"
+            android:button="@null"
+            android:background="?attr/selectableItemBackground"
+            android:drawableLeft="@drawable/radio_selector"
+            android:checked="false"
+            android:padding="8dp" />
+    </RadioGroup>
 </LinearLayout>

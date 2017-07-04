@@ -154,7 +154,7 @@ namespace Piller.ViewModels
         public bool Sunday
         {
             get { return sunday; }
-            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday)); RaisePropertyChanged(nameof(DaysLabel)); }
+            set { this.SetProperty(ref sunday, value); RaisePropertyChanged(nameof(Everyday));  }
         }
         private bool everyday;
         public bool Everyday
@@ -196,14 +196,11 @@ namespace Piller.ViewModels
             private set { SetProperty(ref hoursLabel, value); }
         }
 
+        private string daysLabel;
         public string DaysLabel
         {
-            get
-            {
-                if (Everyday)
-                    return AppResources.EveryDayLabel;
-                return AppResources.CustomDayLabel;
-            }
+            get { return daysLabel; }
+            private set { SetProperty(ref daysLabel, value); }
         }
 
         private ReactiveList<TimeItem> timeItems;
@@ -362,9 +359,24 @@ namespace Piller.ViewModels
                 CheckedHours = p as List<TimeItem>;
                 setHours();
 
-            });          
+            });
+
+
+            //Observe days and Humaziner
+            this.WhenAnyValue(x => x.Monday, x => x.Tuesday, x => x.Wednesday, x => x.Thursday, x => x.Friday, x => x.Saturday, x => x.Sunday)
+                .Subscribe(days => DaysLabel = HumanizeOrdinationScheme());
         }
     
+
+        private string HumanizeOrdinationScheme()
+        {
+            if (Everyday)
+                return AppResources.EveryDayLabel;
+            else
+                return "Jakis inny, Maciek B. to zrobi";
+        }
+
+
         private void loadSettings()
         {
             SettingsData data = JsonConvert.DeserializeObject<SettingsData>(settings.GetValue<string>(SettingsData.Key));

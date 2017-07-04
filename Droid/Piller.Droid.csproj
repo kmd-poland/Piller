@@ -227,6 +227,9 @@
     <Reference Include="Refractored.Controls.CircleImageView">
       <HintPath>..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
     </Reference>
+    <Reference Include="ReactiveUI.Events">
+      <HintPath>..\packages\reactiveui-events.7.4.0\lib\MonoAndroid403\ReactiveUI.Events.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -262,7 +265,7 @@
     <Compile Include="Views\DeleteDialog.cs" />
     <Compile Include="Views\FirstBottomSheet.cs" />
     <Compile Include="Views\RoundedImageView.cs" />
-    <Compile Include="Views\SecondBottomSheet.cs" />
+    <Compile Include="Views\OrdiniationSchemeDialog.cs" />
     <Compile Include="Views\RootView.cs" />
     <Compile Include="Views\MedicalCardView.cs" />
     <Compile Include="Views\HolidayView.cs" />
@@ -309,6 +312,8 @@
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
     <AndroidResource Include="Resources\layout\About.axml" />
+    <AndroidResource Include="Resources\drawable\toggle_selector.xml" />
+    <AndroidResource Include="Resources\drawable\toggle_state_on.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
