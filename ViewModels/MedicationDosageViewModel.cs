@@ -78,8 +78,7 @@ namespace Piller.ViewModels
 
             if(medicine != null)
             {
-                MedicationName = medicine.NazwaProduktu;
-                MedicationDosage = medicine.Dosage;
+                MedicationName = $"{medicine.NazwaProduktu} ({medicine.Moc})" ;
             }
             else
             {

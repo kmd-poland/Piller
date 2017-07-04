@@ -40,17 +40,16 @@ namespace Piller.Droid.Views
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
 
             var name = view.FindViewById<TextView>(Resource.Id.label_medication_name);
-			
-            var time = view.FindViewById<TextView>(Resource.Id.label_medication_time);
-            var daysOfWeek = view.FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
+            var dosage = view.FindViewById<TextView>(Resource.Id.label_medication_dosage);
+
+            var ordination = view.FindViewById<TextView>(Resource.Id.label_medication_ordination);
 
             var medication = dataContext as MedicationDosage;
 
-            name.Text= $"{medication.Name} ({medication.Dosage})";
-            daysOfWeek.Text = new DaysOfWeekConverter().Convert(medication.Days,typeof(string),null,System.Globalization.CultureInfo.CurrentCulture).ToString();
-            time.Text = medication.Hours;
-            time.Visibility = medication.DosageHours.Any() ? ViewStates.Visible : ViewStates.Gone;
-            daysOfWeek.Visibility = medication.Days == DaysOfWeek.None ? ViewStates.Gone : ViewStates.Visible;
+            name.Text = medication.Name;
+            dosage.Text = medication.Dosage;
+            ordination.Text = $"{new DaysOfWeekConverter().Convert(medication.Days,typeof(string),null,System.Globalization.CultureInfo.CurrentCulture).ToString()}: {medication.Hours}" ;
+           
             if (medication?.ThumbnailName != null)
             {
 				var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
