@@ -12,40 +12,34 @@ using Android.Widget;
 using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Binding.BindingContext;
+using Piller.Data;
 
 namespace Piller.Droid.Views
 {
-    public class SelectTimeAdapter:MvxAdapter
+    public class SelectTimeAdapter : ArrayAdapter<TimeItem>
     {
-        public SelectTimeAdapter(Context context, IMvxAndroidBindingContext bindingContext) : base(context, bindingContext)
-        {
-
-        }
-        public SelectTimeAdapter(Context context):base(context)
-        {
-                
-        }
-        public SelectTimeAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+       
+        public SelectTimeAdapter(Context context) : base(context, Resource.Layout.selectTimeItem)
         {
         }
 
-        protected override IMvxListItemView CreateBindableView(object dataContext, int templateId)
+        public SelectTimeAdapter(Context context, IList<TimeItem> objects) : base(context, Resource.Layout.selectTimeItem, objects)
         {
-            var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
+        }
+
+        public override View GetView(int position, View convertView, ViewGroup parent)
+        {
+            var timeItem = GetItem(position);
+            var view = LayoutInflater.From(this.Context).Inflate(Resource.Layout.selectTimeItem, null);
+          
             var item = view.FindViewById<CheckBox>(Resource.Id.checkBoxItem);
-
-            var bset = view.CreateBindingSet<MvxListItemView, Data.TimeItem>();
-
-            
-            bset.Bind(item)
-                .For(v => v.Text)
-                .To(vm => vm.Label);
-            bset.Bind(item)
-                .For(v => v.Checked)
-                .To(vm => vm.Checked);
-            bset.Apply();
-            
+            item.Checked = timeItem.Checked;
+            item.Text = timeItem.Label;
+			item.CheckedChange += (sender, e) => timeItem.Checked = e.IsChecked;
+    
             return view;
-        }
+		
+		}
+   
     }
 }

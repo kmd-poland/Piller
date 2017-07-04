@@ -25,11 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/md_grey_50" />
-        <MvvmCross.Binding.Droid.Views.MvxListView
+        <ListView
             android:id="@+id/hoursList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <include
-            layout="@layout/confirmation" />
     </LinearLayout>
 </FrameLayout>

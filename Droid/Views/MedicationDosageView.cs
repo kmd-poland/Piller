@@ -68,9 +68,13 @@ namespace Piller.Droid.Views
             timeSelector = FindViewById<TextView>(Resource.Id.timeSelector);
             daysSelector = FindViewById<TextView>(Resource.Id.daySelector);
 
-            FirstBottomSheet firsDialog = new FirstBottomSheet();
 
-          
+            var timeSelectorDialog = new OrdinationTimesSheet(this, this.ViewModel);
+
+			timeSelector.Click += (o, e) => timeSelectorDialog.Show();
+
+
+			
             barScan = FindViewById<FloatingActionButton>(Resource.Id.barScan);
 
             MobileBarcodeScanner.Initialize(Application);
@@ -95,19 +99,11 @@ namespace Piller.Droid.Views
 
             View deleteView = LayoutInflater.Inflate(Resource.Layout.delete_dialog, null);
 
-          
-           
-            timeSelector.Click += (o, e) => firsDialog.Show(this.SupportFragmentManager,ViewModel.TimeItems);
-            deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
+
+		  deleteDialog.SetContentView(deleteView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
           
-            firsDialog.Accept.Subscribe<IList<Data.TimeItem>>(p =>
-            {
-                ViewModel.SetRepeatTime.Execute(p).Subscribe();
-                firsDialog.Dismiss();
-            });
-            firsDialog.Cancel.Subscribe(x => firsDialog.Dismiss());
-
+          
 			fromDate.Click += (o,e) =>{
 					DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
 					{

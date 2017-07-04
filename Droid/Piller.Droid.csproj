@@ -263,7 +263,7 @@
     <Compile Include="NotificationPublisher.cs" />
     <Compile Include="Views\BottomSheet.cs" />
     <Compile Include="Views\DeleteDialog.cs" />
-    <Compile Include="Views\FirstBottomSheet.cs" />
+    <Compile Include="Views\OrdinationTimesSheet.cs" />
     <Compile Include="Views\RoundedImageView.cs" />
     <Compile Include="Views\OrdiniationSchemeDialog.cs" />
     <Compile Include="Views\RootView.cs" />
