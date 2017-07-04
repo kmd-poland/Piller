@@ -2,54 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_200">
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="#FFFFFF">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="0dp"
+        android:weightSum="10"
+        android:layout_height="25dp"
+        android:padding="2dp">
+      <ImageView
+            android:id="@+id/iconView"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-            <TextView
-                android:text="Title"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/titleTextView" />
-            <TextView
-                android:text="Description"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/descTextView" />
-        </LinearLayout>
+            android:layout_height="match_parent" />
+      <TextView
+          android:text="Piller"
+          android:layout_weight="3"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:textAppearance="@style/NotificationTitle" />
+      <TextView
+            android:text="Description"
+            android:layout_weight="6"
+            android:textAppearance="@style/NotificationDesc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/descTextView" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="5dp"
+        android:weightSum="8">
+      <TextView
+          android:text="Title"
+          android:layout_width="0dp"
+          android:layout_weight="7"
+          android:layout_height="match_parent"
+          android:textAppearance="@style/NotificationTextMedium"
+          android:id="@+id/titleTextView" />
+      <ImageView
+          android:id="@+id/imageView"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_height="match_parent" />
+    </LinearLayout>
+  </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="48dp">
-        <ImageButton
-            android:src="@drawable/ok3"
+        <Button
+            android:text="WYKONANE"
+            android:textAppearance="@style/NotificationActionText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@color/md_grey_200"
             android:id="@+id/okButton" />
-        <ImageButton
-            android:src="@drawable/no"
+        <Button
+            android:text="DRZEMKA"
+            android:textAppearance="@style/NotificationActionText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@color/md_grey_200"
+            android:layout_marginLeft="5dp"
             android:id="@+id/noButton" />
-        <ImageButton
-            android:src="@drawable/later"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/laterButton" />
+        
     </LinearLayout>
 </LinearLayout>

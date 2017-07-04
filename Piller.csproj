@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Data\SettingsData.cs" />
+    <Compile Include="Data\OverdueNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\MedicationDosage.cs" />
     <Compile Include="ViewModels\BottomDialogViewModel.cs" />
@@ -36,8 +36,6 @@
     <Compile Include="ViewModels\MedicationDosageViewModel.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <DependentUpon>AppResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ViewModels\MedicationSummaryListViewModel.cs" />
     <Compile Include="ViewModels\MedicationDosageNavigation.cs" />
@@ -55,6 +53,9 @@
     <Compile Include="Data\Medicines.cs" />
     <Compile Include="Services\MedicinesDatabaseService.cs" />
     <Compile Include="Services\IMedicinesDatabaseService.cs" />
+    <Compile Include="ViewModels\NotificationsChangedMessage.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="Data\SettingsData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Reactive.Interfaces">
