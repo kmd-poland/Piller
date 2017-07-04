@@ -27,7 +27,7 @@ namespace Piller.Droid.Views
             var view = this.BindingInflate(Resource.Layout.MedicalCard, null);
             ((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.MedicationCardTitle;
             newMedicationDosage = view.FindViewById<FloatingActionButton>(Resource.Id.newMedicationDosage);
-            emptyLabel = view.FindViewById<TextView>(Resource.Id.empty);
+            emptyLabel = view.FindViewById<TextView>(Resource.Id.emptyMedicationListLabel);
 
             medicationList = view.FindViewById<MvxListView>(Resource.Id.medicationList);
             medicationList.ItemTemplateId = Resource.Layout.medication_summary_item;
@@ -61,7 +61,10 @@ namespace Piller.Droid.Views
                 .To(vm => vm.IsEmpty)
                 .WithConversion(new InlineValueConverter<bool, ViewStates>(isEmpty => isEmpty ? ViewStates.Visible : ViewStates.Gone));
 
-
+			bindingSet.Bind(medicationList)
+				.For(v => v.Visibility)
+                .To(vm => vm.IsEmpty)
+                .WithConversion(new InlineValueConverter<bool, ViewStates>(isEmpty => isEmpty? ViewStates.Gone : ViewStates.Visible ));
 
             bindingSet.Apply();
         }
