@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="5"
-    android:padding="5dp">
-    <ImageView
+    android:minHeight="72dp">
+    <refractored.controls.CircleImageView
         android:id="@+id/list_thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="match_parent" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="center" />
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
-        <TextView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_medication_name"
-            android:textColor="@android:color/primary_text_light"
-            tools:text="Medication name" />
-        <TextView xmlns:tools="http://schemas.android.com/tools"
+            tools:text="Medication name"
+            style="@style/ListPrimaryText" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/label_medication_time"
-            tools:text="Time of orditaion" />
-        <TextView xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/label_medication_dosage"
+            tools:text="Medication dosage"
+            style="@style/ListPrimaryText" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/label_medication_days_of_week"
-            tools:text="Days of week of ordination" />
+            android:id="@+id/label_medication_ordination"
+            tools:text="Days of week of ordination"
+            style="@style/ListSecondaryText" />
     </LinearLayout>
 </LinearLayout>

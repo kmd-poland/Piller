@@ -6,67 +6,40 @@ using Piller.Resources;
 using MvvmCross.Binding.BindingContext;
 using Android.Support.Design.Widget;
 using Android.Views;
+using System;
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using Android.Widget;
+using MvvmCross.Droid.Support.V4;
+using Android.Runtime;
+using MvvmCross.Droid.Shared.Attributes;
 
 namespace Piller.Droid.Views
 {
-	[Activity]
-	public class MedicationSummaryListView : MvxAppCompatActivity<MedicationSummaryListViewModel>
+	[MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, true)]
+	[Register("piller.droid.views.MedicationSummaryListView")]
+	public class MedicationSummaryListView : MvxFragment<MedicationSummaryListViewModel>
 	{
-
-
 		FloatingActionButton newMedicationDosage;
 		MvxListView medicationList;
-        Button registrationButton;
+		TextView emptyLabel;
 
-		protected override void OnCreate(Bundle bundle)
+		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
 		{
+			var ignore = base.OnCreateView(inflater, container, bundle);
 
-			base.OnCreate(bundle);
-			SetContentView(Resource.Layout.MedicationSummaryListView);
+			var view = this.BindingInflate(Resource.Layout.MedicationSummaryListView, null);
+			((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.MedicationSummaryListViewModel_Title;
 
-			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-			newMedicationDosage = FindViewById<FloatingActionButton>(Resource.Id.newMedicationDosage);
 
-			medicationList = FindViewById<MvxListView>(Resource.Id.medicationList);
-            medicationList.Adapter = new MedicationSummaryAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
-            medicationList.ItemTemplateId = Resource.Layout.medication_summary_item;
-
-            registrationButton = FindViewById<Button>(Resource.Id.registration);
-
-			//Toolbar will now take on default actionbar characteristics
-			SetSupportActionBar(toolbar);
-
-			SupportActionBar.Title = AppResources.MedicationSummaryListViewModel_Title;
-
-			SetBinding();
+			return view;
 		}
 
 		private void SetBinding()
 		{
-			var bindingSet = this.CreateBindingSet<MedicationSummaryListView, MedicationSummaryListViewModel>();
 
-			bindingSet.Bind(newMedicationDosage)
-					  .For(nameof(View.Click))
-					  .To(x => x.AddNew);
-            
-			bindingSet.Bind(medicationList)
-				.For(x => x.ItemsSource)
-				.To(vm => vm.MedicationList);
-
-			bindingSet.Bind(medicationList)
-				.For(x => x.ItemClick)
-				.To(vm => vm.Edit);
-
-            bindingSet.Bind(registrationButton)
-                .To(x => x.Registration);
-
-
-			bindingSet.Apply();
 		}
 	}
 }

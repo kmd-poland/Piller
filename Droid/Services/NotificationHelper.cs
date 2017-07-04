@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Android.App;
 using Android.Content;
 using Android.Media;
@@ -20,7 +20,9 @@ namespace Piller.Droid.Services
             builder.SetTicker($"[PILLER] {medication.Name}");
 			builder.SetSmallIcon(Resource.Drawable.pill64x64);
 
-            builder.SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+			Android.Net.Uri ring = Android.Net.Uri.Parse(medication.RingUri);
+            builder.SetSound(ring);
+
             builder.SetPriority((int)NotificationPriority.High);
             builder.SetVisibility((int)NotificationVisibility.Public); // visible on locked screen
 
@@ -110,7 +112,7 @@ namespace Piller.Droid.Services
 
         private static string FormatOccurrence(DateTime nearestOccurrence)
         {
-            return $"{nearestOccurrence:f}";
+            return $"(Data przyjęcia: {nearestOccurrence:f}";
         }
     }
 }

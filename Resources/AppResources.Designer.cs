@@ -59,15 +59,87 @@ namespace Piller.Resources {
             }
         }
         
-        public static string MedicationDosageViewModel_Title {
+        public static string HolidayViewModel_Title {
             get {
-                return ResourceManager.GetString("MedicationDosageViewModel_Title", resourceCulture);
+                return ResourceManager.GetString("HolidayViewModel_Title", resourceCulture);
             }
         }
         
         public static string MedicationDosageView_SaveError {
             get {
                 return ResourceManager.GetString("MedicationDosageView_SaveError", resourceCulture);
+            }
+        }
+        
+        public static string MedicationDosageViewModel_Title {
+            get {
+                return ResourceManager.GetString("MedicationDosageViewModel_Title", resourceCulture);
+            }
+        }
+        
+        public static string AddHourMessage {
+            get {
+                return ResourceManager.GetString("AddHourMessage", resourceCulture);
+            }
+        }
+        
+        public static string CancelText {
+            get {
+                return ResourceManager.GetString("CancelText", resourceCulture);
+            }
+        }
+        
+        public static string NewHourPlaceHolder {
+            get {
+                return ResourceManager.GetString("NewHourPlaceHolder", resourceCulture);
+            }
+        }
+        
+        public static string SaveText {
+            get {
+                return ResourceManager.GetString("SaveText", resourceCulture);
+            }
+        }
+        
+        public static string CustomDayLabel {
+            get {
+                return ResourceManager.GetString("CustomDayLabel", resourceCulture);
+            }
+        }
+        
+        public static string EveryDayLabel {
+            get {
+                return ResourceManager.GetString("EveryDayLabel", resourceCulture);
+            }
+        }
+        
+        public static string HolidayTitle {
+            get {
+                return ResourceManager.GetString("HolidayTitle", resourceCulture);
+            }
+        }
+        
+        public static string MedicationCardTitle {
+            get {
+                return ResourceManager.GetString("MedicationCardTitle", resourceCulture);
+            }
+        }
+        
+        public static string About_Title {
+            get {
+                return ResourceManager.GetString("About_Title", resourceCulture);
+            }
+        }
+        
+        public static string EveningLabel {
+            get {
+                return ResourceManager.GetString("EveningLabel", resourceCulture);
+            }
+        }
+        
+        public static string MorningLabel {
+            get {
+                return ResourceManager.GetString("MorningLabel", resourceCulture);
             }
         }
     }

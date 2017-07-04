@@ -1,44 +1,80 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Support.Design.Widget;
 using ReactiveUI;
 using System.Reactive;
+using Piller.ViewModels;
+using MvvmCross.Binding.Droid.Views;
+using MvvmCross.Binding.Droid.BindingContext;
+using MvvmCross.Droid.Support.Design;
+using System.Linq;
 
 namespace Piller.Droid.Views
 {
-    class FirstBottomSheet:BottomSheetDialog
+    class FirstBottomSheet : MvxBottomSheetDialogFragment<BottomDialogViewModel>
     {
-        RadioButton customOption;
-        RadioButton firstOption;
-        RadioButton secondOption;
-        View firstView;
-        public FirstBottomSheet(Context context) : base(context)
-        {
-        }
-        public new ReactiveCommand<Unit, bool> FirstOption { get; } = ReactiveCommand.Create(() => { return true; });
-        public new ReactiveCommand<Unit, bool> SecondOption { get; } = ReactiveCommand.Create(() => { return true; });
-        public new ReactiveCommand<Unit, bool> SetCustom { get; } = ReactiveCommand.Create(() => { return true; });
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            firstView = LayoutInflater.Inflate(Resource.Layout.bottom_dialog, null);
-            customOption = FindViewById<RadioButton>(Resource.Id.option3);
-            firstOption = FindViewById<RadioButton>(Resource.Id.option1);
-            secondOption = FindViewById<RadioButton>(Resource.Id.option2);
 
-            customOption.Click += (o, e) => SetCustom.Execute().Subscribe();
-            firstOption.Click += (o, e) => FirstOption.Execute().Subscribe();
-            secondOption.Click += (o, e) => SecondOption.Execute().Subscribe();
+        LinearLayout acceptButton;
+        LinearLayout canceltButton;
+        MvxListView hoursListView;
+
+        public ReactiveCommand<Unit, IList<Data.TimeItem>> Accept { get; private set; }
+        public new ReactiveCommand<Unit, bool> Cancel { get; } = ReactiveCommand.Create(() => { return true; });
+        public IEnumerable<Data.TimeItem> list;
+
+        public FirstBottomSheet():base()
+        {
+           
+            Accept = ReactiveCommand.Create(() =>
+            {
+                IList<Data.TimeItem> checkedHours = new List<Data.TimeItem>();
+                foreach (var item in list)
+                {
+
+                    if (item.Checked)
+                        checkedHours.Add(item);
+                }
+                return checkedHours;
+            });
         }
 
+
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            var ignore = base.OnCreateView(inflater, container, savedInstanceState);
+
+            var view = this.BindingInflate(Resource.Layout.bottom_dialog, null);
+
+            hoursListView = view.FindViewById<MvxListView>(Resource.Id.hoursList);
+            hoursListView.ItemsSource = list;
+            hoursListView.ItemTemplateId = Resource.Layout.selectTimeItem;
+            hoursListView.Adapter = new SelectTimeAdapter(this.Context, (IMvxAndroidBindingContext)this.BindingContext);
+
+
+
+            acceptButton = view.FindViewById<LinearLayout>(Resource.Id.okButton);
+            acceptButton.Click += (o, e) => Accept.Execute().Subscribe<IList<Data.TimeItem>>();
+
+            canceltButton = view.FindViewById<LinearLayout>(Resource.Id.cancelButton);
+            canceltButton.Click += (o, e) => Cancel.Execute().Subscribe();
+            return view;
+        }
+
+    
+
+        internal void Show(Android.Support.V4.App.FragmentManager fragmentManager,IEnumerable<Data.TimeItem> hoursList)
+        {
+            list = hoursList;
+         //   foreach (var hour in checkedItems)
+              //  list.First(h => h.Name == hour.Name).Checked = true;
+            //   morningLabel[1]= $"({morningHour:hh\\:mm})";
+            // this.morning.Text = string.Join(" ",morningLabel);
+            //eveningLabel[1] = $"({eveningHour:hh\\:mm})";
+            //this.evening.Text = string.Join(" ", eveningLabel);
+            this.Show(fragmentManager,"bottom");
+        }
     }
+   
 }

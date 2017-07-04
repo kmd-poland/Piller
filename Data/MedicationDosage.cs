@@ -12,6 +12,10 @@ namespace Piller.Data
         public int? Id { get; set; }
 
         public string Name { get; set; }
+        
+		public string From { get; set; }
+
+		public string To { get; set; }
 
         public string Dosage { get; set; }
 
@@ -20,9 +24,12 @@ namespace Piller.Data
         public string ThumbnailName { get; set; }
 
         public DaysOfWeek Days { get; set; }
+        public string Hours { get; set; }
 
         //lista godzin w postaci hh:mm;hh:mm...
         public string HoursEncoded { get; set; }
+
+		public string RingUri { get; set; }
 
         //kodowanie i dekodowanie godzin. Tej wlasciwosci nie zapisujemy do bazy
         [Ignore]
@@ -44,5 +51,14 @@ namespace Piller.Data
             }
 
         }
+        [Ignore]
+        public string NameLabel
+        {
+            get
+            {
+                return $"{this.Name} ({this.Dosage})";
+            }
+        }
+
     }
 }
