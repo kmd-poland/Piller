@@ -28,7 +28,7 @@ namespace Piller.Droid.Views
         ImageView picture;
         TextView deleteBtn;
         TextView daysSelector;
-        TextView daysOfWeek;
+
         TextView timeSelector;
 		TextView fromDate;
 		TextView toDate;
@@ -62,8 +62,6 @@ namespace Piller.Droid.Views
 
             takePicutre = FindViewById<LinearLayout>(Resource.Id.take_photo);
             picture = FindViewById<ImageView>(Resource.Id.photo);
-
-            daysOfWeek = FindViewById<TextView>(Resource.Id.label_medication_days_of_week);
 
             deleteBtn = FindViewById<TextView>(Resource.Id.deleteBtn);
 
