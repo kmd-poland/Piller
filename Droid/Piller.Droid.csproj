@@ -227,6 +227,9 @@
     <Reference Include="Refractored.Controls.CircleImageView">
       <HintPath>..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
