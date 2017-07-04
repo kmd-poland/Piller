@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using MvvmCross.Plugins.Messenger;
 namespace Piller.ViewModels
 {
     public class DataChangedMessage : MvxMessage
     {
-        public DataChangedMessage(object sender) : base(sender)
+      public DataChangedMessage(object sender) : base(sender)
         {
         }
     }

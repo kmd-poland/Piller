@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -11,33 +11,35 @@ using ReactiveUI;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Plugins.PictureChooser;
 using System.IO;
+using MvvmCross.Plugins.File;
 using Services;
 using Cheesebaron.MvxPlugins.Settings.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Piller.MixIns.DaysOfWeekMixIns;
 using System.Reactive.Linq;
 
 namespace Piller.ViewModels
 {
     public class MedicationDosageViewModel : MvxViewModel
     {
-		IMvxPictureChooserTask PictureChooser = Mvx.Resolve<IMvxPictureChooserTask>();
-		private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
-		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+        IMvxPictureChooserTask PictureChooser = Mvx.Resolve<IMvxPictureChooserTask>();
+        private IPermanentStorageService storage = Mvx.Resolve<IPermanentStorageService>();
+        private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
         private readonly INotificationService notifications = Mvx.Resolve<INotificationService>();
         private ISettings settings = Mvx.Resolve<ISettings>();
-		private IMedicineDatabaseService medicinesDatabase = Mvx.Resolve<IMedicineDatabaseService>();
+        private IMedicineDatabaseService medicinesDatabase = Mvx.Resolve<IMedicineDatabaseService>();
 
         public ReactiveCommand<Unit, Stream> TakePhotoCommand { get; set; }
 
-		private byte[] _bytes;
-		public byte[] Bytes
-		{
-			get { return _bytes; }
-			set { _bytes = value; RaisePropertyChanged(() => Bytes); }
-		}
+        private byte[] _bytes;
+        public byte[] Bytes
+        {
+            get { return _bytes; }
+            set { _bytes = value; RaisePropertyChanged(() => Bytes); }
+        }
 
 		private async Task OnPicture(Stream pictureStream)
 		{
@@ -49,7 +51,8 @@ namespace Piller.ViewModels
 
         //identyfikator rekordu, uzywany w trybie edycji
         private int? id;
-        public int? Id { 
+        public int? Id
+        {
             get { return this.id; }
             set { this.SetProperty(ref this.id, value); }
         }
@@ -79,7 +82,7 @@ namespace Piller.ViewModels
         {
             Data.Medicines medicine =  await this.medicinesDatabase.GetAsync(kodEAN);
 
-            if(medicine != null)
+            if (medicine != null)
             {
                 MedicationName = $"{medicine.NazwaProduktu} ({medicine.Moc})" ;
             }
@@ -91,11 +94,13 @@ namespace Piller.ViewModels
         }
        
 
+
         long ean;
         public long EAN
         {
             get { return ean; }
-            set {
+            set
+            {
                 this.SetProperty(ref ean, value);
             }
         }
@@ -112,7 +117,7 @@ namespace Piller.ViewModels
         public bool Monday
         {
             get { return monday; }
-            set { this.SetProperty(ref monday, value);  }
+            set { this.SetProperty(ref monday, value); }
         }
 
         private bool tuesday;
@@ -140,7 +145,7 @@ namespace Piller.ViewModels
         public bool Friday
         {
             get { return friday; }
-            set { this.SetProperty(ref friday, value);  }
+            set { this.SetProperty(ref friday, value); }
         }
 
         private bool saturday;
@@ -156,13 +161,15 @@ namespace Piller.ViewModels
             get { return sunday; }
             set { this.SetProperty(ref sunday, value); }
         }
-        private bool everyday;
+
+        public bool everyday;
         public bool Everyday
         {
             get { return everyday || (Monday && Tuesday && Wednesday && Thursday && Friday && Saturday && Sunday); }
-            set {
+            set
+            {
                 isNew = false;
-                if(value)
+                if (value)
                     SelectAllDays.Execute().Subscribe();
                 SetProperty(ref everyday, value);
             }
@@ -170,7 +177,7 @@ namespace Piller.ViewModels
         private bool custom;
         public bool Custom
         {
-            get { return custom || (!Everyday&&!isNew); }
+            get { return custom || (!Everyday && !isNew); }
             set
             {
                 isNew = false;
@@ -182,7 +189,6 @@ namespace Piller.ViewModels
 
         private bool isNew;
         public List<TimeItem> CheckedHours { get; private set; } = new List<TimeItem>();
-
         private List<TimeSpan> dosageHours;
         public List<TimeSpan> DosageHours
         {
@@ -223,7 +229,7 @@ namespace Piller.ViewModels
         }
 
         public ReactiveCommand<Unit, bool> Save { get; private set; }
-        public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }    
+        public ReactiveCommand<MedicationDosage, bool> Delete { get; set; }
         public ReactiveCommand<Unit, Unit> SelectAllDays { get; set; }
         public ReactiveCommand<Unit, bool> GoSettings { get; }
       
@@ -243,13 +249,13 @@ namespace Piller.ViewModels
 				vm => vm.Friday,
 				vm => vm.Saturday,
 				vm => vm.Sunday,
-				vm => vm.DosageHours.Count,
-				(n, d, m, t, w, th, f, sa, su, h) =>
+				vm => vm.DosageHours,
+				(n, d, m, t, w, th, f, sa, su, hours) =>
 
 				!String.IsNullOrWhiteSpace(n.Value) &&
 				!String.IsNullOrWhiteSpace(d.Value) &&
 				(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
-				h.Value > 0);
+                hours.Value.Count > 0);
             
 			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(1920, 75));
 			this.TakePhotoCommand
@@ -303,9 +309,13 @@ namespace Piller.ViewModels
                     imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 120);
                 }
 
-				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
-                //var notification = new CoreNotification(dataRecord.Id.Value, dataRecord.Name, "Rano i wieczorem", new RepeatPattern() { DayOfWeek = dataRecord.Days, Interval = RepetitionInterval.None, RepetitionFrequency = 1 });
-                await this.notifications.ScheduleNotification(dataRecord);
+                await this.storage.SaveAsync<MedicationDosage>(dataRecord);
+                // usuwam poprzednie notyfikacje
+                await this.notifications.CancelAllNotificationsForMedication(dataRecord);
+                // dodaję najbliższe wystąpienia do tabeli NotificationOccurrence
+                await this.AddNotificationOccurrences(dataRecord);
+                // dodaję notyfikacje - w środku czytam NotificationOccurrence
+                await this.notifications.ScheduleNotifications(dataRecord);
 
                 return true;
             }, canSave);
@@ -316,12 +326,13 @@ namespace Piller.ViewModels
                    if (this.Id.HasValue)
                    {
                        await this.storage.DeleteByKeyAsync<MedicationDosage>(this.Id.Value);
+                       await this.notifications.CancelAndRemove(this.Id.Value);
                        return true;
                    }
                    return false;
-             }, canDelete);
+               }, canDelete);
 
-            this.SelectAllDays = ReactiveCommand.Create(() => 
+            this.SelectAllDays = ReactiveCommand.Create(() =>
             {
                 selectAllDays();
             });
@@ -370,7 +381,53 @@ namespace Piller.ViewModels
             this.WhenAnyValue(x => x.Monday, x => x.Tuesday, x => x.Wednesday, x => x.Thursday, x => x.Friday, x => x.Saturday, x => x.Sunday)
                 .Subscribe(days => DaysLabel = HumanizeOrdinationScheme());
         }
-    
+
+        private async Task AddNotificationOccurrences(MedicationDosage medDosage)
+        {
+            if (medDosage.Days.AllSelected())
+            {
+                // schedule for every occurrence of hour for every 24 hours
+                foreach (var hour in medDosage.HoursEncoded.Split(';'))
+                {
+                    var occurrence = new NotificationOccurrence()
+                    {
+                        Name = medDosage.Name,
+                        Dosage = medDosage.Dosage,
+                        MedicationDosageId = medDosage.Id.Value,
+                        OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
+                    };
+
+                    await this.storage.SaveAsync(occurrence);
+                }
+            }
+            else
+            {
+                // schedule in a weekly manner for each day of week
+                foreach (var hour in medDosage.HoursEncoded.Split(';'))
+                {
+                    foreach (var day in medDosage.Days.GetSelected())
+                    {
+                        var occurrence = new NotificationOccurrence()
+                        {
+                            Name = medDosage.Name,
+                            Dosage = medDosage.Dosage,
+                            MedicationDosageId = medDosage.Id.Value,
+                            OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
+                        };
+
+                        await this.storage.SaveAsync(occurrence);
+                    }
+                }
+            }
+        }
+
+		private DateTime NextOccurrenceFromHour(TimeSpan hour)
+		{
+			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
+			if (DateTime.Now.Hour > hour.Hours)
+				return occurrenceDate.AddDays(1);
+			return occurrenceDate;
+		}
 
         private string HumanizeOrdinationScheme()
         {
@@ -396,12 +453,13 @@ namespace Piller.ViewModels
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
             TimeItems = new ReactiveList<TimeItem>( data.HoursList) {ChangeTrackingEnabled = true};
+
             string[] hoursNames;
             if (HoursLabel == null)
                 hoursNames = new string[1] { TimeItems[0].Name };
             else
             {
-				hoursNames = HoursLabel.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+				hoursNames = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             CheckedHours = TimeItems
@@ -425,38 +483,37 @@ namespace Piller.ViewModels
 			}
         }
 
-
-        public async void Init(MedicationDosageNavigation nav)
-        {
-            if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
-            {
-                isNew = false;
-                MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
-                Id = item.Id;
-                MedicationName = item.Name;
+		public async void Init(MedicationDosageNavigation nav)
+		{
+			if (nav.MedicationDosageId != MedicationDosageNavigation.NewRecord)
+			{
+				isNew = false;
+				MedicationDosage item = await storage.GetAsync<Data.MedicationDosage>(nav.MedicationDosageId);
+				Id = item.Id;
+				MedicationName = item.Name;
 				StartDate = item.From;
 				EndDate = item.To;
-                MedicationDosage = item.Dosage;
-                Monday = item.Days.HasFlag(DaysOfWeek.Monday);
-                Tuesday = item.Days.HasFlag(DaysOfWeek.Tuesday);
-                Wednesday = item.Days.HasFlag(DaysOfWeek.Wednesday);
-                Thursday = item.Days.HasFlag(DaysOfWeek.Thursday);
-                Friday = item.Days.HasFlag(DaysOfWeek.Friday);
-                Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
-                Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
+				MedicationDosage = item.Dosage;
+				Monday = item.Days.HasFlag(DaysOfWeek.Monday);
+				Tuesday = item.Days.HasFlag(DaysOfWeek.Tuesday);
+				Wednesday = item.Days.HasFlag(DaysOfWeek.Wednesday);
+				Thursday = item.Days.HasFlag(DaysOfWeek.Thursday);
+				Friday = item.Days.HasFlag(DaysOfWeek.Friday);
+				Saturday = item.Days.HasFlag(DaysOfWeek.Saturday);
+				Sunday = item.Days.HasFlag(DaysOfWeek.Sunday);
 				DosageHours = new List<TimeSpan>(item.DosageHours);
-                HoursLabel = item.Hours;
+				HoursLabel = item.Hours;
 				RingUri = item.RingUri;
 
-                if (!string.IsNullOrEmpty(item.ImageName))
-				    Bytes = imageLoader.LoadImage(item.ImageName);
-            }
-            else
-            {
-                isNew = true;
-                selectAllDays();
-            }
-            loadSettings();
-        }
+				if (!string.IsNullOrEmpty(item.ImageName))
+					Bytes = imageLoader.LoadImage(item.ImageName);
+			}
+			else
+			{
+				isNew = true;
+				selectAllDays();
+			}
+			loadSettings();
+		}
     }
 }

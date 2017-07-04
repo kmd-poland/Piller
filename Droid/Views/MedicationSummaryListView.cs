@@ -37,7 +37,7 @@ namespace Piller.Droid.Views
             return view;
 		}
 
-        private void SetBinding()
+		private void SetBinding()
 		{
 			
 		}

@@ -23,6 +23,7 @@ namespace Piller.Services
 
             this.connection.GetConnection ().CreateTable<MedicationDosage> ();
             this.connection.GetConnection ().CreateTable<NotificationOccurrence>();
+            this.connection.GetConnection().CreateTable<OverdueNotification>();
         }
 
         public async Task<T> GetAsync<T> (int id) where T : new()
@@ -38,13 +39,19 @@ namespace Piller.Services
 		public async Task DeleteAsync<T>(T entity)
 		{
 			await this.connection.DeleteAsync(entity);
-		}
+        }
 
 		public async Task DeleteByKeyAsync<T>(int primaryKey) where T : new()
 		{
-            var record = await this.connection.GetAsync<T>(primaryKey);
-            await this.connection.DeleteAsync(record);
-		}
+            try
+            {
+                var record = await this.connection.GetAsync<T>(primaryKey);
+                await this.connection.DeleteAsync(record);
+            } catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        }
         public async Task<List<T>> List<T> (Expression<Func<T, bool>> predicate = null) where T : new()
         {
             if (predicate == null) {

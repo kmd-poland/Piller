@@ -1,4 +1,4 @@
-﻿using Cheesebaron.MvxPlugins.Settings.Interfaces;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Piller.Data;
@@ -159,7 +159,7 @@ namespace Piller.ViewModels
 					item.RingUri = ringUri;
 
                     await storage.SaveAsync<MedicationDosage>(item);
-                    await notifications.ScheduleNotification(item);
+                    await notifications.ScheduleNotifications(item);
                 }
             }
         }
