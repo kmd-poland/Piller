@@ -254,11 +254,11 @@ namespace Piller.Droid.Views
             bindingSet.Bind(daysSelector)
                 .To(vm => vm.DaysLabel);
 
-            bindingSet.Bind(timeSelector)
+			bindingSet.Bind(timeSelector)
+	          	.WithConversion(new InlineValueConverter<string, string>((arg) => Humanizer.CasingExtensions.ApplyCase(arg, Humanizer.LetterCasing.Sentence)))
                 .To(vm => vm.HoursLabel);
 
             bindingSet.Apply();
-
 
             //Bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
         }

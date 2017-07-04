@@ -389,9 +389,10 @@ namespace Piller.ViewModels
                 data = new SettingsData();
                 data.HoursList = new List<TimeItem>()
                 {
-                     new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
+                    new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
                     new TimeItem(Resources.AppResources.EveningLabel){Hour=TimeSpan.Parse("20:00:00")}
-            };
+            	};
+
                 settings.AddOrUpdateValue<string>(SettingsData.Key, JsonConvert.SerializeObject(data));
             }
             TimeItems = new ReactiveList<TimeItem>( data.HoursList) {ChangeTrackingEnabled = true};
@@ -400,12 +401,14 @@ namespace Piller.ViewModels
                 hoursNames = new string[1] { TimeItems[0].Name };
             else
             {
-                hoursNames = HoursLabel.Split(new string[] { ", " }, StringSplitOptions.None);
+				hoursNames = HoursLabel.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             }
+
             CheckedHours = TimeItems
                 .Where(h => hoursNames.Contains(h.Name))
                 .Select(h => { h.Checked = true; return h; })
                 .ToList();
+			
             setHours();
 
 			RingUri = data.RingUri;
@@ -413,18 +416,13 @@ namespace Piller.ViewModels
 
         private void setHours()
         {
-            DosageHours.Clear();
-           HoursLabel = String.Empty;
-            foreach(var item in CheckedHours)
-            {
-                DosageHours.Add(item.Hour);
-            }
-            string label = String.Empty;
-            foreach (var item in CheckedHours)
-            {
-                label += $"{item.Name}, ";
-            }
-            HoursLabel = label;
+			DosageHours.Clear();
+			HoursLabel = String.Join(", ", this.CheckedHours.Select(i => i.Name));
+
+			foreach(var item in CheckedHours)
+			{
+			    DosageHours.Add(item.Hour);
+			}
         }
 
 

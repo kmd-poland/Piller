@@ -230,6 +230,9 @@
     <Reference Include="ReactiveUI.Events">
       <HintPath>..\packages\reactiveui-events.7.4.0\lib\MonoAndroid403\ReactiveUI.Events.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -306,7 +309,6 @@
     <AndroidResource Include="Resources\menu\menu1.xml" />
     <AndroidResource Include="Resources\menu\settings_menu.xml" />
     <AndroidResource Include="Resources\menu\main_menu.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\icons8_Barcode_26.png" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
     <AndroidResource Include="Resources\layout\holiday_item.axml" />
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
@@ -314,6 +316,10 @@
     <AndroidResource Include="Resources\layout\About.axml" />
     <AndroidResource Include="Resources\drawable\toggle_selector.xml" />
     <AndroidResource Include="Resources\drawable\toggle_state_on.xml" />
+    <AndroidResource Include="Resources\drawable\pillThumb.png" />
+    <AndroidResource Include="Resources\drawable\akademia_logo.jpg" />
+    <AndroidResource Include="Resources\drawable\kmd_poland_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\barcode.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
