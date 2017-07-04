@@ -61,11 +61,7 @@ namespace Piller.Droid.Views
                 .To(vm => vm.IsEmpty)
                 .WithConversion(new InlineValueConverter<bool, ViewStates>(isEmpty => isEmpty ? ViewStates.Visible : ViewStates.Gone));
 
-			bindingSet.Bind(medicationList)
-				.For(v => v.Visibility)
-                .To(vm => vm.IsEmpty)
-                .WithConversion(new InlineValueConverter<bool, ViewStates>(isEmpty => isEmpty? ViewStates.Gone : ViewStates.Visible ));
-
+			
             bindingSet.Apply();
         }
     }

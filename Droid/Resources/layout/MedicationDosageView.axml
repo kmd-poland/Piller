@@ -16,214 +16,152 @@
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbars">
-        <LinearLayout
-            android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbars"
+        android:id="@+id/scrollView1">
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp">
-            <com.rengwuxian.materialedittext.MaterialEditText
-                local:met_floatingLabel="normal"
-                android:id="@+id/NameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nazwa Leku *" />
-            <EditText
-                android:id="@+id/DosageEditText"
-                android:layout_width="match_parent"
-                android:hint="Dawka Leku *"
-                android:layout_height="wrap_content" />
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:id="@+id/frameLayout1">
             <LinearLayout
-                android:id="@+id/take_photo"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground">
-                <ImageView
-                    android:id="@+id/photo"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:id="@+id/linearLayout2">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    local:met_floatingLabel="normal"
+                    android:id="@+id/NameEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="16dp"
-                    android:scaleType="fitCenter" />
+                    android:layout_height="wrap_content"
+                    android:hint="Nazwa Leku *"
+                    android:layout_marginTop="8dp" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    local:met_floatingLabel="normal"
+                    android:id="@+id/DosageEditText"
+                    android:layout_width="match_parent"
+                    android:hint="Dawka Leku *"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+                <LinearLayout
+                    android:id="@+id/take_photo"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground">
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="16dp"
+                        android:scaleType="fitCenter" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:padding="24dp"
+                        android:id="@+id/linearLayout3">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            local:srcCompat="@drawable/ic_add_a_photo_black_48dp"
+                            android:elevation="16dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/imageView1" />
+                    </LinearLayout>
+                </LinearLayout>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/daySelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:textColor="@color/md_black_1000"
+                    android:layout_marginTop="8dp" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/timeSelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:textColor="@color/md_black_1000"
+                    android:layout_marginTop="8dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:padding="24dp">
-                <!--
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Dodaj zdjęcie"
-              android:layout_gravity="center" />
-              -->
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayout4">
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/odKiedy"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        local:srcCompat="@drawable/ic_add_a_photo_black_48dp"
-                        android:elevation="16dp"
-                        android:layout_gravity="center" />
+                        android:hint="dzisiaj"
+                        android:editable="false"
+                        android:focusable="false"
+                        local:met_floatingLabel="normal"
+                        local:met_floatingLabelText="Przyjmuję do"
+                        local:met_floatingLabelAlwaysShown="true"
+                        android:clickable="true"
+                        android:layout_marginTop="8dp" />
+                    <ImageButton
+                        android:id="@+id/clearFrom"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        local:srcCompat="@android:drawable/ic_delete" />
                 </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
-        <!--
-            <TextView
-                android:text="Powtarzaj *"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView1"
-                android:textStyle="normal"
-                android:layout_marginTop="20px" />
-                -->
-            <TextView
-                android:id="@+id/daySelector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:textColor="@color/md_black_1000"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp" />
-        <!--
-            <RadioGroup
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/everyday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Codziennie"
-                    android:clickable="true"
-                    android:background="?attr/selectableItemBackground"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/radio_selector"
-                    android:checked="false"
-                    android:padding="8dp" />
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/md_grey_400"
-                    android:padding="5dp" />
-                <RadioButton
-                    android:id="@+id/custom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Wybrane dni"
-                    android:clickable="true"
-                    android:button="@null"
-                    android:background="?attr/selectableItemBackground"
-                    android:drawableLeft="@drawable/radio_selector"
-                    android:checked="false"
-                    android:padding="8dp" />
-            </RadioGroup>
-            -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
-        <!--
-            <TextView
-                android:text="Przyjmuję *"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="normal"
-                android:layout_marginTop="20px" />
-                -->
-            <TextView
-                android:id="@+id/timeSelector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/md_black_1000"
-                android:padding="8dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/md_grey_300"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/odKiedy"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="dzisiaj"
-                    android:editable="false"
-                    android:focusable="false"
-                    local:met_floatingLabel="normal"
-                    local:met_floatingLabelText="Przyjmuję od"
-                    local:met_floatingLabelAlwaysShown="true"
-                    android:clickable="true" />
-                <ImageButton
-                    android:id="@+id/clearFrom"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    local:srcCompat="@android:drawable/ic_delete" />
-            </LinearLayout>
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Przyjmuję do:"
-                android:textStyle="normal" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayout5">
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/doKiedy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="bezterminowo"
+                        android:textColor="@android:color/black"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:clickable="true"
+                        local:met_floatingLabel="normal"
+                        local:met_floatingLabelText="Przyjmuję od"
+                        local:met_floatingLabelAlwaysShown="true"
+                        android:layout_marginTop="8dp" />
+                    <ImageButton
+                        android:id="@+id/clearTo"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        local:srcCompat="@android:drawable/ic_delete" />
+                </LinearLayout>
                 <TextView
-                    android:id="@+id/doKiedy"
+                    android:id="@+id/deleteBtn"
+                    android:text="usuń"
+                    android:clickable="true"
+                    android:textAllCaps="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:textColor="@color/md_red_900"
+                    android:paddingRight="8dp"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@android:style/Widget.EditText"
-                    android:layout_weight="1"
-                    android:hint="bezterminowo"
-                    android:textColor="@android:color/black"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:text="ff" />
-                <ImageButton
-                    android:id="@+id/clearTo"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    local:srcCompat="@android:drawable/ic_delete" />
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp" />
             </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
     </ScrollView>
-    <TextView
-        android:id="@+id/deleteBtn"
-        android:text="usuń"
-        android:clickable="true"
-        android:textAllCaps="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:textColor="@color/md_red_900"
-        android:paddingRight="8dp"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"
-        android:layout_alignParentBottom="true" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/barScan"
         android:layout_width="wrap_content"

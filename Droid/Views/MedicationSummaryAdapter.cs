@@ -52,9 +52,14 @@ namespace Piller.Droid.Views
            
             if (medication?.ThumbnailName != null)
             {
-				var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-				byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
-				thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0 ,array.Length));    
+                try
+                {
+                    var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
+                    byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
+                    thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0, array.Length));
+                } catch {
+                    
+                }
             } else {
                 var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 				thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pillThumb));
