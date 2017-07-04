@@ -310,6 +310,8 @@
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
     <AndroidResource Include="Resources\layout\About.axml" />
     <AndroidResource Include="Resources\drawable\pillThumb.png" />
+    <AndroidResource Include="Resources\drawable\akademia_logo.jpg" />
+    <AndroidResource Include="Resources\drawable\kmd_poland_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
