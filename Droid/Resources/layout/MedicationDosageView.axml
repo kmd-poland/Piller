@@ -236,7 +236,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/icons8_Barcode_26"
+        android:src="@drawable/barcode"
         local:layout_anchorGravity="bottom|right|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
