@@ -9,11 +9,13 @@ using System.Runtime.Serialization;
 
 namespace Piller.Data
 {
-    public class SettingsData
-    {
-        public static string Key { get; } = "hours_settings";
-        public IEnumerable<TimeItem> HoursList { get; set; }
+	public class SettingsData
+	{
+		public static string Key { get; } = "hours_settings";
+		public IEnumerable<TimeItem> HoursList { get; set; }
 		public string RingUri { get; set; } = "content://settings/system/ringtone";
+		public int SnoozeMinutes { get; set; } = 50;
+		public int WindowHours { get; set; } = 2;
 
     }
     public class TimeItem : ReactiveObject

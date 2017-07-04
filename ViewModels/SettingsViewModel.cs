@@ -45,6 +45,20 @@ namespace Piller.ViewModels
 			set { SetProperty(ref ringUri, value); }
 		}
 
+		private int snoozeMinutes;
+		public int SnoozeMinutes
+		{
+			get { return snoozeMinutes; }
+			set { SetProperty(ref snoozeMinutes, value); }
+		}
+
+		private int windowHours;
+		public int WindowHours
+		{
+			get { return windowHours; }
+			set { SetProperty(ref windowHours, value); }
+		}
+
         private ObservableCollection<TimeItem> hoursList;
         public ObservableCollection<TimeItem> HoursList
         {
@@ -53,6 +67,8 @@ namespace Piller.ViewModels
         }
         public ReactiveCommand<Unit,Unit> AddHour { get; }
 		public ReactiveCommand<String, Unit> SetRingUri { get; }
+		public ReactiveCommand<int, Unit> SetSnooze { get; }
+		public ReactiveCommand<int, Unit> SetWindow { get; }
 
         public ReactiveCommand<Unit, bool> Save { get; }
         private SettingsData settingsData;
@@ -97,10 +113,15 @@ namespace Piller.ViewModels
             RingUri = settingsData.RingUri;
             SetRingUri = ReactiveCommand.Create<String>(uri => RingUri = uri);
 
+			this.WindowHours = settingsData.WindowHours;
+			this.SnoozeMinutes = settingsData.SnoozeMinutes;
+
+            this.SetSnooze = ReactiveCommand.Create<int>(value => this.SnoozeMinutes = value);
+			this.SetWindow = ReactiveCommand.Create<int>(value => this.WindowHours = value);
 
             Save = ReactiveCommand.Create(() =>
             {
-				var data = JsonConvert.SerializeObject(new SettingsData() {HoursList=this.HoursList, RingUri = this.ringUri });
+				var data = JsonConvert.SerializeObject(new SettingsData() {HoursList=this.HoursList, RingUri = this.ringUri, WindowHours = this.windowHours, SnoozeMinutes = this.snoozeMinutes });
                 settings.AddOrUpdateValue<string>(key, data);
                 return true;
             });

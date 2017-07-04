@@ -11,6 +11,8 @@ using System;
 using MvvmCross.Platform.Droid.Platform;
 using Piller.Services;
 using Piller.Droid.Services;
+using System.Threading;
+using System.Globalization;
 
 namespace Piller.Droid
 {
@@ -18,6 +20,8 @@ namespace Piller.Droid
     {
         public Setup(Context applicationContext) : base(applicationContext)
         {
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
         }
 
         protected override IMvxApplication CreateApp()
