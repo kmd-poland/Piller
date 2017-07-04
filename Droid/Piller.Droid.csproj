@@ -309,6 +309,7 @@
     <AndroidResource Include="Resources\drawable\text_view_selector.xml" />
     <AndroidResource Include="Resources\layout\selectTimeItem.axml" />
     <AndroidResource Include="Resources\layout\About.axml" />
+    <AndroidResource Include="Resources\drawable\pillThumb.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
