@@ -98,12 +98,13 @@ namespace Piller.Droid.Services
             Intent intent = new Intent(this.ctx, typeof(NotificationPublisher));
             if (PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.NoCreate) != null)
             {
-                PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.CancelCurrent);
+                System.Diagnostics.Debug.Write($"[PILLER] Cancelling alarm with id {notificationOccurrence.Id.Value}.");
+				PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.CancelCurrent);
                 alarmManager.Cancel(alarmIntent);
             }
             else
             {
-                System.Diagnostics.Debug.Write($"Alarm with id {notificationOccurrence.Id.Value} does not exist.");
+                System.Diagnostics.Debug.Write($"[PILLER] Alarm with id {notificationOccurrence.Id.Value} does not exist.");
             }
         }
 
