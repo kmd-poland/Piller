@@ -16,6 +16,8 @@ using Cheesebaron.MvxPlugins.Settings.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Reactive.Linq;
 
 namespace Piller.ViewModels
 {
@@ -37,10 +39,11 @@ namespace Piller.ViewModels
 			set { _bytes = value; RaisePropertyChanged(() => Bytes); }
 		}
 
-		private void OnPicture(Stream pictureStream)
+		private async Task OnPicture(Stream pictureStream)
 		{
+            
 			var memoryStream = new MemoryStream();
-			pictureStream.CopyTo(memoryStream);
+            await pictureStream.CopyToAsync(memoryStream);
 			Bytes = memoryStream.ToArray();
 		}
 
@@ -251,12 +254,12 @@ namespace Piller.ViewModels
 				(m.Value | t.Value | w.Value | th.Value | f.Value | sa.Value | su.Value) &&
 				h.Value > 0);
             
-			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(100, 90));
-			this.TakePhotoCommand.Subscribe(x =>
-			{
-                if(x!=null)
-				    this.OnPicture(x);
-			});
+			this.TakePhotoCommand = ReactiveCommand.CreateFromTask(() => PictureChooser.TakePicture(1920, 75));
+			this.TakePhotoCommand
+                .Where(x=>x!=null)
+                .Select(x =>this.OnPicture(x))
+                .Subscribe();
+			
 
             this.Save = RxUI.ReactiveCommand.CreateFromTask<Unit, bool>(async _ =>
 			{
@@ -300,7 +303,7 @@ namespace Piller.ViewModels
                     dataRecord.ImageName = $"image_{medicationName}";
                     dataRecord.ThumbnailName = $"thumbnail_{medicationName}";
                     imageLoader.SaveImage(this.Bytes, dataRecord.ImageName);
-                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 30);
+                    imageLoader.SaveImage(this.Bytes, dataRecord.ThumbnailName, 120);
                 }
 
 				await this.storage.SaveAsync<MedicationDosage>(dataRecord);
