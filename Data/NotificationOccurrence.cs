@@ -19,6 +19,8 @@ namespace Piller.Data
 
         public DateTime OccurrenceDateTime { get; set; }
 
+
+        public string ThumbnailImage { get; set; }
         public NotificationOccurrence()
         {
 

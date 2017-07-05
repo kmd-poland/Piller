@@ -160,10 +160,7 @@ namespace Piller.Droid.Views
 					clearTo.Visibility=ViewStates.Visible;
 			};
 
-          
-
-
-            deleteDialog.Create();
+            //deleteDialog.Create();
             deleteBtn.Click += (o, e) => deleteDialog.Show();
             deleteDialog.Accept.Subscribe(x =>
             {

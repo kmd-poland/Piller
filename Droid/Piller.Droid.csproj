@@ -238,6 +238,9 @@
     <Reference Include="MaterialEditText">
       <HintPath>..\packages\MaterialEditText.1.0.0\lib\MonoAndroid60\MaterialEditText.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidSwipeLayout">
+      <HintPath>..\Externals\AndroidSwipeLayout.dll</HintPath>
+</Reference>
     <Reference Include="FFImageLoading">
       <HintPath>..\packages\Xamarin.FFImageLoading.2.2.9\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
     </Reference>
@@ -350,6 +353,11 @@
     <AndroidResource Include="Resources\drawable-hdpi\barcode.png" />
     <AndroidResource Include="Resources\drawable\akademia_logo.png" />
     <AndroidResource Include="Resources\drawable\Hi_res_icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

@@ -3,39 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:weightSum="5"
     android:orientation="horizontal">
-    <ImageView
+    <refractored.controls.CircleImageView
         android:id="@+id/list_thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="match_parent" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="center" />
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textSize="17sp"
-                android:textColor="@android:color/black"
-                android:id="@+id/label_later_name" />
-            <TextView xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="@android:color/black"
-                android:id="@+id/label_later_dosage" />
-        </LinearLayout>
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp">
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/label_later_time" />
+            android:layout_marginRight="5dp"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"
+            android:id="@+id/label_later_name"
+            tools:text="Zielone coś" />
+        <TextView xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"
+            android:id="@+id/label_later_dosage"
+            tools:text="jedna tabletka"
+            android:contextClickable="true" />
+        <TextView xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_later_time"
+            tools:text="13h" />
     </LinearLayout>
 </LinearLayout>

@@ -15,35 +15,40 @@ using MvvmCross.Plugins.File;
 using Services;
 using MvvmCross.Platform;
 using ReactiveUI;
+using AndroidSwipeLayout;
 
 namespace Piller.Droid.Views
 {
-    public class NearestListAdapter : MvxAdapter
+    public class NearestListLayout : MvxLinearLayout
+    {
+        public NearestListLayout(Context context, Android.Util.IAttributeSet attrs) : base(context, attrs, new NearestListAdapter(context))
+        {
+        }
+    }
+    public class NearestListAdapter : MvxAdapterWithChangedEvent
     {
         public ReactiveCommand<NotificationOccurrence, NotificationOccurrence> DeleteRequested { get; }
         private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
 
         public NearestListAdapter(Context context) : base(context)
         {
-        }
-
-        public NearestListAdapter(Context context, IMvxAndroidBindingContext bindingContext) : base(context, bindingContext)
-        {
             this.DeleteRequested = ReactiveCommand.Create<NotificationOccurrence, NotificationOccurrence>(input => input);
         }
 
-        public NearestListAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-        {
-        }
+
 
         protected override IMvxListItemView CreateBindableView(object dataContext, int templateId)
         {
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
+
             var name = view.FindViewById<TextView>(Resource.Id.label_nearest_name);
             var dosage = view.FindViewById<TextView>(Resource.Id.label_nearest_dosage);
             var time = view.FindViewById<TextView>(Resource.Id.label_nearest_time);
             var bset = view.CreateBindingSet<MvxListItemView, NotificationOccurrence>();
+            var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
+
             var del_nearest_not_button = view.FindViewById<ImageView>(Resource.Id.del_nearest_not_button);
+
 
             del_nearest_not_button.Click += (sender, e) => DeleteRequested.Execute((NotificationOccurrence)dataContext).Subscribe();
 
@@ -54,22 +59,31 @@ namespace Piller.Droid.Views
                 .To(x => x.Dosage);
 
             bset.Bind(time)
-                .To(x => x.OccurrenceDateTime);
+                .To(x => x.OccurrenceDateTime)
+                .WithConversion(new InlineValueConverter<DateTime, string>(dt => dt.ToShortTimeString()));
+
+
+            bset.Bind(thumbnail)
+                .To(x => x.ThumbnailImage)
+                .For("Bitmap")
+                .WithConversion(new InlineValueConverter<string, Bitmap>(file =>
+             {
+                 if (file != null)
+                 {
+                     byte[] array = imageLoader.LoadImage(file);
+                     return BitmapFactory.DecodeByteArray(array, 0, array.Length);
+                 }
+                 else
+                 {
+
+                     return BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pillThumb);
+                 }
+             }));
+
+
 
             bset.Apply();
-            var medication = dataContext as MedicationDosage;
-            if (medication?.ThumbnailName != null)
-            {
-                var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-                byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
-                thumbnail.SetImageBitmap(BitmapFactory.DecodeByteArray(array, 0, array.Length));
-            }
-            else
-            {
-                var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
-                thumbnail.SetImageBitmap(BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pill64x64));
-            }
-
+          
             return view;
         }
     }

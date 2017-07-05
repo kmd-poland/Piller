@@ -15,27 +15,28 @@ using MvvmCross.Plugins.File;
 using Services;
 using MvvmCross.Platform;
 using ReactiveUI;
+using Humanizer;
 
 namespace Piller.Droid.Views
 {
-    public class OverdueListAdapter : MvxAdapter
-    {
-        public ReactiveCommand<NotificationOccurrence, NotificationOccurrence> DeleteRequested { get; }
-
-        public OverdueListAdapter(Context context) : base(context)
+    public class OverdueListLayout : MvxLinearLayout{
+		public OverdueListLayout(Context context, Android.Util.IAttributeSet attrs) : base(context, attrs, new OverdueListAdapter(context))
         {
             
         }
 
-        public OverdueListAdapter(Context context, IMvxAndroidBindingContext bindingContext) : base(context, bindingContext)
+	}
+    public class OverdueListAdapter : MvxAdapterWithChangedEvent
+    {
+        public ReactiveCommand<NotificationOccurrence, NotificationOccurrence> DeleteRequested { get; }
+		private readonly ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+
+        public OverdueListAdapter(Context context) : base(context)
         {
-            this.DeleteRequested = ReactiveCommand.Create<NotificationOccurrence, NotificationOccurrence>(input => input);
+			this.DeleteRequested = ReactiveCommand.Create<NotificationOccurrence, NotificationOccurrence>(input => input);
         }
 
-        public OverdueListAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-        {
-        }
-
+       
         protected override IMvxListItemView CreateBindableView(object dataContext, int templateId)
         {
             var view = base.CreateBindableView(dataContext, templateId) as MvxListItemView;
@@ -44,6 +45,7 @@ namespace Piller.Droid.Views
             var dosage = view.FindViewById<TextView>(Resource.Id.label_overdue_dosage);
             var time = view.FindViewById<TextView>(Resource.Id.label_overdue_time);
             var del_not_button = view.FindViewById<ImageView>(Resource.Id.del_not_button);
+			var thumbnail = view.FindViewById<ImageView>(Resource.Id.list_thumbnail);
 
             del_not_button.Click += (sender, e) => DeleteRequested.Execute((NotificationOccurrence)dataContext).Subscribe();
 
@@ -54,9 +56,28 @@ namespace Piller.Droid.Views
                 .To(x => x.Dosage);
 
             bset.Bind(time)
-                .To(x => x.OccurrenceDateTime);
+                .To(x => x.OccurrenceDateTime)
+                .WithConversion(new InlineValueConverter<DateTime, string>(dt => dt.Humanize()));
 
-            bset.Apply();
+			bset.Bind(thumbnail)
+			   .To(x => x.ThumbnailImage)
+			   .For("Bitmap")
+			   .WithConversion(new InlineValueConverter<string, Bitmap>(file =>
+			   {
+				   if (file != null)
+				   {
+					   byte[] array = imageLoader.LoadImage(file);
+					   return BitmapFactory.DecodeByteArray(array, 0, array.Length);
+				   }
+				   else
+				   {
+
+					   return BitmapFactory.DecodeResource(this.Context.Resources, Resource.Drawable.pillThumb);
+				   }
+			   }));
+
+
+			bset.Apply();
             return view;
         }
   

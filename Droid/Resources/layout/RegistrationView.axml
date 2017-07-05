@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
     <LinearLayout
         android:orientation="vertical"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
-        <include
-            layout="@layout/toolbar" />
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:padding="15dp"
-            android:text="Zaległe" />
-        <MvxListView
+            android:text="Zaległe"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:height="48dp"
+            android:paddingLeft="16dp"
+            android:textColor="?android:textColorSecondary"
+            android:gravity="center_vertical" />
+        <OverdueListLayout
             android:id="@+id/overdueList"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:padding="15dp"
-            android:text="Najbliższe" />
-        <MvxListView
+            android:text="Najbliższe"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="?android:textColorSecondary"
+            android:height="48dp"
+            android:paddingLeft="16dp"
+            android:gravity="center_vertical" />
+        <NearestListLayout
             android:id="@+id/nearestList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:orientation="vertical"
+            android:layout_height="wrap_content" />
         <TextView xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textColor="@android:color/black"
-              android:textSize="15sp"
-              android:padding="15dp"
-              android:text="Później" />
-        <MvxListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Później"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="?android:textColorSecondary"
+            android:height="48dp"
+            android:paddingLeft="16dp"
+            android:gravity="center_vertical" />
+        <LaterListLayout
+            android:orientation="vertical"
             android:id="@+id/laterList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+</ScrollView>

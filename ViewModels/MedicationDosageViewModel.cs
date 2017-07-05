@@ -317,6 +317,8 @@ namespace Piller.ViewModels
                 // dodaję notyfikacje - w środku czytam NotificationOccurrence
                 await this.notifications.ScheduleNotifications(dataRecord);
 
+				Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
+
                 return true;
             }, canSave);
 
@@ -394,6 +396,7 @@ namespace Piller.ViewModels
                         Name = medDosage.Name,
                         Dosage = medDosage.Dosage,
                         MedicationDosageId = medDosage.Id.Value,
+                        ThumbnailImage = medDosage.ThumbnailName,
                         OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
                     };
 
@@ -412,6 +415,7 @@ namespace Piller.ViewModels
                             Name = medDosage.Name,
                             Dosage = medDosage.Dosage,
                             MedicationDosageId = medDosage.Id.Value,
+                            ThumbnailImage = medDosage.ThumbnailName,
                             OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
                         };
 
