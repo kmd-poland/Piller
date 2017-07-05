@@ -30,7 +30,7 @@ namespace Piller.ViewModels
 
             this.ShowInitialView = ReactiveCommand.Create(() =>
             {
-                Task.Run(async () =>
+				Task.Delay(324).ContinueWith(async task =>
                 {
                     if ((await Mvx.Resolve<IPermanentStorageService>().List<MedicationDosage>()).Any())
                     {
