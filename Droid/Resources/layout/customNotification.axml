@@ -7,45 +7,62 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:weightSum="10"
-        android:layout_height="25dp"
-        android:padding="2dp">
-      <ImageView
-            android:id="@+id/iconView"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-      <TextView
-          android:text="Piller"
-          android:layout_weight="3"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:textAppearance="@style/NotificationTitle" />
-      <TextView
-            android:text="Description"
-            android:layout_weight="6"
-            android:textAppearance="@style/NotificationDesc"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/descTextView" />
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:paddingRight="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center" />
+            <ImageView
+                android:id="@+id/iconView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/imageView"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_margin="-10dp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                <TextView
+                    android:text="Piller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/NotificationTitle" />
+                <TextView
+                    android:text="Description"
+                    android:textAppearance="@style/NotificationDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descTextView"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:weightSum="8">
+                <TextView
+                    android:text="Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/NotificationTextMedium"
+                    android:id="@+id/titleTextView" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="5dp"
-        android:weightSum="8">
-        <TextView
-            android:text="Title"
-            android:layout_width="0dp"
-            android:layout_weight="7"
-            android:layout_height="match_parent"
-            android:textAppearance="@style/NotificationTextMedium"
-            android:id="@+id/titleTextView" />
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-  </LinearLayout>
 </LinearLayout>

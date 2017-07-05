@@ -235,6 +235,15 @@
     </Reference>
     <Reference Include="AndroidSwipeLayout">
       <HintPath>..\Externals\AndroidSwipeLayout.dll</HintPath>
+</Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.9\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.9\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Transformations">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Transformations.2.2.9\lib\MonoAndroid10\FFImageLoading.Transformations.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

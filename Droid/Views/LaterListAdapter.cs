@@ -15,6 +15,7 @@ using MvvmCross.Plugins.File;
 using Services;
 using MvvmCross.Platform;
 using ReactiveUI;
+using Humanizer;
 
 namespace Piller.Droid.Views
 {
@@ -55,7 +56,7 @@ namespace Piller.Droid.Views
 
             bset.Bind(time)
                 .To(x => x.OccurrenceDateTime)
-                .WithConversion(new LaterHoursConverter());
+                .WithConversion(new InlineValueConverter<DateTime, string>(dt => dt.Humanize()));
 
 			bset.Bind(thumbnail)
 			   .To(x => x.ThumbnailImage)

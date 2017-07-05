@@ -8,6 +8,7 @@ using Services;
 using Android.Graphics;
 using MvvmCross.Platform;
 using Android.Widget;
+using Humanizer;
 
 namespace Piller.Droid.Services
 {
@@ -37,12 +38,13 @@ namespace Piller.Droid.Services
 
             if (medication?.ThumbnailName == null)
             {
-                contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
-				contentBigView.SetImageViewBitmap(Resource.Id.iconView, BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64));
+                var roundedImage = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pill64x64);
+                contentView.SetImageViewBitmap(Resource.Id.imageView, roundedImage);
+                contentBigView.SetImageViewBitmap(Resource.Id.iconView, roundedImage);
 			}
 			else
 			{
-				ImageLoaderService imageLoader = Mvx.Resolve<ImageLoaderService>();
+				var imageLoader = Mvx.Resolve<ImageLoaderService>();
 				byte[] array = imageLoader.LoadImage(medication.ThumbnailName);
 				contentView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeByteArray(array, 0, array.Length));
 				contentBigView.SetImageViewBitmap(Resource.Id.imageView, BitmapFactory.DecodeByteArray(array, 0, array.Length));
@@ -112,7 +114,11 @@ namespace Piller.Droid.Services
 
         private static string FormatOccurrence(DateTime nearestOccurrence)
         {
-            return $"(Data przyjęcia: {nearestOccurrence:f}";
+            //return nearestOccurrence.Humanize();
+            if (nearestOccurrence.Date == DateTime.Now.Date)
+                return nearestOccurrence.TimeOfDay.ToString(@"hh\:mm");
+            else
+                return nearestOccurrence.Date.ToString("d") + " " + nearestOccurrence.TimeOfDay.ToString(@"hh\:mm");
         }
     }
 }
