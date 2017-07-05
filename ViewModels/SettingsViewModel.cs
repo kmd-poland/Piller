@@ -85,7 +85,7 @@ namespace Piller.ViewModels
                 HoursList = new ObservableCollection<TimeItem>()
                 {
                     new TimeItem(Resources.AppResources.MorningLabel) {Hour = TimeSpan.Parse("08:00:00") },
-                    new TimeItem(Resources.AppResources.EveningLabel){Hour=TimeSpan.Parse("20:00:00")}
+                    new TimeItem(Resources.AppResources.EveningLabel){Hour=TimeSpan.Parse("20:00:00") }
                 };
             }
             else

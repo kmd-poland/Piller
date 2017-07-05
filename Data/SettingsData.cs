@@ -14,7 +14,7 @@ namespace Piller.Data
 		public static string Key { get; } = "hours_settings";
 		public IEnumerable<TimeItem> HoursList { get; set; }
 		public string RingUri { get; set; } = "content://settings/system/ringtone";
-		public int SnoozeMinutes { get; set; } = 50;
+		public int SnoozeMinutes { get; set; } = 15;
 		public int WindowHours { get; set; } = 2;
 
     }
