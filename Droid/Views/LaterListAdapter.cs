@@ -56,7 +56,7 @@ namespace Piller.Droid.Views
 
             bset.Bind(time)
                 .To(x => x.OccurrenceDateTime)
-                .WithConversion(new InlineValueConverter<DateTime, string>(dt => dt.Humanize()));
+                .WithConversion(new InlineValueConverter<DateTime, string>(dt => dt.Humanize(false)));
 
 			bset.Bind(thumbnail)
 			   .To(x => x.ThumbnailImage)

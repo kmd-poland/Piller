@@ -19,6 +19,7 @@ using System.Reactive.Linq;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Shared.Attributes;
 using Piller.Resources;
+using System.Threading.Tasks;
 
 namespace Piller.Droid.Views
 {
@@ -76,6 +77,13 @@ namespace Piller.Droid.Views
                 .To(vm => vm.LaterList);
 
             bindingSet.Apply();
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            Task.Run(()=>
+                this.ViewModel.Init());
         }
     }
 }

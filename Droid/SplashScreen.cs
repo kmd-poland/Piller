@@ -5,7 +5,7 @@ using MvvmCross.Droid.Views;
 namespace Piller.Droid
 {
     [Activity(
-        Label = "Piller.Droid"
+        Label = "Piller"
         , MainLauncher = true
         , Icon = "@drawable/pill64x64"
         , Theme = "@style/Theme.Splash"

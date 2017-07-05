@@ -6312,8 +6312,8 @@ namespace Piller.Droid
 			// aapt resource value: 0x7f0c001a
 			public const int abc_toolbar_collapse_description = 2131492890;
 			
-			// aapt resource value: 0x7f0c002d
-			public const int app_name = 2131492909;
+			// aapt resource value: 0x7f0c002c
+			public const int app_name = 2131492908;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int appbar_scrolling_view_behavior = 2131492864;
@@ -6329,9 +6329,6 @@ namespace Piller.Droid
 			
 			// aapt resource value: 0x7f0c002b
 			public const int fab_scroll_translation_autohide_behavior = 2131492907;
-			
-			// aapt resource value: 0x7f0c002c
-			public const int hello = 2131492908;
 			
 			// aapt resource value: 0x7f0c0029
 			public const int library_name = 2131492905;

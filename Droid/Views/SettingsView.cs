@@ -63,8 +63,8 @@ namespace Piller.Droid.Views
 							}
 						}
 					},
-					 12,
-					 00,
+                    item.Hour.Hours,
+                    item.Hour.Minutes,
 					 true);
 				timePicker.Show();
 			});
