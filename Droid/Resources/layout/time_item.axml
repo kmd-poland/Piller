@@ -12,24 +12,28 @@
         android:layout_height="wrap_content"
         android:text="Wieczorem"
         android:gravity="left" />
-    <TextView
-        android:id="@+id/hourLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20:00"
-        android:layout_toLeftOf="@+id/button_delete_dosage_hour" />
-    <ImageView
-        android:id="@+id/button_delete_dosage_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_close_black_24dp"
-        android:clickable="true"
+    <LinearLayout
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="5dp"
-        android:background="?attr/selectableItemBackground" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp">
+        <TextView
+            android:id="@+id/hourLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20:00" />
+        <ImageView
+            android:id="@+id/button_delete_dosage_hour"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_close_black_24dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground" />
+    </LinearLayout>
     <View
-       android:layout_width="match_parent"
-       android:layout_height="1dp"
-       android:background="@color/md_grey_200" 
-       android:layout_below="@+id/hourName"/>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_grey_200"
+        android:layout_below="@+id/hourName" />
 </RelativeLayout>

@@ -44,7 +44,7 @@ namespace Piller.Droid.Views
             bset.Bind(deleteButton)
                 .For(v=>v.Visibility)
                 .To(x=>x.Name)
-                .WithConversion(new InlineValueConverter<string, ViewStates>(n => n.Equals(Resources.AppResources.MorningLabel) || n.Equals(Resources.AppResources.EveningLabel) ? ViewStates.Invisible : ViewStates.Visible));
+                .WithConversion(new InlineValueConverter<string, ViewStates>(n => n.Equals(Resources.AppResources.MorningLabel) || n.Equals(Resources.AppResources.EveningLabel) ? ViewStates.Gone : ViewStates.Visible));
 			bset.Apply();
 
             view.Click += (o, e) => CLickItem.Execute((TimeItem)dataContext).Subscribe();

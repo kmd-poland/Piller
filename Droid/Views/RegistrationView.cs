@@ -18,6 +18,7 @@ using MvvmCross.Binding.Droid.BindingContext;
 using System.Reactive.Linq;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Shared.Attributes;
+using Piller.Resources;
 
 namespace Piller.Droid.Views
 {
@@ -35,8 +36,8 @@ namespace Piller.Droid.Views
         {
 			var baseView = base.OnCreateView(inflater, container, bundle);
 			var view = this.BindingInflate(Resource.Layout.RegistrationView, null);
-    
-  
+
+			((MvxCachingFragmentCompatActivity)Activity).SupportActionBar.Title = AppResources.MedicationSummaryListViewModel_Title;
 
             var toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
             nearestList = view.FindViewById<MvxLinearLayout>(Resource.Id.nearestList);

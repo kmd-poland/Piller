@@ -19,7 +19,7 @@ using Android.Support.Design.Internal;
 
 namespace Piller.Droid.Views
 {
-    [Activity(Label = "RootView", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.KeyboardHidden)]
+    [Activity(ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.KeyboardHidden)]
     public class RootView : MvxCachingFragmentCompatActivity<RootViewModel>
     {
         private BottomNavigationView bottomNavigation;
