@@ -12,6 +12,7 @@ using Piller.MixIns.DaysOfWeekMixIns;
 using MvvmCross.Plugins.Messenger;
 using Cheesebaron.MvxPlugins.Settings.Interfaces;
 using Newtonsoft.Json;
+using Acr.UserDialogs;
 
 namespace Piller.ViewModels
 {
@@ -61,7 +62,11 @@ namespace Piller.ViewModels
 
         public async Task DeleteNearest(NotificationOccurrence notification)
         {
+            UserDialogs.Instance.ShowLoading();
             await this.notifications.CancelNotification(notification);
+            await Init();
+            UserDialogs.Instance.HideLoading();
+
             //await this.notifications.ScheduleNotification(notification);
         }
 
