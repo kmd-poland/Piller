@@ -38,7 +38,7 @@ namespace Piller.Droid.Views
             this.SetContentView(secondVIew);
             this.viewModel = viewModel;
 
-            this.Create();
+            //this.Create();
         }
         protected override void OnCreate(Bundle savedInstanceState)
         {

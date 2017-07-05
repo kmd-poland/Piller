@@ -10,6 +10,8 @@ using MvvmCross.Platform;
 using System.Collections.ObjectModel;
 using Piller.MixIns.DaysOfWeekMixIns;
 using MvvmCross.Plugins.Messenger;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
+using Newtonsoft.Json;
 
 namespace Piller.ViewModels
 {
@@ -79,9 +81,13 @@ namespace Piller.ViewModels
 
             notificationsChangedSubscriptionToken = Mvx.Resolve<IMvxMessenger>().Subscribe<NotificationsChangedMessage>(async mesg => await Init());
 
-            DateTime now = DateTime.Now;
-            DateTime start = now.AddHours(-2);
-            DateTime end = now.AddHours(2);
+			var settingsDataString = Mvx.Resolve<ISettings>().GetValue<string>(SettingsData.Key);
+			var settingsData = JsonConvert.DeserializeObject<SettingsData>(settingsDataString);
+
+            var now = DateTime.Now;
+            DateTime start = now.AddHours(-settingsData.WindowHours);
+            DateTime end = now.AddHours(settingsData.WindowHours);
+
             var overdueNotifications = allNotifications.Where(n => n.OccurrenceDateTime < start);
             var nearestNotifications = allNotifications.Where(n => n.OccurrenceDateTime >= start && n.OccurrenceDateTime <= end);
             var laterNotifications = allNotifications.Where(n => n.OccurrenceDateTime > end);

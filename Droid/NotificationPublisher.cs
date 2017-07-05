@@ -21,6 +21,7 @@ using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform.Platform;
 using Android.Runtime;
 using MvvmCross.Droid.Platform;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
 
 namespace Piller.Droid
 {
@@ -218,8 +219,11 @@ namespace Piller.Droid
                         {
                             var name = intent.GetStringExtra(MEDICATION_NAME);
                             var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
-                            DateTime now = DateTime.Now;
-                            DateTime occurrenceDate = now.AddSeconds(15);
+
+                            var settingsDataString = Mvx.Resolve<ISettings>().GetValue<string>(SettingsData.Key);
+                            var settingsData = JsonConvert.DeserializeObject<SettingsData>(settingsDataString);
+
+                            DateTime occurrenceDate = DateTime.Now.AddMinutes(settingsData.SnoozeMinutes);
 
                             var medications = await this.storage.List<MedicationDosage>();
                             var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
