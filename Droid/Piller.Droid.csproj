@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Piller.Droid</RootNamespace>
     <AssemblyName>Piller.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -233,6 +233,9 @@
     <Reference Include="MaterialEditText">
       <HintPath>..\packages\MaterialEditText.1.0.0\lib\MonoAndroid60\MaterialEditText.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidSwipeLayout">
+      <HintPath>..\Externals\AndroidSwipeLayout.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Piller.csproj">
@@ -335,6 +338,11 @@
     <AndroidResource Include="Resources\drawable\akademia_logo.jpg" />
     <AndroidResource Include="Resources\drawable\kmd_poland_logo.png" />
     <AndroidResource Include="Resources\drawable-hdpi\barcode.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

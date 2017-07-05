@@ -16,41 +16,46 @@ using MvvmCross.Binding.Droid.Views;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Droid.BindingContext;
 using System.Reactive.Linq;
+using MvvmCross.Droid.Support.V4;
+using MvvmCross.Droid.Shared.Attributes;
 
 namespace Piller.Droid.Views
 {
-    [Activity]
-    public class RegistrationView : MvxAppCompatActivity<RegistrationViewModel>
+
+	[MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, true)]
+    [Register("piller.droid.views.RegistrationView")]
+    public class RegistrationView : MvxFragment<RegistrationViewModel>
     {
-        MvxListView nearestList;
-        MvxListView overdueList;
-        MvxListView laterList;
+        MvxLinearLayout nearestList;
+        MvxLinearLayout overdueList;
+        MvxLinearLayout laterList;
 
-        protected override void OnCreate(Bundle bundle)
+
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
-            base.OnCreate(bundle);
-            SetContentView(Resource.Layout.RegistrationView);
+			var baseView = base.OnCreateView(inflater, container, bundle);
+			var view = this.BindingInflate(Resource.Layout.RegistrationView, null);
+    
+  
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            nearestList = FindViewById<MvxListView>(Resource.Id.nearestList);
-            nearestList.Adapter = new NearestListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+            var toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            nearestList = view.FindViewById<MvxLinearLayout>(Resource.Id.nearestList);
             nearestList.ItemTemplateId = Resource.Layout.nearest_item;
             var nearestAdapter = (NearestListAdapter)nearestList.Adapter;
             nearestAdapter.DeleteRequested.Select(async notification => await this.ViewModel.DeleteNearest(notification)).Subscribe();
 
-            overdueList = FindViewById<MvxListView>(Resource.Id.overdueList);
-            overdueList.Adapter = new OverdueListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+            overdueList = view.FindViewById<MvxLinearLayout>(Resource.Id.overdueList);
             overdueList.ItemTemplateId = Resource.Layout.overdue_item;
             var overdueAdapter = (OverdueListAdapter)overdueList.Adapter;
             overdueAdapter.DeleteRequested.Select(async medication => await this.ViewModel.DeleteOverdue(medication)).Subscribe();
 
-            laterList = FindViewById<MvxListView>(Resource.Id.laterList);
-            laterList.Adapter = new LaterListAdapter(this, (IMvxAndroidBindingContext)this.BindingContext);
+            laterList = view.FindViewById<MvxLinearLayout>(Resource.Id.laterList);
             laterList.ItemTemplateId = Resource.Layout.later_item;
             
             //Toolbar will now take on default actionbar characteristics
-            SetSupportActionBar(toolbar);
+           
             SetBinding();
+            return view;
         }
 
         private void SetBinding()

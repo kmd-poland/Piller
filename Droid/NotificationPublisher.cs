@@ -107,7 +107,9 @@ namespace Piller.Droid
                                 Name = currentNotification.Name,
                                 Dosage = currentNotification.Dosage,
                                 MedicationDosageId = currentNotification.MedicationDosageId,
-                                OccurrenceDateTime = newOccurrenceDateTime
+                                OccurrenceDateTime = newOccurrenceDateTime,
+                                ThumbnailImage = currentNotification.ThumbnailImage
+                                    
                             };
 
                             if (currentNotification != null)
@@ -221,7 +223,10 @@ namespace Piller.Droid
 
                             var medications = await this.storage.List<MedicationDosage>();
                             var medicationDosage = medications.FirstOrDefault(n => n.Id == medicationId);
-                            var newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000);
+                            var newNotification = new NotificationOccurrence(medicationDosage.Name, medicationDosage.Dosage, medicationDosage.Id.Value, occurrenceDate, fireTime + 90000)
+                            {
+                                ThumbnailImage = medicationDosage.ThumbnailName
+                            };
 
                             await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
                             Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
