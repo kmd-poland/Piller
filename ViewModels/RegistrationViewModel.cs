@@ -95,7 +95,7 @@ namespace Piller.ViewModels
 
             var overdueNotifications = allNotifications.Where(n => n.OccurrenceDateTime < start);
             var nearestNotifications = allNotifications.Where(n => n.OccurrenceDateTime >= start && n.OccurrenceDateTime <= end);
-            var laterNotifications = allNotifications.Where(n => n.OccurrenceDateTime > end);
+            var laterNotifications = allNotifications.Where(n => n.OccurrenceDateTime > end && n.OccurrenceDateTime < DateTime.Now.AddHours(12));
 
             var sortedOverdueList = overdueNotifications.OrderBy(e => e.OccurrenceDateTime);
             this.OverdueList = sortedOverdueList.ToList();

@@ -16,7 +16,7 @@ namespace Piller
 
             Mvx.RegisterSingleton<IPermanentStorageService>(new PermanentStorageService());
 
-            RegisterAppStart<ViewModels.MedicationSummaryListViewModel>();
+            RegisterAppStart<ViewModels.RootViewModel>();
         }
     }
 }
