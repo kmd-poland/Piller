@@ -97,6 +97,7 @@ namespace Piller.Droid.Services
             // action upon notification click
             var notificationMainAction = new Intent(context, typeof(NotificationPublisher));
             notificationMainAction.PutExtra(NotificationPublisher.MEDICATION_ID, medicationId);
+            notificationMainAction.PutExtra(NotificationPublisher.NOTIFICATION_ID, notificationId);
             notificationMainAction.SetAction("GO_TO_MEDICATION");
             var flags = (PendingIntentFlags)((int)PendingIntentFlags.CancelCurrent | (int)NotificationFlags.AutoCancel);
             notification.ContentIntent = PendingIntent.GetBroadcast(context, notificationId, notificationMainAction, flags);

@@ -158,7 +158,10 @@ namespace Piller.ViewModels
                     item.DosageHours = dosageHours;
 					item.RingUri = ringUri;
 
+                    // szud bi in som separet entity
+                    await notifications.CancelAllNotificationsForMedication(item);
                     await storage.SaveAsync<MedicationDosage>(item);
+                    await DbHelper.AddNotificationOccurrences(item);
                     await notifications.ScheduleNotifications(item);
                 }
             }

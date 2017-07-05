@@ -176,7 +176,12 @@ namespace Piller.Droid
                         newActivity.SetFlags(ActivityFlags.NewTask);
                         context.StartActivity(newActivity);
 
-                        notificationManager.Cancel(notificationId);
+                        Task.Run(async () =>
+                        {
+                            var notificationToDismiss = await this.storage.GetAsync<NotificationOccurrence>(notificationId);
+                            await this.notificationService.CancelNotification(notificationToDismiss);
+                            notificationManager.Cancel(notificationId);
+                        });
                     }
 
                     if (intent.Action == "NOTIFCATION_DISMISS")
@@ -188,14 +193,18 @@ namespace Piller.Droid
                         {
                             var dismissedNotification = await this.storage.GetAsync<NotificationOccurrence>(dismissedNotificationId);
                             await this.notificationService.CancelNotification(dismissedNotification);
+                            Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
                         });
                     }
 
                     if (intent.Action == "OK")
                     {
                         Task.Run(async () =>
-                                    await this.notificationService.CancelAndRemove(notificationId)
-                                );
+                        {
+                             await this.notificationService.CancelAndRemove(notificationId);
+                             Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
+                        });
+
                         notificationManager.Cancel(notificationId);
                     }
 
@@ -233,8 +242,8 @@ namespace Piller.Droid
                             };
 
                             await this.storage.SaveAsync<NotificationOccurrence>(newNotification);
-                            Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
-                            await this.notificationService.CancelAndRemove(notificationId);
+							await this.notificationService.CancelAndRemove(notificationId);
+							Mvx.Resolve<IMvxMessenger>().Publish(new NotificationsChangedMessage(this));
                             await notificationService.OverdueNotification(newNotification, medicationDosage);
                         });
 

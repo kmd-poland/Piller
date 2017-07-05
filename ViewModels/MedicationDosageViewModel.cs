@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using MvvmCross.Core.ViewModels;
 using RxUI = ReactiveUI;
 using System.Reactive;
@@ -313,7 +313,7 @@ namespace Piller.ViewModels
                 // usuwam poprzednie notyfikacje
                 await this.notifications.CancelAllNotificationsForMedication(dataRecord);
                 // dodaję najbliższe wystąpienia do tabeli NotificationOccurrence
-                await this.AddNotificationOccurrences(dataRecord);
+                await DbHelper.AddNotificationOccurrences(dataRecord);
                 // dodaję notyfikacje - w środku czytam NotificationOccurrence
                 await this.notifications.ScheduleNotifications(dataRecord);
 
@@ -383,55 +383,6 @@ namespace Piller.ViewModels
             this.WhenAnyValue(x => x.Monday, x => x.Tuesday, x => x.Wednesday, x => x.Thursday, x => x.Friday, x => x.Saturday, x => x.Sunday)
 			    .Subscribe(days => DaysLabel = HumanizeOrdinationScheme(new[] { days.Item1, days.Item2, days.Item3, days.Item4, days.Item5, days.Item6, days.Item7 }));
         }
-
-        private async Task AddNotificationOccurrences(MedicationDosage medDosage)
-        {
-            if (medDosage.Days.AllSelected())
-            {
-                // schedule for every occurrence of hour for every 24 hours
-                foreach (var hour in medDosage.HoursEncoded.Split(';'))
-                {
-                    var occurrence = new NotificationOccurrence()
-                    {
-                        Name = medDosage.Name,
-                        Dosage = medDosage.Dosage,
-                        MedicationDosageId = medDosage.Id.Value,
-                        ThumbnailImage = medDosage.ThumbnailName,
-                        OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
-                    };
-
-                    await this.storage.SaveAsync(occurrence);
-                }
-            }
-            else
-            {
-                // schedule in a weekly manner for each day of week
-                foreach (var hour in medDosage.HoursEncoded.Split(';'))
-                {
-                    foreach (var day in medDosage.Days.GetSelected())
-                    {
-                        var occurrence = new NotificationOccurrence()
-                        {
-                            Name = medDosage.Name,
-                            Dosage = medDosage.Dosage,
-                            MedicationDosageId = medDosage.Id.Value,
-                            ThumbnailImage = medDosage.ThumbnailName,
-                            OccurrenceDateTime = this.NextOccurrenceFromHour(TimeSpan.Parse(hour))
-                        };
-
-                        await this.storage.SaveAsync(occurrence);
-                    }
-                }
-            }
-        }
-
-		private DateTime NextOccurrenceFromHour(TimeSpan hour)
-		{
-			var occurrenceDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour.Hours, hour.Minutes, 0);
-			if (DateTime.Now.Hour > hour.Hours)
-				return occurrenceDate.AddDays(1);
-			return occurrenceDate;
-		}
 
 		private string HumanizeOrdinationScheme(bool[] days)
         {

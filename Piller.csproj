@@ -56,6 +56,7 @@
     <Compile Include="ViewModels\NotificationsChangedMessage.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="Data\SettingsData.cs" />
+    <Compile Include="Services\DbHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Reactive.Interfaces">

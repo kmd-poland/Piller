@@ -51,7 +51,7 @@ namespace Piller.Droid.Services
 
 			var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
 			not.Defaults |= notificationDefaults; 
-			await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, notificationOccurrence, notificationIntent);
+            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, notificationOccurrence.Id.Value, notificationOccurrence, notificationIntent);
 		}
 
 		private DateTime NextOccurrenceFromHour(TimeSpan hour)
@@ -94,9 +94,10 @@ namespace Piller.Droid.Services
             // todo removing not matter if actual notification has been cancelled or not 
             await this.storage.DeleteAsync(notificationOccurrence);
 
+            // cancel alarm
             var alarmManager = (AlarmManager)this.ctx.GetSystemService(Context.AlarmService);
             Intent intent = new Intent(this.ctx, typeof(NotificationPublisher));
-            if (PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.NoCreate) != null)
+            if (PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.CancelCurrent) != null)
             {
                 System.Diagnostics.Debug.Write($"[PILLER] Cancelling alarm with id {notificationOccurrence.Id.Value}.");
 				PendingIntent alarmIntent = PendingIntent.GetBroadcast(this.ctx, notificationOccurrence.Id.Value, intent, PendingIntentFlags.CancelCurrent);
@@ -106,6 +107,10 @@ namespace Piller.Droid.Services
             {
                 System.Diagnostics.Debug.Write($"[PILLER] Alarm with id {notificationOccurrence.Id.Value} does not exist.");
             }
+
+			// cancel notification itself
+            var notificationManager = (NotificationManager)this.ctx.GetSystemService(Context.NotificationService);
+            notificationManager.Cancel(notificationOccurrence.Id.Value);
         }
 
         public async Task CancelAllNotificationsForMedication(MedicationDosage medicationDosage)
@@ -130,9 +135,19 @@ namespace Piller.Droid.Services
         public async Task CancelAndRemove(int medicationDosageId)
         {
             var occurrences = await this.storage.List<NotificationOccurrence>(n => n.MedicationDosageId == medicationDosageId);
+
+            // no occurrences ? look for occurrence itself
+            if (occurrences.Count == 0)
+            {
+				occurrences = await this.storage.List<NotificationOccurrence>(n => n.Id == medicationDosageId);
+			}
+
             await this.CancelAllNotificationsForMedication(medicationDosageId);
-            foreach (var notificationId in occurrences.Select(o => o.Id.Value).ToList())
-                await this.storage.DeleteByKeyAsync<NotificationOccurrence>(notificationId);
+            foreach (var occurrence in occurrences)
+            {
+                await this.CancelNotification(occurrence);
+                await this.storage.DeleteAsync<NotificationOccurrence>(occurrence);
+            }
         }
 
         public async Task OverdueNotification(NotificationOccurrence notificationOccurrence, MedicationDosage medicationDosage)
@@ -140,7 +155,7 @@ namespace Piller.Droid.Services
             var notificationIntent = new Intent(this.ctx, typeof(NotificationPublisher));
             notificationIntent.SetAction("GO_TO_MEDICATION");
             var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
-            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, medicationDosage.Id.Value, notificationOccurrence, notificationIntent);
+            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, notificationOccurrence.Id.Value, notificationOccurrence, notificationIntent);
         }
 
         private async Task SetAlarm(String name, String dosage, Notification notification, int id, NotificationOccurrence notificationOccurrence, Intent notificationIntent)
