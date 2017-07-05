@@ -379,7 +379,7 @@ namespace Piller.ViewModels
 
             //Observe days and Humaziner
             this.WhenAnyValue(x => x.Monday, x => x.Tuesday, x => x.Wednesday, x => x.Thursday, x => x.Friday, x => x.Saturday, x => x.Sunday)
-                .Subscribe(days => DaysLabel = HumanizeOrdinationScheme());
+			    .Subscribe(days => DaysLabel = HumanizeOrdinationScheme(new[] { days.Item1, days.Item2, days.Item3, days.Item4, days.Item5, days.Item6, days.Item7 }));
         }
 
         private async Task AddNotificationOccurrences(MedicationDosage medDosage)
@@ -429,12 +429,20 @@ namespace Piller.ViewModels
 			return occurrenceDate;
 		}
 
-        private string HumanizeOrdinationScheme()
+		private string HumanizeOrdinationScheme(bool[] days)
         {
-            if (Everyday)
-                return AppResources.EveryDayLabel;
-            else
-                return "Jakis inny, Maciek B. to zrobi";
+			if (Everyday)
+				return AppResources.EveryDayLabel;
+			else
+			{
+				var abbreviatedNames = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames;
+				var selectedDays = abbreviatedNames
+									.Skip(1).Concat(abbreviatedNames.Take(1)).ToArray()
+									.Zip(days, (day, selected) => selected ? day.TrimEnd('.') : null)
+									.Where(x => x != null);
+
+				return String.Join(", ", selectedDays);
+			}
         }
 
 
