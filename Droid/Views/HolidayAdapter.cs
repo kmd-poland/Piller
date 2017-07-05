@@ -49,7 +49,7 @@ namespace Piller.Droid.Views
 			var bset = view.CreateBindingSet<MvxListItemView, MedicationDosage>();
 
             bset.Bind(name)
-                .To(x => x.Name);
+			    .To(x => x.NameLabel);
 
 			// Konwertery to specyficzny dla MvvmCross'a sposób translacji danych z view modelu do danych z których potrafi skorzystać widok.
 			// Zazwyczaj nie są one potrzebne, np. kiedy pokazujemy tekst, ale jeśli zachodzi potrzeba pokazania np. listy w jednej linii musimy użyć konwertera.
