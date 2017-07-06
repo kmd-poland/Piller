@@ -9,6 +9,8 @@ using Android.Graphics;
 using MvvmCross.Platform;
 using Android.Widget;
 using Humanizer;
+using Newtonsoft.Json;
+using Cheesebaron.MvxPlugins.Settings.Interfaces;
 
 namespace Piller.Droid.Services
 {
@@ -21,7 +23,9 @@ namespace Piller.Droid.Services
             builder.SetTicker($"[PILLER] {medication.Name}");
 			builder.SetSmallIcon(Resource.Drawable.pill64x64);
 
-			Android.Net.Uri ring = Android.Net.Uri.Parse(medication.RingUri);
+			var data = JsonConvert.DeserializeObject<SettingsData>(Mvx.Resolve<ISettings>().GetValue<string>(SettingsData.Key));
+
+			Android.Net.Uri ring = Android.Net.Uri.Parse(data.RingUri);
             builder.SetSound(ring);
 
             builder.SetPriority((int)NotificationPriority.High);

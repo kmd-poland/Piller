@@ -40,9 +40,6 @@ namespace Piller.Droid.Services
 
         public async Task ScheduleNotification(NotificationOccurrence notificationOccurrence, MedicationDosage medicationDosage = null)
         {
-			// todo get from settings or medication itself (if set custom in medication, otherwise global value from settings)
-			var notificationDefaults = NotificationDefaults.Lights | NotificationDefaults.Sound | NotificationDefaults.Vibrate;
-
             if (medicationDosage == null)
                 medicationDosage = await this.storage.GetAsync<MedicationDosage>(notificationOccurrence.MedicationDosageId);
 
@@ -50,7 +47,7 @@ namespace Piller.Droid.Services
             notificationIntent.SetAction("GO_TO_MEDICATION");
 
 			var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
-			not.Defaults |= notificationDefaults; 
+			
             await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, notificationOccurrence.Id.Value, notificationOccurrence, notificationIntent);
 		}
 
@@ -155,7 +152,7 @@ namespace Piller.Droid.Services
             var notificationIntent = new Intent(this.ctx, typeof(NotificationPublisher));
             notificationIntent.SetAction("GO_TO_MEDICATION");
             var not = NotificationHelper.GetNotification(this.ctx, medicationDosage, notificationOccurrence, notificationIntent);
-            await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, notificationOccurrence.Id.Value, notificationOccurrence, notificationIntent);
+			await this.SetAlarm(medicationDosage.Name, medicationDosage.Dosage, not, notificationOccurrence.Id.Value, notificationOccurrence, notificationIntent);
         }
 
         private async Task SetAlarm(String name, String dosage, Notification notification, int id, NotificationOccurrence notificationOccurrence, Intent notificationIntent)

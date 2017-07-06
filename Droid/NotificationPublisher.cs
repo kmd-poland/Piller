@@ -83,8 +83,8 @@ namespace Piller.Droid
                     var fireTime = intent.GetLongExtra(NOTIFICATION_FIRE_TIME, 0);
                     notificationManager.Notify(notificationId, notification);
 
-                    var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
-                    var cal = dateFormat.Format(fireTime);
+                    //var dateFormat = new SimpleDateFormat("dd:MM:yy:HH:mm:ss");
+                    //var cal = dateFormat.Format(fireTime);
 
                     Task.Run(async () =>
                     {
@@ -92,8 +92,8 @@ namespace Piller.Droid
                         var currentNotification = notifications.FirstOrDefault();
                         var medications = await this.storage.List<MedicationDosage>(n => n.Id == medicationId);
                         var medicationDosage = medications.FirstOrDefault();
-                    //check if current notification is an overdue notification (if it should be sheduled again)
-                    var currentTimeSpan = currentNotification.OccurrenceDateTime.TimeOfDay;
+	                    //check if current notification is an overdue notification (if it should be sheduled again)
+	                    var currentTimeSpan = currentNotification.OccurrenceDateTime.TimeOfDay;
                         DateTime newOccurrenceDateTime;
 
                         if (medicationDosage.DosageHours.Contains(currentTimeSpan))
