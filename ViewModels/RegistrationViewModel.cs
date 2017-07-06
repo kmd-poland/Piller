@@ -57,7 +57,8 @@ namespace Piller.ViewModels
         public async Task DeleteOverdue(NotificationOccurrence notification)
         {
             await this.notifications.CancelNotification(notification);
-            //await this.notifications.ScheduleNotification(notification);
+            await this.storage.DeleteByKeyAsync<NotificationOccurrence>(notification.Id.Value);
+            Mvx.Resolve<IMvxMessenger>().Publish(new DataChangedMessage(this));
         }
 
         public async Task DeleteNearest(NotificationOccurrence notification)

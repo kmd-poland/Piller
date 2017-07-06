@@ -87,5 +87,32 @@ namespace Piller.MixIns.DaysOfWeekMixIns
 
 			throw new ArgumentOutOfRangeException();
 		}
+
+        public static int NumberOfDaysUntil(this DaysOfWeek This, DaysOfWeek nextDay)
+        {
+            if (This.GetOrdinal() == nextDay.GetOrdinal())
+            {
+                return 0;
+            }
+            else if (This.GetOrdinal() < nextDay.GetOrdinal())
+            {
+                return nextDay.GetOrdinal() - This.GetOrdinal();
+            }
+            else 
+            {
+                return 7 + nextDay.GetOrdinal() - This.GetOrdinal();
+            }
+        }
+
+        public static void TestNumberOfDaysUntil(this DaysOfWeek This)
+        {
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Monday} {This.NumberOfDaysUntil(DaysOfWeek.Monday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Tuesday} {This.NumberOfDaysUntil(DaysOfWeek.Tuesday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Wednesday} {This.NumberOfDaysUntil(DaysOfWeek.Wednesday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Thursday} {This.NumberOfDaysUntil(DaysOfWeek.Thursday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Friday} {This.NumberOfDaysUntil(DaysOfWeek.Friday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Saturday} {This.NumberOfDaysUntil(DaysOfWeek.Saturday)}");
+            System.Diagnostics.Debug.WriteLine($"From {This} to {DaysOfWeek.Sunday} {This.NumberOfDaysUntil(DaysOfWeek.Sunday)}");
+        }
 	}
 }
