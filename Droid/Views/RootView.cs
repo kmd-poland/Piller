@@ -108,5 +108,10 @@ namespace Piller.Droid.Views
 
             return base.OnOptionsItemSelected(item);
         }
+
+        public override void OnBackPressed()
+        {
+            // do nothing
+        }
     }
 }
