@@ -26,6 +26,7 @@ namespace Piller.Droid.Views
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+         
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.MainLayout);
@@ -109,9 +110,7 @@ namespace Piller.Droid.Views
             return base.OnOptionsItemSelected(item);
         }
 
-        public override void OnBackPressed()
-        {
-            // do nothing
-        }
+      
+
     }
 }

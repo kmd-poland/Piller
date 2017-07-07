@@ -14,7 +14,7 @@ using MvvmCross.Droid.Shared.Attributes;
 
 namespace Piller.Droid.Views
 {
-    [MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, true)]
+    [MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, false)]
 	[Register("piller.droid.views.MedicalCardView")]
     public class MedicalCardView : MvxFragment<MedicalCardViewModel>
     {

@@ -23,7 +23,7 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 
 namespace Piller.Droid.Views
 {
-	[MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, true)]
+	[MvxFragment(typeof(RootViewModel), Resource.Id.content_frame, false)]
 	[Register("piller.droid.views.HolidayView")]
 	public class HolidayView : MvxFragment<HolidayViewModel> 
     {
